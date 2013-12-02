@@ -1,3 +1,4 @@
+package test;
 
 public class mitTudomEn {
 	private int hurka;
