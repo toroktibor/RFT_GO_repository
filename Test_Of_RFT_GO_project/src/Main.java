@@ -1,15 +1,15 @@
 
 public class Main {
 	
-	public static String testString;
+	public static String testString2;
 	
 	public static void everythingIsOK() {
-		testString = "Everything is OK, my Dear Friend";
+		testString2 = "Something changed, my Dear Friend";
 		return;
 	}
 	
 	public static void main(String[] args) {
 		everythingIsOK();
-		System.out.println("Fuck yeah! :)");
+		System.out.println("Success! :)");
 	}
 }
