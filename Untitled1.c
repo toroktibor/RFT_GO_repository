@@ -2,6 +2,10 @@
 #include<stdlib.h>
 #include<math.h>
 
+//new line
+//new line
+//new line
+
 class dolgozo{
 
 protected:
