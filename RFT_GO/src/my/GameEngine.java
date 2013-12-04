@@ -16,6 +16,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private List<Field> board = new ArrayList<Field>();
 	private List<LuckyCard> deck = new ArrayList<LuckyCard>();
 	private int luckyCardIndex = 0;
+	private XMLParser p=new XMLParser();
 	//GETTERS AND SETTERS
 	public Player getActualPlayer() {
 		return actualPlayer;
@@ -142,7 +143,8 @@ public class GameEngine implements ICashier, IGamePlay {
 		return indexOfSearchedMethod;
 	}
 	public void initFields() {
-			
+			board=p.parse("Fields.xml");
+		/*
 			board.add( new Field( 0, "START mezõ! Új kör kezdetekor, ha erre a mezõre lépsz, kapsz 4000 eurót, ha áthaladsz rajta, " +
 										"akkor 2000 eurót.", 
 										"1#addMoney#4000"));
@@ -238,6 +240,8 @@ public class GameEngine implements ICashier, IGamePlay {
 										"1#deductMoney#20"));
 			board.add( new Field( 41, "Beléptél az IKEA áruházba! Konyhafelszerelésért fizess 100 eurót!", 
 										"1#deductMoney#100"));
+										
+										*/
 			return;
 		}
 	public void initLuckyCards() {
