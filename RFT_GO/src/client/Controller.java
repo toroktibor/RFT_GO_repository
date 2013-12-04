@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import client.view.View;
+
 public class Controller extends Thread {
 	public String myName;
 	private Socket s;
