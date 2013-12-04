@@ -15,41 +15,58 @@ public class Controller{
 	private Socket s=null;
 	private String myName="";
 
-	
+	/**
+	 * Controller létrejön, majd megjeleníti a Gui-alap ablakát.
+	 * Végül csatlakozni akar a szerverhez, azaz login() hívás.
+	 * **/
 	public Controller(){
 		myView.showView();
 		login();
 	}
 
-	public boolean login(){ 
+	
+	/**
+	 * Bekérjük a Gui-n keresztül a nevet, hostot, portot.
+	 * Majd megpróbálunk ezekkel kapcsólódni, ha sikerül nyitjuk a streameket, és elküldjük a nevünket.
+	 * Ha nem hiba üzenet.
+	 * **/
+	public void login(){ 
 		List<String> logInf=myView.getLoginInfos();
 		myName=logInf.get(0);
 		String host=logInf.get(1);
 		int port=Integer.parseInt(logInf.get(2));
 		
-		/* Probálkozunk kapcsolatot létesíteni a szerverrel */
         try {
             System.out.println("Kapcsolódás a szerverhez: " + host + " és port: " + port);
             s = new Socket(host, port);
             if(s.isConnected())
             {
-                /* Ha sikerült kapcsolódni, akkor megnyítjuk a stream-eket és egy üdvözlõ üzenetet küldünk a szervernek. */
-            	in = new DataInputStream(s.getInputStream());
-                out = new DataOutputStream(s.getOutputStream());
+            	open();
                 System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
-                out.writeUTF(myName);
-                //System.out.println(in.readUTF());
+                send(myName);
                 //getInitialMessage();
-                return true;
             }
         } catch (IOException e) {
-            /* Sikertelen kapcsolódás esetén hiabüzenet.. */
             System.out.println("Nem sikerült csatlakozni a szerverhez. " + e.getMessage());
-        }
-		return false;
+        }       
 	}
 	
 	
+	
+	/**
+	 * IO Streamek megnyitása kapcsolódás után.
+	 * **/
+	public void open() throws IOException {
+	        in = new DataInputStream(s.getInputStream());
+	        out = new DataOutputStream(s.getOutputStream());
+	}
+	
+	/**
+	 * Üzenet küldése a szervernek.
+	 * **/
+	public void send(String msg) throws IOException {
+        out.writeUTF(msg);
+    }
 	
 	
 	
