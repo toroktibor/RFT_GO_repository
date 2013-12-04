@@ -6,48 +6,48 @@
 	</LuckyCard>
 	<LuckyCard>
 		<id>2</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A Budapesti Nemzetközi Vásár sorsjátékán mosógépet nyertél!</descrpition>
+		<command>1#wonWashMachine</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>3</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Újításért 2.500 eurót kapsz, melyet a pénztár fizet ki!</descrpition>
+		<command>1#addMoney#2500</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>4</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Jó munkádért 1.000 euró jutalomban részesülsz, vedd fel a pénztárból!</descrpition>
+		<command>1#addMoney#1000</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>5</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Hármas találatod volt a lottón, 800 eurót kapsz a pénztártól!</descrpition>
+		<command>1#addMoney#800</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>6</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A lottó 10. játékhetén 10.000 eurót nyertél, amelyet a pénztár fizet ki!</descrpition>
+		<command>1#addMoney#10000</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>7</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A lottó nyereménysorsolásán mosogatógépet nyertél!</descrpition>
+		<command>1#wonDishWasher</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>8</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A totón 12-es találattal 6.000 eurót nyertél, amelyet a pénztár fizet ki!</descrpition>
+		<command>1#addMoney#6000</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>9</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A totón 10-es találattal 400 eurót nyertél, amelyet a pénztár fizet ki!</descrpition>
+		<command>1#addMoney#400</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>10</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A totón 11-es találattal 2.000 eurót nyertél, amelyet a pénztár fizet ki!</descrpition>
+		<command>1#addMoney#2000</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>11</id>
