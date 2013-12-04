@@ -1,7 +1,214 @@
 <Fields>
 	<Field>
+		<id>0</id>
+		<descrpition> </descrpition>
+		<command> </command>
+	</Field>
+	<Field>
 		<id>1</id>
-		<descrpition>Ez itt az egyes!</descrpition>
-		<command>#addmoney#200</command>
+		<descrpition> </descrpition>
+		<command> </command>
+	</Field>
+	<Field>
+		<id>2</id>
+		<descrpition> </descrpition>
+		<command> </command>
+	</Field>
+	<Field>
+		<id>3</id>
+		<descrpition> </descrpition>
+		<command> </command>
+	</Field>
+	<Field>
+		<id>4</id>
+		<descrpition> </descrpition>
+		<command> </command>
+	</Field>
+	<Field>
+		<id>5</id>
+		<descrpition> </descrpition>
+		<command> </command>
+	</Field>
+	<Field>
+		<id>6</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>7</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>8</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>9</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>10</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>11</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>12</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>13</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>14</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>15</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>16</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>17</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>18</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>19</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>20</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>21</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>22</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>23</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	
+	<Field>
+		<id>24</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>25</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>26</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>27</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>28</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>29</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>30</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>31</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	
+	<Field>
+		<id>32</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>33</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>34</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>35</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>36</id>
+		<descrpition> </descrpition>
+		<command> </command>
+	</Field>
+	<Field>
+		<id>37</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>38</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>39</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>40</id>
+		<descrpition></descrpition>
+		<command></command>
+	</Field>
+	<Field>
+		<id>41</id>
+		<descrpition></descrpition>
+		<command></command>
 	</Field>
 </Fields>
