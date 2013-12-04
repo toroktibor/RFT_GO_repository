@@ -38,7 +38,8 @@ public class Controller{
                 out = new DataOutputStream(s.getOutputStream());
                 System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
                 out.writeUTF(myName);
-                getInitialMessage();
+                //System.out.println(in.readUTF());
+                //getInitialMessage();
                 return true;
             }
         } catch (IOException e) {
