@@ -8,6 +8,7 @@ import java.net.Socket;
 public class Controller extends Thread {
 	public String myName;
 	private Socket s;
+	private View myView;
 	private DataInputStream in;
 	private DataOutputStream out;
 	
