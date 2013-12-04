@@ -15,16 +15,17 @@ public class Controller{
 	private Socket s=null;
 	private String myName="";
 
+	
 	public Controller(){
 		myView.showView();
 		login();
 	}
 
 	public boolean login(){ 
-		List<String> logInf =myView.getLoginInfos();
+		List<String> logInf=myView.getLoginInfos();
+		myName=logInf.get(0);
 		String host=logInf.get(1);
 		int port=Integer.parseInt(logInf.get(2));
-		myName=logInf.get(0);
 		
 		/* Probálkozunk kapcsolatot létesíteni a szerverrel */
         try {
@@ -37,6 +38,7 @@ public class Controller{
                 out = new DataOutputStream(s.getOutputStream());
                 System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
                 out.writeUTF(myName);
+                getInitialMessage();
                 return true;
             }
         } catch (IOException e) {
@@ -45,14 +47,6 @@ public class Controller{
         }
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -88,17 +82,26 @@ public class Controller{
 		return false;
 	}
 
-	public boolean getInitialMessage(){
-		while(true){
-			try {
-				String message=in.readUTF();
-				System.out.println(message);
-			} catch (IOException e) {
+	
+	public void getInitialMessage(){
+		try {
+            while (true) {
+                /* A szervertõl kapott üzenetek olvasása. */
+                String message = in.readUTF();
+                System.out.println("Üzenet a szervertõl: "+message);
+            }
+        } catch (IOException e) {
+            /* Olvasási problémák, kapcsolat megszakítása. */
+        	try {
+				out.close();
+	            in.close();
+	            s.close();
+			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
-			return false;
-		}
+            System.out.println("Kapcsolat megszakítva. " + e.getMessage());
+        }
 		
 	}
 	

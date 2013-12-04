@@ -42,7 +42,7 @@ public class View {
 	
 	/***
 	 * Bekér a felhasználótól egy ablakban vagy valahol 3 stringet név, host, port 
-	 * ki, melyik hostal rendelkezõ szerverre, milyen porton akar csatlakozni, 
+	 * ki, melyik hostal rendelkezõ szerverre, milyen porton akar csatlakozni, le okézza
 	 * ezt listában adja vissza. ez induláskor a controllerbõl meghívódik.
 	 **/
 	public List<String> getLoginInfos() {
