@@ -43,11 +43,20 @@ public class XMLParser {
 		}
 		return list;
 	}
-	/* példa futás törlendõ
-	public static void main(String[] args) {
+	
+	/* példa futás törlendõ*/
+	/*public static void main(String[] args) {
 		XMLParser p=new XMLParser();
 		List<Field> fields=p.parse("Fields.xml");
 		List<Field> luckyCards=p.parse("LuckyCards.xml");
-	}
-	*/
+		
+		for (Field field : fields) {
+			System.out.println(field.getNumber()+"\n"+ field.getDescription()+"\n"+field.getCommand());
+		}
+		System.out.println();
+		for (Field field : luckyCards) {
+			System.out.println(field.getNumber()+"\n"+ field.getDescription()+"\n"+field.getCommand());
+		}
+	}*/
+	
 }
