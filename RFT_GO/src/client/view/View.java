@@ -57,10 +57,4 @@ public class View {
 			return l;
 		/*--*/
 	}
-	
-	
-	
-	
-	
-
 }
