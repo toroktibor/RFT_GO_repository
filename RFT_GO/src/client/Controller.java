@@ -1,5 +1,6 @@
 package client;
 
 public class Controller {
-	int id;
+	String myName;
+	
 }
