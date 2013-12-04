@@ -126,57 +126,57 @@
 	</LuckyCard>
 	<LuckyCard>
 		<id>26</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Látogass el az Alexandra Könyváruházakba. Egy szórólappal kapott 20 eurós kupont felhasználhatsz, amit a végösszegből levonnak. Lépj a 18-as mezőre.</descrpition>
+		<command>2#addMoney#20#moveToField#18</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>27</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Pihenés? Feltöltődés? Kikapcsolódás? Választ a Klub Tihanyt! Lépj a 21-es mezőre, és fizess 280 eurót! Még egyszer dobhatsz!</descrpition>
+		<command>1#moveToField#21</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>28</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ajándékba kaptál egy vouchert egy visegrádi hajókirándulásra. Belépéskor érvényesítve ingyen kirándulhatsz. Induláshoz lépj a 24-es mezőre!</descrpition>
+		<command>2#addMoney#40#moveToField#24</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>29</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ebédelj barátaiddal étteremben! Csendes, békés, mediterrán hangulatú helyen, ahová mindig szívesen fogsz visszatérni! Lépj a 25-ös mezőre!</descrpition>
+		<command>2#addMoney#40#moveToField#25</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>30</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Menj ki a Margitszigetre autóbusszal, lépj a 26-os mezőre! </descrpition>
+		<command>1#moveToField#26</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>31</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Vásárolj mosógépet a Hajdú Márkakereskedésben! Lépj a 27-es mezőre!</descrpition>
+		<command>1#moveToField#27</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>32</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A Vista Utazási Irodák nyereménysorsolásán utazást nyertél! Kipihenten folytathatod utadat! Lépj a 30-as mezőre!</descrpition>
+		<command>2#addMoney#300#moveToField#30</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>33</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Jól választottál! 20 euróért telepakoltad a kosaradat mindenféle PICK finomsággal! Lépj a 31-es mezőre!</descrpition>
+		<command>1#moveToField#31</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>34</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Háztartásodat mosogatógéppel szerelheted fel, amely megkönnyíti hétköznapjaidat. Lépj a 33-as mezőre!</descrpition>
+		<command>1#moveToField#33</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>35</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Jól választottál, a SkyEurope gyorsan és olcsón elrepít Európa nagyvárosaiba. Fizesd ki repülőjegyed árát, amely 300 euró, ezután lépj a 34-es mezőre!</descrpition>
+		<command>1#moveToField#34</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>36</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Az Invitelnél 2in1 csomagra szerződtél, mely a telefon mellett az Internet hozzáférés díját is tartalmazza, így ez csak 20 euróba kerül! Fizetés után lépj a 40-es mezőre!</descrpition>
+		<command>1#moveToField#40</command>
 	</LuckyCard>
 </LuckyCards>
