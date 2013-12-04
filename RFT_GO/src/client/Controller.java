@@ -14,7 +14,7 @@ public class Controller{
 	private DataOutputStream out=null;
 	private Socket s=null;
 	private String myName="";
-
+	private List<String> logInf=null;
 	
 	/**
 	 * Controller létrejön, majd megjeleníti a Gui-alap ablakát.
@@ -32,7 +32,7 @@ public class Controller{
 	 * Ha nem hiba üzenet.
 	 * **/
 	public void login(){ 
-		List<String> logInf=myView.getLoginInfos();
+		logInf=myView.getLoginInfos();
 		myName=logInf.get(0);
 		String host=logInf.get(1);
 		int port=Integer.parseInt(logInf.get(2));
