@@ -1,113 +1,113 @@
 <Fields>
 	<Field>
 		<id>0</id>
-		<descrpition> </descrpition>
-		<command> </command>
+		<descrpition>START mező! Új kör kezdetekor, ha erre a mezőre lépsz, kapsz 4000 eurót, ha áthaladsz rajta, akkor 2000 eurót.</descrpition>
+		<command>1#addMoney#4000</command>
 	</Field>
 	<Field>
 		<id>1</id>
-		<descrpition> </descrpition>
-		<command> </command>
+		<descrpition>Lakásodat széppé varázsolhatod, ha a Diego boltban vásárolt szőnyeggel díszíted. A vásárlásért fizess 200 eurót.</descrpition>
+		<command>1#deductMoney#200</command>
 	</Field>
 	<Field>
 		<id>2</id>
-		<descrpition> </descrpition>
-		<command> </command>
+		<descrpition>Vásárolj BKV éves bérletet 200 euróért!</descrpition>
+		<command>1#deductMoney#200</command>
 	</Field>
 	<Field>
 		<id>3</id>
-		<descrpition> </descrpition>
-		<command> </command>
+		<descrpition>Húzz egy SZERENCSEKERÉK kártyát, és kövesd annak utasításait !</descrpition>
+		<command>1#drawNextLuckyCard</command>
 	</Field>
 	<Field>
 		<id>4</id>
-		<descrpition> </descrpition>
-		<command> </command>
+		<descrpition>Tölts el egy kellemes estét a Zila Kávéház- és Étteremben! Fizess 40 eurót!</descrpition>
+		<command>1#deductMoney#40</command>
 	</Field>
 	<Field>
 		<id>5</id>
-		<descrpition> </descrpition>
-		<command> </command>
+		<descrpition>Ha nem szeretsz gyalog járni, vagy ha ügyeid intézéséhez autóra van szükséged, most választhatsz egy Citroene C4-es autót. Kp. vásárlás esetén: 10.000 euró, részletre történő vásárlás esetén kezdő befizetés: 2.000 euró, minimális törlesztés körönként: 500 euró, végösszeg 12.000 euró</descrpition>
+		<command>1#offerBuyCar</command>
 	</Field>
 	<Field>
 		<id>6</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ügyesen vásároltál a Regió Játékkereskedésben! Jutalmad 50 euró!</descrpition>
+		<command>1#addMoney#50</command>
 	</Field>
 	<Field>
 		<id>7</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ételeid megromlását elkerülheted, ha hűtőben tárolod őket! Vásárolj hűtőgépet 200 euróért!</descrpition>
+		<command>1#offerBuyFurniture#FRIGO</command>
 	</Field>
 	<Field>
 		<id>8</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A családi ebédek elkészítéséhez vásárolj modern tűzhelyet 200 eurtóért!</descrpition>
+		<command>1#offerBuyFurniture#COOKER</command>
 	</Field>
 	<Field>
 		<id>9</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Megkötheted autó biztosításodat és lakásbiztosításodat 100-100 euróért az Allianz Hungária Biztosítónál!</descrpition>
+		<command>1#offerMakeInsurances</command>
 	</Field>
 	<Field>
 		<id>10</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Húzz egy SZERENCSEKERÉK kártyát, és kövesd annak utasításait !</descrpition>
+		<command>1#drawNextLuckyCard</command>
 	</Field>
 	<Field>
 		<id>11</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ha van pénzed és lakásod, vásárolj szép konyhabútort 1.000 euróért!</descrpition>
+		<command>1#offerBuyFurniture#KITCHENFURNITURE</command>
 	</Field>
 	<Field>
 		<id>12</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Meglátogattad fővárosunk kedvenc állatait az Állat- és Növénykertben.</descrpition>
+		<command>1#addMoney#200</command>
 	</Field>
 	<Field>
 		<id>13</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Betegséged idejére kórházba kerülsz, és csak akkor léphetsz tovább, ha l-est, vagy 6-ost dobsz. A 3. sikertelen dobás után bármilyen dobással kiléphetsz.</descrpition>
+		<command>1#set_1_6Penalty#3 </command>
 	</Field>
 	<Field>
 		<id>14</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Tönkrement a cipőd, vásárolnod kell egy újat a cipőboltból. Fizess 80 eurót.</descrpition>
+		<command>1#deductMoney#80</command>
 	</Field>
 	<Field>
 		<id>15</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Gondoltál a környezetvédelemre, és a közösségi közlekedést választottad utazásodhoz. Ezért jutalmul még kétszer dobhatsz. </descrpition>
+		<command>1#setGiftDices#2</command>
 	</Field>
 	<Field>
 		<id>16</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Húzz egy SZERENCSEKERÉK kártyát, és kövesd annak utasításait !</descrpition>
+		<command>1#drawNextLuckyCard</command>
 	</Field>
 	<Field>
 		<id>17</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A film tanít, szórakoztat. Nézd meg a legújabb sikerfilmet barátaiddal a Corvin filmpalotában, és fizess 20 eurót. </descrpition>
+		<command>1#deductMoney#20</command>
 	</Field>
 	<Field>
 		<id>18</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Minden könyvújdonságot megtalálsz, és kedvedre böngészhetsz az Alexandra Könyváruházban! A vásárolt könyvekért fizess 60 eurót.</descrpition>
+		<command>1#deductMoney#60</command>
 	</Field>
 	<Field>
 		<id>19</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Takarékoskodj, mert így szép lakáshoz juthatsz. Ha már van pénzed, fizess be 30.000 eurót a pénztárba és megkapod lakásod. Amennyiben részletfizetésre van csak lehetőséged, fizess 15.000 eurót az OTP Bank pénztárába, a fennmaradó 20.000 eurót pedig 500 eurós részletekben törlesztheted!</descrpition>
+		<command>1#offerBuyHouse</command>
 	</Field>
 	<Field>
 		<id>20</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Mobiltelefont vettél, és beléptél a GSM hálózatba. Fizess 100 eurót.</descrpition>
+		<command>1#deductMoney#100</command>
 	</Field>
 	<Field>
 		<id>21</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Pihenés? Feltöltődés? Kikapcsolódás? Választ a Klub Tihanyt! Fizess 280 eurót! Még egyszer dobhatsz!</descrpition>
+		<command>2#deductMoney#280#setGiftDices#1</command>
 	</Field>
 	<Field>
 		<id>22</id>
