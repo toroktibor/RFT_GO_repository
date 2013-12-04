@@ -10,8 +10,6 @@ public class Main {
 		GameEngine ge = new GameEngine();
 		ge.initFields();
 		ge.startGame();
-
-		
 		return;
 	}
 }
