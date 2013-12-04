@@ -15,6 +15,7 @@ public class Controller{
 	private Socket s=null;
 	private String myName="";
 
+	
 	/**
 	 * Controller létrejön, majd megjeleníti a Gui-alap ablakát.
 	 * Végül csatlakozni akar a szerverhez, azaz login() hívás.
