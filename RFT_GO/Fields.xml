@@ -1,0 +1,7 @@
+<Fields>
+	<Field>
+		<id>1</id>
+		<descrpition>Ez itt az egyes!</descrpition>
+		<command>#addmoney#200</command>
+	</Field>
+</Fields>

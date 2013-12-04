@@ -1,6 +1,6 @@
 package my;
 
-public class LuckyCard {
+public class LuckyCard{
 	private int number;
 	private String description;
 	private String command;
@@ -23,6 +23,7 @@ public class LuckyCard {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	public LuckyCard(int number, String description, String command) {
 		super();
 		this.number = number;

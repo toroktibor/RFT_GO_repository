@@ -1,6 +1,6 @@
 package my;
 
-public class Field {
+public class Field{
 	private int number;
 	private String description;
 	private String command;

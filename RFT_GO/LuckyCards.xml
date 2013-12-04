@@ -1,0 +1,7 @@
+<LuckyCards>
+	<LuckyCard>
+		<id>42</id>
+		<descrpition>Valami szöveg</descrpition>
+		<command>#utasítás</command>
+	</LuckyCard>
+</LuckyCards>
