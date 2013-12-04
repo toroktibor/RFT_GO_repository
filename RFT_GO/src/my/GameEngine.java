@@ -14,7 +14,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private Player actualPlayer;
 	private List<Player> allPlayers = new ArrayList<Player>();
 	private List<Field> board = new ArrayList<Field>();
-	private List<Field> deck = new ArrayList<Field>();
+	private List<LuckyCard> deck = new ArrayList<LuckyCard>();
 	private int luckyCardIndex = 0;
 	private XMLParser p=new XMLParser();
 	//GETTERS AND SETTERS
@@ -24,10 +24,10 @@ public class GameEngine implements ICashier, IGamePlay {
 	public void setActualPlayer(Player actualPlayer) {
 		this.actualPlayer = actualPlayer;
 	}
-	public List<Field> getDeck() {
+	public List<LuckyCard> getDeck() {
 		return deck;
 	}
-	public void setDeck(List<Field> deck) {
+	public void setDeck(List<LuckyCard> deck) {
 		this.deck = deck;
 	}
 	public List<Field> getBoard() {
@@ -245,8 +245,6 @@ public class GameEngine implements ICashier, IGamePlay {
 			return;
 		}
 	public void initLuckyCards() {
-		deck=p.parse("LuckyCards.xml");
-		/*
 		deck.add(new LuckyCard( 1 ,"Fizesd ki gáz- és villanyszámládat a folyószámlán keresztül, melynek összege 40 euró!","1#deductMoney#40" ));						
 		deck.add(new LuckyCard( 2 ,"A Budapesti Nemzetközi Vásár sorsjátékán mosógépet nyertél!","1#wonWashMachine" ));						
 		deck.add(new LuckyCard( 3 ,"Újításért 2.500 eurót kapsz, melyet a pénztár fizet ki!","1#addMoney#2500" ));						
@@ -283,8 +281,6 @@ public class GameEngine implements ICashier, IGamePlay {
 		deck.add(new LuckyCard( 34 ,"Háztartásodat mosogatógéppel szerelheted fel, amely megkönnyíti hétköznapjaidat. Lépj a 33-as mezõre!","1#moveToField#33" ));						
 		deck.add(new LuckyCard( 35 ,"Jól választottál, a SkyEurope gyorsan és olcsón elrepít Európa nagyvárosaiba. Fizesd ki repülõjegyed árát, amely 300 euró, ezután lépj a 34-es mezõre!","1#moveToField#34" ));						
 		deck.add(new LuckyCard( 36 ,"Az Invitelnél 2in1 csomagra szerzõdtél, mely a telefon mellett az Internet hozzáférés díját is tartalmazza, így ez csak 20 euróba kerül! Fizetés után lépj a 40-es mezõre!","1#moveToField#40" ));
-		*/
-		
 		return;
 		}
 	/** Ez a metódus végzi el a kockával való dobást.
@@ -435,7 +431,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 
 	//CALLABLE METHODS OF FIELD AND LUCKYCARD COMMANDS
-	public Field drawNextLuckyCard() {
+	public LuckyCard drawNextLuckyCard() {
 		int nextIndex = luckyCardIndex++;
 		return deck.get(nextIndex%42);
 	}
