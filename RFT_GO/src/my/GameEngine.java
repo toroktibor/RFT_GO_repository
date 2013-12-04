@@ -27,6 +27,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	public List<LuckyCard> getDeck() {
 		return deck;
 	}
+	
 	public void setDeck(List<LuckyCard> deck) {
 		this.deck = deck;
 	}
