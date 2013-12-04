@@ -111,104 +111,104 @@
 	</Field>
 	<Field>
 		<id>22</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Megtekintetted a Nemzeti Galéria gyönyörű kiállítását.</descrpition>
+		<command>0</command>
 	</Field>
 	<Field>
 		<id>23</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait !</descrpition>
+		<command>1#drawNextLuckyCard</command>
 	</Field>
 	
 	<Field>
 		<id>24</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Visegrádi hajókiránduláson veszel részt barátaiddal, amelyért 40 eurót kell fizetned. </descrpition>
+		<command>1#deductMoney#40</command>
 	</Field>
 	<Field>
 		<id>25</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ma a Kakas Étteremben vacsorázol családoddal, fizess 40 eurót. </descrpition>
+		<command>1#deductMoney#40</command>
 	</Field>
 	<Field>
 		<id>26</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Kellemes séta közben tekintsd meg a Margitsziget nevezetességeit !</descrpition>
+		<command>0</command>
 	</Field>
 	<Field>
 		<id>27</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Vásárolj mosógépet a Whirpool Márkakereskedésben, fizess 300 eurót!</descrpition>
+		<command>1#offerBuyFurniture#WASHMACHINE</command>
 	</Field>
 	<Field>
 		<id>28</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait !</descrpition>
+		<command>1#drawNextLuckyCard</command>
 	</Field>
 	<Field>
 		<id>29</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Sétálj a Halászbástyán. Innen gyönyörű kilátás nyílik Budapestre.</descrpition>
+		<command>0</command>
 	</Field>
 	<Field>
 		<id>30</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A Vista Utazási irodákban elintézhetsz az utazásoddal kapcsolatban mindent kényelmesen és gyorsan! Fizess 300 eurót!</descrpition>
+		<command>1#deductMoney#300</command>
 	</Field>
 	<Field>
 		<id>31</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Beléptél a PICK Márkaáruházba. 20 eurót fizetsz. </descrpition>
+		<command>1#deductMoney#20</command>
 	</Field>
 	
 	<Field>
 		<id>32</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait ! </descrpition>
+		<command>1#drawNextLuckyCard</command>
 	</Field>
 	<Field>
 		<id>33</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ha van pénzed, vásárolj Electrolux mosogatógépet, melynek ára 300 euró!</descrpition>
+		<command>1#offerBuyFurniture#DISHWASHER</command>
 	</Field>
 	<Field>
 		<id>34</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>A SkyEurope olcsó és gyors utazást biztosít Európa nagyvárosaiba, mindezt csak 300 euróért!</descrpition>
+		<command>1#deductMoney#300</command>
 	</Field>
 	<Field>
 		<id>35</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Vásároltál a regiojatek.hu webáruházban, ezért fizess 20 eurót!</descrpition>
+		<command>1#deductMoney#20</command>
 	</Field>
 	<Field>
 		<id>36</id>
-		<descrpition> </descrpition>
-		<command> </command>
+		<descrpition>Ma a barátaiddal a Mammut Mozi előadását nézted meg, fizess 20 eurót. </descrpition>
+		<command>1#deductMoney#20</command>
 	</Field>
 	<Field>
 		<id>37</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait !</descrpition>
+		<command>1#drawNextLuckyCard</command>
 	</Field>
 	<Field>
 		<id>38</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Ha már van lakásod, most vásárolhatsz bele szobabútort, mindössze 3.000 euróért!</descrpition>
+		<command>1#offerBuyFurniture#ROOMFURNITURE</command>
 	</Field>
 	<Field>
 		<id>39</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Takarékoskodj, mert így szép lakáshoz juthatsz. Ha már van pénzed, fizess be 30.000 eurót a pénztárba és megkapod lakásod. Amennyiben részletfizetésre van csak lehetőséged, fizess 15.000 eurót az OTP Bank pénztárába, a fennmaradó 20.000 eurót pedig 500 eurós részletekben törlesztheted!</descrpition>
+		<command>1#offerBuyHouse</command>
 	</Field>
 	<Field>
 		<id>40</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Az Invitelnél kifizetted a havi telefon- és internetszámládat, melynek összege 20 euró. </descrpition>
+		<command>1#deductMoney#20</command>
 	</Field>
 	<Field>
 		<id>41</id>
-		<descrpition></descrpition>
-		<command></command>
+		<descrpition>Beléptél az IKEA áruházba! Konyhafelszerelésért fizess 100 eurót!</descrpition>
+		<command>1#deductMoney#100</command>
 	</Field>
 </Fields>
