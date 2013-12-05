@@ -16,7 +16,7 @@ public class Controller{
 	private Socket s=null;
 	private String myName="";
 	private List<String> logInf=null;
-	private List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
+	public List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
 	
 	/**
 	 * Controller létrejön, majd megjeleníti a Gui-alap ablakát.
