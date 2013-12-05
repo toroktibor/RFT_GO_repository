@@ -157,10 +157,6 @@ public class Controller{
 			
 	}
 	
-	private void buyFurniture(String furniture){
-		
-	}
-	
 	private void makeInsurances(){
 		int statement=myView.getInsurances();
 		
@@ -182,13 +178,16 @@ public class Controller{
 		}
 	}
 	
-	
-	private boolean getMessageForRead(){
-		return false;
+	private void buyFurniture(String furniture){
+		
 	}
 	
-	private boolean getGameState(){
-		return false;
+	private void getMessageForRead(){
+		
+	}
+	
+	private void getGameState(){
+		
 	}
 
 	private void giveUpAndExit(){

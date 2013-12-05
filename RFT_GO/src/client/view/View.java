@@ -89,6 +89,7 @@ public class View {
 	 * 
 	 * **/
 	public int getInsurances(){
+		
 		return 0;
 	}
 	
@@ -97,6 +98,8 @@ public class View {
 	/* további metódusok lesznek
 	 * 
 	 * getFurnitureOptions() megkérdi hogy megvesz-e valamilyen bútort, majd paraméterként átjön hogy milyet, válasz igen, nem
+	 * 
+	 * accept(String s) felugró ablak egy ok gombal és valami szöveggel paraméterként jön :)
 	 * 
 	 * mind vissza tér egy egész számmal vagy stringel még kitalálom.
 	 * 
