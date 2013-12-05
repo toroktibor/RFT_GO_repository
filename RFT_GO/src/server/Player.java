@@ -1,7 +1,10 @@
-package my;
+package server;
+
+import java.net.Socket;
 
 public class Player {
 	private String name;
+	private Socket socket;
 	private int balance;
 	private House house;
 	private Car car;
@@ -30,6 +33,13 @@ public class Player {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
 	}
 	public int getBalance() {
 		return balance;

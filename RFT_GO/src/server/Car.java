@@ -1,4 +1,4 @@
-package my;
+package server;
 
 public class Car {
 	private int debit;

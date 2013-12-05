@@ -1,4 +1,4 @@
-package my;
+package server;
 
 public interface ICashier {
 	public Boolean deductMoney(int amount);

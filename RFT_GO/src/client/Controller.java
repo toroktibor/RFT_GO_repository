@@ -40,6 +40,8 @@ public class Controller{
         try {
             System.out.println("Kapcsolódás a szerverhez: " + host + " és port: " + port);
             s = new Socket(host, port);
+            /* TIBI OKOSKODÁSA: ide nem while ciklus kellene? Ha éppen még nem isConnected(), akkor nem is lesz játék??? 
+             * Ez csak egyszer ellenõriz, de ha nem igaz, már meg is hasalt a progi... */
             if(s.isConnected())
             {
             	open();
@@ -48,6 +50,12 @@ public class Controller{
                 //getInitialMessage();
             }
         } catch (IOException e) {
+        	/* TIBI OKOSKODÁSA: az IOException nem azt jelzi, hogy nem sikerült csatlakozni, hanem hogy a socket
+        	 * megnyitása közben IO hiba történt, legalább is a dokumentáció alapján, idézem:
+        	 * Throws: 
+					UnknownHostException - if the IP address of the host could not be determined. 
+					IOException - if an I/O error occurs when creating the socket. 
+        	 */
             System.out.println("Nem sikerült csatlakozni a szerverhez. " + e.getMessage());
         }       
 	}

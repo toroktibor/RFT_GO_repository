@@ -1,4 +1,4 @@
-package my;
+package server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class XMLParser {
 	}
 	
 	/* példa futás törlendõ*/
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		XMLParser p=new XMLParser();
 		List<Field> fields=p.parse("Fields.xml");
 		List<Field> luckyCards=p.parse("LuckyCards.xml");
@@ -57,6 +57,6 @@ public class XMLParser {
 		for (Field field : luckyCards) {
 			System.out.println(field.getNumber()+"\n"+ field.getDescription()+"\n"+field.getCommand());
 		}
-	}*/
+	}
 	
 }

@@ -1,4 +1,4 @@
-package my;
+package server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +17,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private List<LuckyCard> deck = new ArrayList<LuckyCard>();
 	private int luckyCardIndex = 0;
 	private XMLParser p=new XMLParser();
+	
 	//GETTERS AND SETTERS
 	public Player getActualPlayer() {
 		return actualPlayer;
@@ -27,7 +28,6 @@ public class GameEngine implements ICashier, IGamePlay {
 	public List<LuckyCard> getDeck() {
 		return deck;
 	}
-	
 	public void setDeck(List<LuckyCard> deck) {
 		this.deck = deck;
 	}
@@ -432,14 +432,14 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 
 	//CALLABLE METHODS OF FIELD AND LUCKYCARD COMMANDS
-	public LuckyCard drawNextLuckyCard() {
+	private LuckyCard drawNextLuckyCard() {
 		int nextIndex = luckyCardIndex++;
 		return deck.get(nextIndex%42);
 	}
-	public void loseCar() {
+	private void loseCar() {
 		
 	}
-	public void loseFurnitures() {
+	private void loseFurnitures() {
 		
 	}
 	private void moveWithQuantity(int amount) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -464,7 +464,7 @@ public class GameEngine implements ICashier, IGamePlay {
 			executeFieldCommand();
 		return;
 	}
-	public void moveToField(int goalFieldsNumber) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private void moveToField(int goalFieldsNumber) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if(( -1 < goalFieldsNumber ) && ( goalFieldsNumber < 42 ))
 			{
 			System.out.println("###Player will move from Field No. " + actualPlayer.getLocationNumber());
@@ -505,7 +505,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		actualPlayer.setGiftDices(amount);
 		return;
 	}
-	public void wonFurniture(String furnitureName) {
+	private void wonFurniture(String furnitureName) {
 		if(furnitureName.equals("DISHWASHER")) {
 			if( (actualPlayer.getHouse() != null) && (actualPlayer.getHouse().getHasDishwasher() == false) ) {
 				actualPlayer.getHouse().setHasDishwasher(true);
