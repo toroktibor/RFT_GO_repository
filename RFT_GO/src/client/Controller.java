@@ -161,9 +161,27 @@ public class Controller{
 		
 	}
 	
-	private boolean makeInsurances(){
-		return false;
+	private void makeInsurances(){
+		int statement=myView.getInsurances();
+		
+		try {
+			if (statement==1){
+				out.writeUTF("MAKEONLYCARINSURANCE");
+			}
+			else if(statement==2){
+				out.writeUTF("MAKEONLYHOUSEINSURANCE");
+			}
+			else if(statement==3){
+				out.writeUTF("MAKEBOTHINSURANCES");
+			}
+			else{
+				out.writeUTF("DONTMAKEANYINSURANCES");
+			}
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
 	}
+	
 	
 	private boolean getMessageForRead(){
 		return false;

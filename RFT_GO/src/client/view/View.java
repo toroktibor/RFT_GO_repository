@@ -77,10 +77,24 @@ public class View {
 			return 0;
 	}
 	
+	
+	/**
+	 * Lényege hogy felugrik az ablak vagy valami megkérdi hogy akar-e autó,lakás biztosítást kötni
+	 * 
+	 * visszatérés: 
+	 * 0- nem akar kötni
+	 * 1- autó biztosítás
+	 * 2- ház biztosítás
+	 * 3- mind kettõ
+	 * 
+	 * **/
+	public int getInsurances(){
+		return 0;
+	}
+	
+	
+	
 	/* további metódusok lesznek
-	 * 
-	 * 
-	 * getInsurances() vesz-e autó vagy lakás biztosítást ( mind2, autó, lakás, egyiksem)
 	 * 
 	 * getFurnitureOptions() megkérdi hogy megvesz-e valamilyen bútort, majd paraméterként átjön hogy milyet, válasz igen, nem
 	 * 
