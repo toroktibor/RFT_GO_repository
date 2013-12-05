@@ -107,18 +107,6 @@ public class Controller{
         }
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private void buyHouse(){
 		int statement=myView.getBuyingInfos("House");
 			
