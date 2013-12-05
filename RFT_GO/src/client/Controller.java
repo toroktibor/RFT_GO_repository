@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import client.view.View;
@@ -15,6 +16,7 @@ public class Controller{
 	private Socket s=null;
 	private String myName="";
 	private List<String> logInf=null;
+	private List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
 	
 	/**
 	 * Controller létrejön, majd megjeleníti a Gui-alap ablakát.
