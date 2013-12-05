@@ -71,7 +71,6 @@ public class View {
 	 * mind vissza tér egy egész számmal vagy stringel még kitalálom.
 	 * 
 	 * még lehet lesz pár
-	 * 
 	 * */
 	
 }
