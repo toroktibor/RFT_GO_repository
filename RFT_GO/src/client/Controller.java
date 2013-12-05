@@ -118,7 +118,7 @@ public class Controller{
 	
 	
 	private void buyHouse(){
-		
+
 	}
 	
 	private void buyCar(){
