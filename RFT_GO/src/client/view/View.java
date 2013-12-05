@@ -57,4 +57,21 @@ public class View {
 			return l;
 		/*--*/
 	}
+	
+	
+	
+	/* további metódusok lesznek
+	 * 
+	 * getBuyingInfos() lényege hogy valaki valamit creditre vagy kp-ra vesz vagy egyáltalán nem vesz (3 gomb vagy ilyesmi, a gomb felirat vagy paraméter lesz vagy majd csak a fõ szöveg hogy mit akar venni hitelre kpra vagy nem lesz átadva paraméterként)
+	 *
+	 * getInsurances() vesz-e autó vagy lakás biztosítást ( mind2, autó, lakás, egyiksem)
+	 * 
+	 * getFurnitureOptions() megkérdi hogy megvesz-e valamilyen bútort, majd paraméterként átjön hogy milyet, válasz igen, nem
+	 * 
+	 * mind vissza tér egy egész számmal vagy stringel még kitalálom.
+	 * 
+	 * még lehet lesz pár
+	 * 
+	 * */
+	
 }
