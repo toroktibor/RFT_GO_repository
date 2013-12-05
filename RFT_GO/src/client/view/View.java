@@ -60,10 +60,26 @@ public class View {
 	
 	
 	
+	/**
+	 * lényege hogy egy ablakban megkérdezi a játékost hogy meg akarja e vásárolni
+	 * a paraméterként kapott dolgot (vagy autó lesz vagy ház, egy szöveg lesz)
+	 * hitelre, kp-ra vagy nem akarja megvenni
+	 * felugró ablak közepén valami szöveg pl: akarsz-e @p venni? stb stb de ez még kiderül milyen lesz
+	 * 
+	 * ha hitelre akarja 1
+	 * ha kp-ra akarja 2
+	 * ha nem akarja 0
+	 * értékkel tér vissza a metódus
+	 * 
+	 * **/
+	public int getBuyingInfos(String p){
+		
+			return 0;
+	}
+	
 	/* további metódusok lesznek
 	 * 
-	 * getBuyingInfos() lényege hogy valaki valamit creditre vagy kp-ra vesz vagy egyáltalán nem vesz (3 gomb vagy ilyesmi, a gomb felirat vagy paraméter lesz vagy majd csak a fõ szöveg hogy mit akar venni hitelre kpra vagy nem lesz átadva paraméterként)
-	 *
+	 * 
 	 * getInsurances() vesz-e autó vagy lakás biztosítást ( mind2, autó, lakás, egyiksem)
 	 * 
 	 * getFurnitureOptions() megkérdi hogy megvesz-e valamilyen bútort, majd paraméterként átjön hogy milyet, válasz igen, nem

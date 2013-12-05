@@ -120,11 +120,41 @@ public class Controller{
 	
 	
 	private void buyHouse(){
-
+		int statement=myView.getBuyingInfos("House");
+			
+		try {
+			if (statement==1){
+				out.writeUTF("BUYFORCREDIT");
+			}
+			else if(statement==2){
+				out.writeUTF("BUYFORCASH");
+			}
+			else{
+				out.writeUTF("DONTBUY");
+			}
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+		
 	}
 	
 	private void buyCar(){
-		
+		int statement=myView.getBuyingInfos("Car");
+				
+		try {
+			if (statement==1){
+				out.writeUTF("BUYFORCREDIT");
+			}
+			else if(statement==2){
+				out.writeUTF("BUYFORCASH");
+			}
+			else{
+				out.writeUTF("DONTBUY");
+			}
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+			
 	}
 	
 	private void buyFurniture(String furniture){
