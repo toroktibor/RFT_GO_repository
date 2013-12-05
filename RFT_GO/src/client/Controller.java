@@ -31,7 +31,7 @@ public class Controller{
 	 * Majd megpróbálunk ezekkel kapcsólódni, ha sikerül nyitjuk a streameket, és elküldjük a nevünket.
 	 * Ha nem hiba üzenet.
 	 * **/
-	public void login(){ 
+	private void login(){ 
 		logInf=myView.getLoginInfos();
 		myName=logInf.get(0);
 		String host=logInf.get(1);
@@ -47,7 +47,7 @@ public class Controller{
             	open();
                 System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
                 send(myName);
-                //getInitialMessage();
+                getInitialMessage();
             }
         } catch (IOException e) {
         	/* TIBI OKOSKODÁSA: az IOException nem azt jelzi, hogy nem sikerült csatlakozni, hanem hogy a socket
@@ -65,7 +65,7 @@ public class Controller{
 	/**
 	 * IO Streamek megnyitása kapcsolódás után.
 	 * **/
-	public void open() throws IOException {
+	private void open() throws IOException {
 	        in = new DataInputStream(s.getInputStream());
 	        out = new DataOutputStream(s.getOutputStream());
 	}
@@ -73,49 +73,24 @@ public class Controller{
 	/**
 	 * Üzenet küldése a szervernek.
 	 * **/
-	public void send(String msg) throws IOException {
+	private void send(String msg) throws IOException {
         out.writeUTF(msg);
     }
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public void buyHouse(){
-		
-	}
-	
-	public void buyCar(){
-		
-	}
-	
-	public void buyFurniture(String furniture){
-		
-	}
-	
-	public boolean makeInsurances(){
-		return false;
-	}
-
-	
-	public void getInitialMessage(){
+	private void getInitialMessage(){
 		try {
             while (true) {
                 /* A szervertõl kapott üzenetek olvasása. */
                 String message = in.readUTF();
                 System.out.println("Üzenet a szervertõl: "+message);
+                switch (message){
+                	case "GETGAMESTATE":getGameState();
+                	case "BUYHOUSE":buyHouse();;
+                	case "BUYCAR":buyCar();;
+                	case "MAKEINSURANCES":makeInsurances();
+                	case "MESSAGEFORREAD":getMessageForRead();
+                	default:break;
+                }
             }
         } catch (IOException e) {
             /* Olvasási problémák, kapcsolat megszakítása. */
@@ -124,23 +99,49 @@ public class Controller{
 	            in.close();
 	            s.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
             System.out.println("Kapcsolat megszakítva. " + e.getMessage());
         }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private void buyHouse(){
 		
 	}
 	
-	public boolean getMessageForRead(){
+	private void buyCar(){
+		
+	}
+	
+	private void buyFurniture(String furniture){
+		
+	}
+	
+	private boolean makeInsurances(){
 		return false;
 	}
 	
-	public boolean getGameState(){
+	private boolean getMessageForRead(){
+		return false;
+	}
+	
+	private boolean getGameState(){
 		return false;
 	}
 
-	public void giveUpAndExit(){
+	private void giveUpAndExit(){
 		
 	}
 	
