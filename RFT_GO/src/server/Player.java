@@ -15,9 +15,10 @@ public class Player {
 	private int exclusions;
 	
 	// CONSTRUCTOR
-	public Player(String name, Field location) {
+	public Player(String name, Socket socket,  Field location) {
 		super();
 		this.name = name;
+		this.socket = socket;
 		this.balance = 18000;
 		this.car = null;
 		this.exclusions = 0;

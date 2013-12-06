@@ -1,11 +1,15 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +21,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private List<LuckyCard> deck = new ArrayList<LuckyCard>();
 	private int luckyCardIndex = 0;
 	private XMLParser p=new XMLParser();
+	
 	
 	//GETTERS AND SETTERS
 	public Player getActualPlayer() {
@@ -36,6 +41,12 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 	public void setBoard(List<Field> board) {
 		this.board = board;
+	}
+	public List<Player> getAllPlayers() {
+		return allPlayers;
+	}
+	public void setAllPlayers(List<Player> allPlayers) {
+		this.allPlayers = allPlayers;
 	}
 	
 	//IMPLEMENTATION OF THE METHODS OF ICASHIER INTERFACE
@@ -289,6 +300,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	/** Ez a metódus végzi el a kockával való dobást.
 	 *  A metódusban ellenõrzésre kerül, hogy nincs-e 1-6 büntetésben a játékos, mert ha igen,
 	 *  akkor csak megfelelõ értékû dobás esetén hívódik meg a {@code moveWithQuantity()} metódus.
+	 *  Minden esetben tájékozhatjuk a játékost szöveges üzenet formájában az eredményrõl.
 	 */
 	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Random generator = new Random();
@@ -296,13 +308,23 @@ public class GameEngine implements ICashier, IGamePlay {
 		result+=1;
 		if( 0 < actualPlayer.get_1_6Penalty()) {
 			if((result==1) || (result ==6)) {
+			actualPlayer.set_1_6Penalty(0);
+			sendMessageForRead("Büntetésben voltál, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább," +
+								" de mivel dobásod értéke " + result + ", így lépj elõre ennyi mezõt!");
 			moveWithQuantity(result);
+			return;
 			}
 			else {
-				System.out.println("Büntetésben vagy, csak 1-es vagy 6-os dobással léphetsz tovább. Most itt maradsz.");
+				sendMessageForRead("Büntetésben vagy, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább. " +
+									"Most itt maradsz, mert dobásod értéke " + result + ".");
+				return;
 			}
 		}
-		return;
+		else {
+			sendMessageForRead("Dobásod értéke " + result + ". Lépj elõre ennyi mezõt!" );
+			moveWithQuantity(result);
+			return;
+		}
 	}
 	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cserélve a következõ sorra...
@@ -414,23 +436,81 @@ public class GameEngine implements ICashier, IGamePlay {
 	public void executeLuckyCardCommand() {
 		return;
 	}
+	/** Ebben a metódusban különbözõ játékosokhoz különbözõ socketeket rendelünk.
+	 * Amint érkezik egy kapcsolódási kérelem, az adott socket inputStream-jébõl kinyerjük a kliens üzenetét, 
+	 * amely a játékos neve lesz, ily módon az új játékost hozzáadjuk a játékosok listájához.
+	 * 2 játékos csatlakozása után 2 perces (azaz 120000 ms) türelmi idõ van, amíg további játékosokra várakozunk.
+	 * Ezt követõen elindul a játék a startGame() metódusba történõ visszatéréssel.
+	 * SZERKESZTÉS ALATT! MÉG NEM TESZTELVE! VÁRJA A KRITIKÁKAT! :)
+	 */
 	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EGÉSZEN MÁS LESZ....
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("What is your name ? Type here --> ");
-		String playerName = br.readLine();
-		allPlayers.add(new Player(playerName, board.get(0)));
-		br.close();
+		//BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		//System.out.print("What is your name ? Type here --> ");
+		//String playerName = br.readLine();
+		//allPlayers.add(new Player(playerName, board.get(0)));	
+		//br.close();
+		List<Socket> socketList = new ArrayList<Socket>();
+		DataInputStream in;
+		DataOutputStream out;
+		String tmpString;
+		Calendar startTime = Calendar.getInstance() ;
+		Calendar endTime = Calendar.getInstance();
+		while((allPlayers.size() < maxNumberOfPlayers) && (endTime.getTimeInMillis()-startTime.getTimeInMillis() < 120000 ) ) {
+			socketList.add(new Socket());
+			while(socketList.get(socketList.size()-1).isConnected() == false) {}
+			in  = new DataInputStream (socketList.get(socketList.size()-1).getInputStream());
+			out = new DataOutputStream(socketList.get(socketList.size()-1).getOutputStream());
+			tmpString = in.readUTF();
+			allPlayers.add(new Player(tmpString, socketList.get(socketList.size()-1) ,board.get(0)));
+			if( 2 <= allPlayers.size() ) {
+				endTime = Calendar.getInstance();
+			}
+		}
 		return;
 	}
 	public void sendGameState() {
 		// TODO Auto-generated method stub
 		
 	}
+	/**Ebben a metódusban elõször meghívjuk a waitForPlayers() metódust, amelyben 6 becsatlakozó játékosra várunk.
+	 * Amennyiben a metódustól a vezérlést visszakapjuk, elindítjuk a tényleges játékot, azaz
+	 * sorra eldöntjük, hogy ki következik dobni, és aki következik az dobhat-e, vagy éppen kimarad, illetve, ha
+	 * többször is dobhat, akkor több lehetõséget kap a szabályoknak megfelelõen.
+	 * Ez egészen addig megy, míg egy játékos meg nem nyerte a játékot.
+	 * Nyerés esetén a gyõztest, és a többieket is értesítjük.
+	 * 
+	 */
 	public void startGame() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+		int iterator = 0;
 		waitForPlayers(6);
-		setActualPlayer(allPlayers.get(0));
-		executeFieldCommand();
-		return;
+		do {
+			setActualPlayer(allPlayers.get(iterator));
+			if( actualPlayer.getExclusions() == 0) {
+				dice();
+				executeFieldCommand();
+				while( actualPlayer.getGiftDices() != 0 ) {
+					dice();
+					executeFieldCommand();
+					actualPlayer.setGiftDices(actualPlayer.getGiftDices()-1);
+				}
+			}
+			else if(actualPlayer.getExclusions() > 0) {
+				actualPlayer.setExclusions(actualPlayer.getExclusions()-1);
+			}
+			iterator += 1;
+			iterator = iterator % (allPlayers.size()+1);
+		} while (actualPlayer.isWinner() == false);
+		
+		String winnersName = actualPlayer.getName();
+		for(int i = 0; i < allPlayers.size()-1; ++i) {
+			setActualPlayer(allPlayers.get(i));
+			if(actualPlayer.isWinner() == false) {
+				sendMessageForRead("Önnek most nem volt szerencséje, " + winnersName + " nyerte meg a játékot.");
+			}
+			else if(actualPlayer.isWinner() == true) {
+				sendMessageForRead("Gratulálunk, " + winnersName + "! Szép játék volt, Ön nyert!");
+			}
+		}
 	}
 
 	//CALLABLE METHODS OF FIELD AND LUCKYCARD COMMANDS
