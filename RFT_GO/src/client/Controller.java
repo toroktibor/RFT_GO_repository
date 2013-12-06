@@ -109,6 +109,10 @@ public class Controller{
         }
 	}
 	
+	/**
+	 * Jött a szervertõl egy üzenet hogy házvásárlást ajánl
+	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
+	 * **/
 	private void buyHouse(){
 		int statement=myView.getBuyingInfos("House");
 			
@@ -131,6 +135,10 @@ public class Controller{
 		
 	}
 	
+	/**
+	 * Jött a szervertõl egy üzenet hogy autóvásárlást ajánl
+	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
+	 * **/
 	private void buyCar(){
 		int statement=myView.getBuyingInfos("Car");
 				
@@ -153,6 +161,10 @@ public class Controller{
 			
 	}
 	
+	/**
+	 * Jött a szervertõl egy üzenet hogy biztosítás kötést ajánl
+	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
+	 * **/
 	private void makeInsurances(){
 		int statement=myView.getInsurances();
 		
@@ -177,6 +189,11 @@ public class Controller{
 		}
 	}
 	
+	/**
+	 * Jött a szervertõl egy üzenet hogy bútorvásárlást ajánl
+	 * megkapja a szervertõl hogy mit vehet
+	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
+	 * **/
 	private void buyFurnitures(){
 		try {
 			int statement=0;
