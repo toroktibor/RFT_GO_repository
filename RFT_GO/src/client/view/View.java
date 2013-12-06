@@ -94,6 +94,19 @@ public class View {
 	}
 	
 	
+	/**
+	 * Lényege hogy felugrik egy ablak megkérdi vesze olyan berendezést
+	 * amelyet a string tartalmaz
+	 * 
+	 * visszatérés:
+	 * 0 nem
+	 * 1 igen
+	 * 
+	 * **/
+	public int getFurnitureOptions(String furniture){
+		return 0;
+	}
+	
 	
 	/* további metódusok lesznek
 	 * 

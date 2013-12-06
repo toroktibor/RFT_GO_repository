@@ -90,6 +90,7 @@ public class Controller{
                 	case "GETGAMESTATE":getGameState();break;
                 	case "BUYHOUSE":buyHouse();break;
                 	case "BUYCAR":buyCar();break;
+                	case "BUYFURNITURE":buyFurnitures();break;
                 	case "MAKEINSURANCES":makeInsurances();break;
                 	case "MESSAGEFORREAD":getMessageForRead();break;
                 	default:break;
@@ -167,7 +168,30 @@ public class Controller{
 		}
 	}
 	
-	private void buyFurniture(String furniture){
+	private void buyFurnitures(){
+		try {
+			int statement=0;
+			String furnitureType=in.readUTF();
+			switch (furnitureType){
+				case "COOKER":statement=myView.getFurnitureOptions("Tûzhely");break;
+				case "DISHWASHER":statement=myView.getFurnitureOptions("Mosogatógép");break;
+				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions("Konyhabútor");break;
+				case "ROOMFURNITURE":statement=myView.getFurnitureOptions("Szobabútor");break;
+				case "WASHMACHINE":statement=myView.getFurnitureOptions("Mosógép");break;
+				default:break;
+			}
+			
+			if (statement==1){
+				out.writeUTF("BUY"+furnitureType);
+			}
+			else{
+				out.writeUTF("DONTBUY"+furnitureType);
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
