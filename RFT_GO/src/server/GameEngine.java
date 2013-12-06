@@ -469,7 +469,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		return;
 	}
 	public void sendGameState() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub //majd itt egyeztessünk mert az üzenet váltás érdekes :)
 		
 	}
 	/**Ebben a metódusban elõször meghívjuk a waitForPlayers() metódust, amelyben 6 becsatlakozó játékosra várunk.

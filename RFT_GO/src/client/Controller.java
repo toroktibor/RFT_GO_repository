@@ -218,7 +218,24 @@ public class Controller{
 	}
 	
 	private void getGameState(){
-		
+		/*try {
+			int methods=0;
+			int id=0;
+			do{
+				String stateMessage=in.readUTF();
+				String[] m=stateMessage.split("#");
+				id=Integer.parseInt(m[0]);
+				methods=Integer.parseInt(m[1]);
+				
+			}while (methods>1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+				
+		*/
+		//IDNumber#metódusokSzáma#metódusnév#paraméter	
 	}
 
 	private void giveUpAndExit(){
