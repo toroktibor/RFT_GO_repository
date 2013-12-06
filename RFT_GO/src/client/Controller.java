@@ -122,6 +122,9 @@ public class Controller{
 			else{
 				out.writeUTF("DONTBUY");
 			}
+			String result=in.readUTF();
+			myView.simpleMessage(result);
+			out.writeUTF("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
@@ -141,6 +144,9 @@ public class Controller{
 			else{
 				out.writeUTF("DONTBUY");
 			}
+			String result=in.readUTF();
+			myView.simpleMessage(result);
+			out.writeUTF("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
@@ -163,6 +169,9 @@ public class Controller{
 			else{
 				out.writeUTF("DONTMAKEANYINSURANCES");
 			}
+			String result=in.readUTF();
+			myView.simpleMessage(result);
+			out.writeUTF("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
@@ -187,7 +196,9 @@ public class Controller{
 			else{
 				out.writeUTF("DONTBUY"+furnitureType);
 			}
-			
+			String result=in.readUTF();
+			myView.simpleMessage(result);
+			out.writeUTF("OK");			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -199,7 +210,6 @@ public class Controller{
 		try {
 			String message=in.readUTF();
 			myView.simpleMessage(message);
-			out.writeUTF("OK");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
