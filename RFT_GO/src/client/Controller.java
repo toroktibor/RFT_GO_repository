@@ -87,11 +87,11 @@ public class Controller{
                 System.out.println("Üzenet a szervertõl: "+message);
                 /* Ejnye-bejnye Józsikám! :D Hát a break;-ek hol maradnak a switch case-ek végérõl? :P */
                 switch (message){
-                	case "GETGAMESTATE":getGameState();
-                	case "BUYHOUSE":buyHouse();;
-                	case "BUYCAR":buyCar();;
-                	case "MAKEINSURANCES":makeInsurances();
-                	case "MESSAGEFORREAD":getMessageForRead();
+                	case "GETGAMESTATE":getGameState();break;
+                	case "BUYHOUSE":buyHouse();break;
+                	case "BUYCAR":buyCar();break;
+                	case "MAKEINSURANCES":makeInsurances();break;
+                	case "MESSAGEFORREAD":getMessageForRead();break;
                 	default:break;
                 }
             }
