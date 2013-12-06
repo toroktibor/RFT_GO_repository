@@ -106,17 +106,19 @@ public class View {
 	public int getFurnitureOptions(String furniture){
 		return 0;
 	}
+
+	/**
+	 * Felugró ablak sima üzenettel amit leokézhat, vagy bezárhat
+	 * lényeg hogy látja amit közölni akar.
+	 * **/
+	public void simpleMessage(String message) {
+				
+	}
+	
 	
 	
 	/* további metódusok lesznek
 	 * 
-	 * getFurnitureOptions() megkérdi hogy megvesz-e valamilyen bútort, majd paraméterként átjön hogy milyet, válasz igen, nem
-	 * 
-	 * accept(String s) felugró ablak egy ok gombal és valami szöveggel paraméterként jön :)
-	 * 
-	 * mind vissza tér egy egész számmal vagy stringel még kitalálom.
-	 * 
-	 * még lehet lesz pár
 	 * */
 	
 }

@@ -196,6 +196,14 @@ public class Controller{
 	}
 	
 	private void getMessageForRead(){
+		try {
+			String message=in.readUTF();
+			myView.simpleMessage(message);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
