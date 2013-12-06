@@ -199,7 +199,7 @@ public class Controller{
 		try {
 			String message=in.readUTF();
 			myView.simpleMessage(message);
-			
+			out.writeUTF("OK");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

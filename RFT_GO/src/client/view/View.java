@@ -108,11 +108,13 @@ public class View {
 	}
 
 	/**
-	 * Felugró ablak sima üzenettel amit leokézhat, vagy bezárhat
-	 * lényeg hogy látja amit közölni akar.
+	 * Felugró ablak sima üzenettel amit leokézhat
+	 * lényeg hogy látja amit közölni akar. (message paraméterbe jön)
+	 * 
+	 * 
 	 * **/
 	public void simpleMessage(String message) {
-				
+		
 	}
 	
 	
