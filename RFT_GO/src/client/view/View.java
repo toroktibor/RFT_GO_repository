@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-public class View {
+public class View implements IView{
 
 	private JFrame frame;
 
@@ -109,7 +109,7 @@ public class View {
 
 	/**
 	 * Felugró ablak sima üzenettel amit leokézhat
-	 * lényeg hogy látja amit közölni akar. (message paraméterbe jön)
+	 * lényeg hogy látja amit közölni akar a szerver. (message paraméterbe jön)
 	 * 
 	 * 
 	 * **/
