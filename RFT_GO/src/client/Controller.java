@@ -141,8 +141,8 @@ public class Controller{
                 System.out.println("Üzenet a szervertõl: "+message);
                 switch (message){
                 	case "GETGAMESTATE":getGameStateMessage();break;
-                	case "BUYHOUSE":buyHouse();break;
-                	case "BUYCAR":buyCar();break;
+                	case "BUYHOUSE":creditOrCashBuying("House");break;
+                	case "BUYCAR":creditOrCashBuying("Car");break;
                 	case "BUYFURNITURE":buyFurnitures();break;
                 	case "MAKEINSURANCES":makeInsurances();break;
                 	case "MESSAGEFORREAD":getMessageForRead();break;
@@ -160,37 +160,12 @@ public class Controller{
 	}
 	
 	/**
-	 * Házvásárlás felvetése a játékosnak, majd válasz küldése a szervernek.
-	 */
-	private void buyHouse(){
-		int statement=myView.getBuyingInfos("House");
-			
-		try {
-			if (statement==1){
-				sendMessage("BUYFORCREDIT");
-			}
-			else if(statement==2){
-				sendMessage("BUYFORCASH");
-			}
-			else{
-				sendMessage("DONTBUY");
-			}
-			String result = readStringFromStream();
-			myView.simpleMessage(result);
-			sendMessage("OK");
-		} catch (IOException e) {
-				e.printStackTrace();
-		}
+	 * Autó vagy Ház vásárlás felvetése a játékosnak, majd válasz küldése a szervernek.
+	*/
+	
+	private void creditOrCashBuying(String item){
+		int statement=myView.getBuyingInfos(item);
 		
-	}
-	
-	
-	/**
-	 * Autó vásárlás felvetése a játékosnak, majd válasz a szervernek.
-	 */
-	private void buyCar(){
-		int statement=myView.getBuyingInfos("Car");
-				
 		try {
 			if (statement==1){
 				sendMessage("BUYFORCREDIT");
@@ -207,7 +182,6 @@ public class Controller{
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
-			
 	}
 	
 	
