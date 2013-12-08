@@ -13,29 +13,22 @@ import server.GameEngine;
 import client.view.View;
 
 public class Controller{
+	private String myName="";
 	private View myView=new View();
+	private List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
+	
+	private List<String> logInf=null;
 	private DataInputStream in=null;
 	private DataOutputStream out=null;
 	private Socket s=null;
-	private String myName="";
-	private List<String> logInf=null;
-	public List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
-	
-	/**
-	 * Controller létrejön, majd megjeleníti a Gui-alap ablakát.
-	 * Végül csatlakozni akar a szerverhez, azaz login() hívás.
-	 * **/
+
+
 	public Controller(){
 		myView.showView();
 		login();
 	}
 
 	
-	/**
-	 * Bekérjük a Gui-n keresztül a nevet, hostot, portot.
-	 * Majd megpróbálunk ezekkel kapcsólódni, ha sikerül nyitjuk a streameket, és elküldjük a nevünket.
-	 * Ha nem hiba üzenet.
-	 * **/
 	private void login(){ 
 		logInf=myView.getLoginInfos();
 		myName=logInf.get(0);
@@ -45,8 +38,6 @@ public class Controller{
         try {
             System.out.println("Kapcsolódás a szerverhez: " + host + " és port: " + port);
             s = new Socket(host, port);
-            /* TIBI OKOSKODÁSA: ide nem while ciklus kellene? Ha éppen még nem isConnected(), akkor nem is lesz játék??? 
-             * Ez csak egyszer ellenõriz, de ha nem igaz, már meg is hasalt a progi... */
             if(s.isConnected())
             {
             	openStreams();
@@ -55,40 +46,38 @@ public class Controller{
                 getInitialMessage();
             }
         } catch (IOException e) {
-        	/* TIBI OKOSKODÁSA: az IOException nem azt jelzi, hogy nem sikerült csatlakozni, hanem hogy a socket
-        	 * megnyitása közben IO hiba történt, legalább is a dokumentáció alapján, idézem:
-        	 * Throws: 
-					UnknownHostException - if the IP address of the host could not be determined. 
-					IOException - if an I/O error occurs when creating the socket. 
-        	 */
             System.out.println("Nem sikerült csatlakozni a szerverhez. " + e.getMessage());
         }       
 	}
 	
 	
-	
-	/**
-	 * IO Streamek megnyitása kapcsolódás után.
-	 * **/
 	private void openStreams() throws IOException {
 	        in = new DataInputStream(s.getInputStream());
 	        out = new DataOutputStream(s.getOutputStream());
 	}
 	
-	/**
-	 * Üzenet küldése a szervernek.
-	 * **/
+	
 	private void sendMessage(String msg) throws IOException {
         out.writeUTF(msg);
     }
 	
+	
+	private void closeConnection() throws IOException{
+			out.close();
+	        in.close();
+	        s.close();
+	}
+	
+	private String readStringFromStream() throws IOException{
+		return in.readUTF();
+	}
+	
+	
 	private void getInitialMessage(){
 		try {
             while (true) {
-                /* A szervertõl kapott üzenetek olvasása. */
-                String message = in.readUTF();
+                String message = readStringFromStream();
                 System.out.println("Üzenet a szervertõl: "+message);
-                /* Ejnye-bejnye Józsikám! :D Hát a break;-ek hol maradnak a switch case-ek végérõl? :P */
                 switch (message){
                 	case "GETGAMESTATE":getGameState();break;
                 	case "BUYHOUSE":buyHouse();break;
@@ -100,11 +89,8 @@ public class Controller{
                 }
             }
         } catch (IOException e) {
-            /* Olvasási problémák, kapcsolat megszakítása. */
         	try {
-				out.close();
-	            in.close();
-	            s.close();
+				closeConnection();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -112,10 +98,7 @@ public class Controller{
         }
 	}
 	
-	/**
-	 * Jött a szervertõl egy üzenet hogy házvásárlást ajánl
-	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
-	 * **/
+	
 	private void buyHouse(){
 		int statement=myView.getBuyingInfos("House");
 			
@@ -129,7 +112,7 @@ public class Controller{
 			else{
 				sendMessage("DONTBUY");
 			}
-			String result=in.readUTF();
+			String result = readStringFromStream();
 			myView.simpleMessage(result);
 			sendMessage("OK");
 		} catch (IOException e) {
@@ -138,10 +121,7 @@ public class Controller{
 		
 	}
 	
-	/**
-	 * Jött a szervertõl egy üzenet hogy autóvásárlást ajánl
-	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
-	 * **/
+	
 	private void buyCar(){
 		int statement=myView.getBuyingInfos("Car");
 				
@@ -155,7 +135,7 @@ public class Controller{
 			else{
 				sendMessage("DONTBUY");
 			}
-			String result=in.readUTF();
+			String result = readStringFromStream();
 			myView.simpleMessage(result);
 			sendMessage("OK");
 		} catch (IOException e) {
@@ -164,10 +144,7 @@ public class Controller{
 			
 	}
 	
-	/**
-	 * Jött a szervertõl egy üzenet hogy biztosítás kötést ajánl
-	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
-	 * **/
+	
 	private void makeInsurances(){
 		int statement=myView.getInsurances();
 		
@@ -184,7 +161,7 @@ public class Controller{
 			else{
 				sendMessage("DONTMAKEANYINSURANCES");
 			}
-			String result=in.readUTF();
+			String result = readStringFromStream();
 			myView.simpleMessage(result);
 			sendMessage("OK");
 		} catch (IOException e) {
@@ -192,15 +169,11 @@ public class Controller{
 		}
 	}
 	
-	/**
-	 * Jött a szervertõl egy üzenet hogy bútorvásárlást ajánl
-	 * megkapja a szervertõl hogy mit vehet
-	 * meghívja a gui metódusát és az eredményt vissza küldi a szervernek
-	 * **/
+	
 	private void buyFurnitures(){
 		try {
 			int statement=0;
-			String furnitureType=in.readUTF();
+			String furnitureType = readStringFromStream();
 			switch (furnitureType){
 				case "COOKER":statement=myView.getFurnitureOptions("Tûzhely");break;
 				case "DISHWASHER":statement=myView.getFurnitureOptions("Mosogatógép");break;
@@ -216,11 +189,10 @@ public class Controller{
 			else{
 				sendMessage("DONTBUY"+furnitureType);
 			}
-			String result=in.readUTF();
+			String result = readStringFromStream();
 			myView.simpleMessage(result);
 			sendMessage("OK");			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -228,10 +200,9 @@ public class Controller{
 	
 	private void getMessageForRead(){
 		try {
-			String message=in.readUTF();
+			String message = readStringFromStream();
 			myView.simpleMessage(message);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -239,7 +210,7 @@ public class Controller{
 	
 	private void getGameState(){
 		try {
-			String message=in.readUTF();
+			String message = readStringFromStream();
 			String[] s=message.split("#");
 			int playerid=Integer.parseInt(s[0]);
 			Method[] methods = StateOfPlayer.class.getDeclaredMethods();
@@ -251,7 +222,6 @@ public class Controller{
 						} catch (IllegalAccessException
 								| IllegalArgumentException
 								| InvocationTargetException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -259,30 +229,15 @@ public class Controller{
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-				
-		
-		//IDNumber#metódusokSzáma#metódusnév#paraméter	
 	}
 
+	
 	private void giveUpAndExit(){
-		
+		// TODO Auto-generated catch block
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 	public static void main(String[] args) {
 		new Controller();
