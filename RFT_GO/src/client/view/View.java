@@ -120,7 +120,7 @@ public class View implements IView{
 	
 	
 	/* további metódusok lesznek
-	 * 
+	 * biztos kell még egy frissítõ metódus
 	 * */
 	
 }

@@ -1,7 +1,7 @@
 package client;
 
 public class StateOfPlayer {
-	private String idNumber;
+	private int idNumber;
 	private String name;
 	private String houseStateBinaryFlags;
 	private String carStateBinaryFlags;
@@ -11,11 +11,11 @@ public class StateOfPlayer {
 	private int giftDices;
 	private int exclusions;
 	
-	public String getIdNumber() {
+	public int getIdNumber() {
 		return idNumber;
 	}
 	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
+		this.idNumber = Integer.parseInt(idNumber);
 	}
 	public String getName() {
 		return name;

@@ -8,8 +8,6 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
-import server.GameEngine;
 import client.view.View;
 
 public class Controller{
@@ -51,8 +49,8 @@ public class Controller{
 	}
 
 
-	public void setGameState(List<StateOfPlayer> gameState) {
-		this.gameState = gameState;
+	public List<StateOfPlayer> getGameState() {
+		return gameState;
 	}
 
 
@@ -251,7 +249,11 @@ public class Controller{
 				for(int j=0; j<methods.length; ++j) {
 					if (methods[j].getName().equals(s[i])){
 						try {
-							methods[j].invoke(gameState.get(playerid), s[i+1]);
+							for (StateOfPlayer gs : gameState) {
+								if(gs.getIdNumber()==playerid){
+									methods[j].invoke(gs, s[i+1]);
+								}
+							}
 						} catch (IllegalAccessException
 								| IllegalArgumentException
 								| InvocationTargetException e) {
