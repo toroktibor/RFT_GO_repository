@@ -293,24 +293,29 @@ public class Controller{
 			String[] s=message.split("#");
 			int playerid=Integer.parseInt(s[0]);
 			Method[] methods = StateOfPlayer.class.getDeclaredMethods();
-			for(int i=2;i<s.length;i=i+2){
-				for(int j=0; j<methods.length; ++j) {
-					if (methods[j].getName().equals(s[i])){
-						try {
-							for (StateOfPlayer gs : gameState) {
-								if(gs.getIdNumber()==playerid){
+			boolean found=false;
+			for (StateOfPlayer gs : gameState) {
+				if(gs.getIdNumber()==playerid){
+					found=true;
+					for(int i=2;i<s.length;i=i+2){
+						for(int j=0; j<methods.length; ++j) {
+							if (methods[j].getName().equals(s[i])){
+								try {
 									methods[j].invoke(gs, s[i+1]);
+								} catch (IllegalAccessException
+										| IllegalArgumentException
+										| InvocationTargetException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
 							}
-						} catch (IllegalAccessException
-								| IllegalArgumentException
-								| InvocationTargetException e) {
-							e.printStackTrace();
-						}
+						}	
 					}
 				}
+			}	
+			if (found==false){
+				// TODO új játékos az adatokkal, vagy majd máshogy vigyünk be újakat.
 			}
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
