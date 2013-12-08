@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+
+import client.view.IView;
 import client.view.View;
 
 public class Controller{
@@ -59,7 +61,11 @@ public class Controller{
 		login();
 	}
 
-	
+	/**
+	 * Csatlakozás a szerverhez, a GUI-n keresztül bekért adatokkal.
+	 * Név, Host, Port. A Host-hoz a Porton, a névvel.
+	 * Sikeres Csatlakozás után a név küldése a szerver felé.
+	 */
 	private void login(){ 
 		logInf=myView.getLoginInfos();
 		myName=logInf.get(0);
@@ -81,29 +87,53 @@ public class Controller{
         }       
 	}
 	
-	
+	/**
+	 * Input és Output Streamek nyitása a kapcsolódás után.
+	 * 
+	 * @throws IOException
+	 */
 	private void openStreams() throws IOException {
 	        in = new DataInputStream(s.getInputStream());
 	        out = new DataOutputStream(s.getOutputStream());
 	}
 	
 	
+	/**
+	 * Üzenet küldése az OutputStreamen keresztül a szerver felé.
+	 * 
+	 * @param msg a küldeni kívánt üzenet.
+	 * @throws IOException
+	 */
 	private void sendMessage(String msg) throws IOException {
         out.writeUTF(msg);
     }
 	
-	
+	/**
+	 * Streamek és Socket zárása.
+	 * 
+	 * @throws IOException
+	 */
 	private void closeConnection() throws IOException{
 			out.close();
 	        in.close();
 	        s.close();
 	}
 	
+	/**
+	 * Üzenet fogadása az inputStreamen a szervertõl.
+	 * 
+	 * @return Az üzenet
+	 * @throws IOException
+	 */
 	private String readStringFromStream() throws IOException{
 		return in.readUTF();
 	}
 	
 	
+	/**
+	 * Jelzõ Üzenetek fogadása a szervertõl.
+	 * Majd attól függõen hogy mit kapunk, további metódusok hívása.
+	 */
 	private void getInitialMessage(){
 		try {
             while (true) {
@@ -129,7 +159,9 @@ public class Controller{
         }
 	}
 	
-	
+	/**
+	 * Házvásárlás felvetése a játékosnak, majd válasz küldése a szervernek.
+	 */
 	private void buyHouse(){
 		int statement=myView.getBuyingInfos("House");
 			
@@ -153,6 +185,9 @@ public class Controller{
 	}
 	
 	
+	/**
+	 * Autó vásárlás felvetése a játékosnak, majd válasz a szervernek.
+	 */
 	private void buyCar(){
 		int statement=myView.getBuyingInfos("Car");
 				
@@ -176,6 +211,9 @@ public class Controller{
 	}
 	
 	
+	/**
+	 * Biztosítás kötés felvetése a játékosnak, majd válasz a szervernek.
+	 */
 	private void makeInsurances(){
 		int statement=myView.getInsurances();
 		
@@ -201,6 +239,9 @@ public class Controller{
 	}
 	
 	
+	/**
+	 * Bútorvásárlás ajánlása, és válasz a szervernek.
+	 */
 	private void buyFurnitures(){
 		try {
 			int statement=0;
@@ -229,6 +270,9 @@ public class Controller{
 		
 	}
 	
+	/**
+	 * Üzenet a szervertõl melyet közlünk a játékossal.
+	 */
 	private void getMessageForRead(){
 		try {
 			String message = readStringFromStream();
@@ -239,6 +283,10 @@ public class Controller{
 		
 	}
 	
+	
+	/**
+	 * Állapot frissítés fogadása, és TODO Gui frissítésének meghívása
+	 */
 	private void getGameStateMessage(){
 		try {
 			String message = readStringFromStream();
@@ -269,6 +317,9 @@ public class Controller{
 	}
 
 	
+	/**
+	 * Felad és kilép? :D
+	 */
 	private void giveUpAndExit(){
 		// TODO Auto-generated catch block
 	}
