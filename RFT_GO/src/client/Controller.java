@@ -16,11 +16,44 @@ public class Controller{
 	private String myName="";
 	private View myView=new View();
 	private List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
-	
 	private List<String> logInf=null;
 	private DataInputStream in=null;
 	private DataOutputStream out=null;
 	private Socket s=null;
+
+	public String getMyName() {
+		return myName;
+	}
+
+
+	public View getMyView() {
+		return myView;
+	}
+
+
+	public List<String> getLogInf() {
+		return logInf;
+	}
+
+
+	public DataInputStream getIn() {
+		return in;
+	}
+
+
+	public DataOutputStream getOut() {
+		return out;
+	}
+
+
+	public Socket getS() {
+		return s;
+	}
+
+
+	public void setGameState(List<StateOfPlayer> gameState) {
+		this.gameState = gameState;
+	}
 
 
 	public Controller(){
@@ -79,7 +112,7 @@ public class Controller{
                 String message = readStringFromStream();
                 System.out.println("Üzenet a szervertõl: "+message);
                 switch (message){
-                	case "GETGAMESTATE":getGameState();break;
+                	case "GETGAMESTATE":getGameStateMessage();break;
                 	case "BUYHOUSE":buyHouse();break;
                 	case "BUYCAR":buyCar();break;
                 	case "BUYFURNITURE":buyFurnitures();break;
@@ -208,7 +241,7 @@ public class Controller{
 		
 	}
 	
-	private void getGameState(){
+	private void getGameStateMessage(){
 		try {
 			String message = readStringFromStream();
 			String[] s=message.split("#");
