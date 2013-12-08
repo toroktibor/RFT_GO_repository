@@ -66,7 +66,7 @@ public class Controller{
 	 * Név, Host, Port. A Host-hoz a Porton, a névvel.
 	 * Sikeres Csatlakozás után a név küldése a szerver felé.
 	 */
-	private void login(){ 
+	public void login(){ 
 		logInf=myView.getLoginInfos();
 		myName=logInf.get(0);
 		String host=logInf.get(1);
@@ -92,7 +92,7 @@ public class Controller{
 	 * 
 	 * @throws IOException
 	 */
-	private void openStreams() throws IOException {
+	public void openStreams() throws IOException {
 	        in = new DataInputStream(s.getInputStream());
 	        out = new DataOutputStream(s.getOutputStream());
 	}
@@ -104,7 +104,7 @@ public class Controller{
 	 * @param msg a küldeni kívánt üzenet.
 	 * @throws IOException
 	 */
-	private void sendMessage(String msg) throws IOException {
+	public void sendMessage(String msg) throws IOException {
         out.writeUTF(msg);
     }
 	
@@ -113,7 +113,7 @@ public class Controller{
 	 * 
 	 * @throws IOException
 	 */
-	private void closeConnection() throws IOException{
+	public void closeConnection() throws IOException{
 			out.close();
 	        in.close();
 	        s.close();
@@ -125,7 +125,7 @@ public class Controller{
 	 * @return Az üzenet
 	 * @throws IOException
 	 */
-	private String readStringFromStream() throws IOException{
+	public String readStringFromStream() throws IOException{
 		return in.readUTF();
 	}
 	
@@ -134,15 +134,15 @@ public class Controller{
 	 * Jelzõ Üzenetek fogadása a szervertõl.
 	 * Majd attól függõen hogy mit kapunk, további metódusok hívása.
 	 */
-	private void getInitialMessage(){
+	public void getInitialMessage(){
 		try {
             while (true) {
                 String message = readStringFromStream();
                 System.out.println("Üzenet a szervertõl: "+message);
                 switch (message){
                 	case "GETGAMESTATE":getGameStateMessage();break;
-                	case "BUYHOUSE":creditOrCashBuying("House");break;
-                	case "BUYCAR":creditOrCashBuying("Car");break;
+                	case "BUYHOUSE":buyHouse();break;
+                	case "BUYCAR":buyCar();break;
                 	case "BUYFURNITURE":buyFurnitures();break;
                 	case "MAKEINSURANCES":makeInsurances();break;
                 	case "MESSAGEFORREAD":getMessageForRead();break;
@@ -159,10 +159,28 @@ public class Controller{
         }
 	}
 	
-	/**
-	 * Autó vagy Ház vásárlás felvetése a játékosnak, majd válasz küldése a szervernek.
-	*/
 	
+	/**
+	 * Házvásárlás felvetése a játékosnak, majd válasz küldése a szervernek.
+	 */
+	public void buyHouse(){
+		creditOrCashBuying("House");
+	}
+	
+	
+	/**
+	 * Autó vásárlás felvetése a játékosnak, majd válasz a szervernek.
+	 */
+	public void buyCar(){
+		creditOrCashBuying("Car");
+	}
+	
+	
+	/**
+	 * Felajánl valamit a játékosnak, amit creditért vagy pénzért vehet meg.
+	 * 
+	 * @param item
+	 */
 	private void creditOrCashBuying(String item){
 		int statement=myView.getBuyingInfos(item);
 		
@@ -188,7 +206,7 @@ public class Controller{
 	/**
 	 * Biztosítás kötés felvetése a játékosnak, majd válasz a szervernek.
 	 */
-	private void makeInsurances(){
+	public void makeInsurances(){
 		int statement=myView.getInsurances();
 		
 		try {
@@ -216,7 +234,7 @@ public class Controller{
 	/**
 	 * Bútorvásárlás ajánlása, és válasz a szervernek.
 	 */
-	private void buyFurnitures(){
+	public void buyFurnitures(){
 		try {
 			int statement=0;
 			String furnitureType = readStringFromStream();
@@ -247,7 +265,7 @@ public class Controller{
 	/**
 	 * Üzenet a szervertõl melyet közlünk a játékossal.
 	 */
-	private void getMessageForRead(){
+	public void getMessageForRead(){
 		try {
 			String message = readStringFromStream();
 			myView.simpleMessage(message);
@@ -261,7 +279,7 @@ public class Controller{
 	/**
 	 * Állapot frissítés fogadása, és TODO Gui frissítésének meghívása
 	 */
-	private void getGameStateMessage(){
+	public void getGameStateMessage(){
 		try {
 			String message = readStringFromStream();
 			String[] s=message.split("#");
@@ -299,7 +317,7 @@ public class Controller{
 	/**
 	 * Felad és kilép? :D
 	 */
-	private void giveUpAndExit(){
+	public void giveUpAndExit(){
 		// TODO Auto-generated catch block
 	}
 		
