@@ -3,10 +3,13 @@ package client;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import server.GameEngine;
 import client.view.View;
 
 public class Controller{
@@ -235,23 +238,33 @@ public class Controller{
 	}
 	
 	private void getGameState(){
-		/*try {
-			int methods=0;
-			int id=0;
-			do{
-				String stateMessage=in.readUTF();
-				String[] m=stateMessage.split("#");
-				id=Integer.parseInt(m[0]);
-				methods=Integer.parseInt(m[1]);
-				
-			}while (methods>1);
+		try {
+			String message=in.readUTF();
+			String[] s=message.split("#");
+			int playerid=Integer.parseInt(s[0]);
+			Method[] methods = StateOfPlayer.class.getDeclaredMethods();
+			for(int i=2;i<s.length;i=i+2){
+				for(int j=0; j<methods.length; ++j) {
+					if (methods[j].getName().equals(s[i])){
+						try {
+							methods[j].invoke(gameState.get(playerid), s[i+1]);
+						} catch (IllegalAccessException
+								| IllegalArgumentException
+								| InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 				
-		*/
+		
 		//IDNumber#metódusokSzáma#metódusnév#paraméter	
 	}
 

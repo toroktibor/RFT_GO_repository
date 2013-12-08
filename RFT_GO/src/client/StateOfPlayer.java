@@ -44,26 +44,26 @@ public class StateOfPlayer {
 	public int getBalance() {
 		return balance;
 	}
-	public void setBalance(int balance) {
-		this.balance = balance;
+	public void setBalance(String balance) {
+		this.balance = Integer.parseInt(balance);
 	}
 	public int get_1_6Penalty() {
 		return _1_6Penalty;
 	}
-	public void set_1_6Penalty(int _1_6Penalty) {
-		this._1_6Penalty = _1_6Penalty;
+	public void set_1_6Penalty(String _1_6Penalty) {
+		this._1_6Penalty = Integer.parseInt(_1_6Penalty);
 	}
 	public int getGiftDices() {
 		return giftDices;
 	}
-	public void setGiftDices(int giftDices) {
-		this.giftDices = giftDices;
+	public void setGiftDices(String giftDices) {
+		this.giftDices = Integer.parseInt(giftDices);
 	}
 	public int getExclusions() {
 		return exclusions;
 	}
-	public void setExclusions(int exclusions) {
-		this.exclusions = exclusions;
+	public void setExclusions(String exclusions) {
+		this.exclusions = Integer.parseInt(exclusions);
 	}
 	
 }
