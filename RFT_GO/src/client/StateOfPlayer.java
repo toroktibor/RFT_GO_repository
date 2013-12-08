@@ -1,15 +1,15 @@
 package client;
 
 public class StateOfPlayer {
-	private int idNumber;
-	private String name;
-	private String houseStateBinaryFlags;
-	private String carStateBinaryFlags;
-	private String location;
-	private int balance;
-	private int _1_6Penalty;
-	private int giftDices;
-	private int exclusions;
+	private int idNumber=0;
+	private String name="";
+	private String houseStateBinaryFlags="";
+	private String carStateBinaryFlags="";
+	private String location="";
+	private int balance=0;
+	private int _1_6Penalty=0;
+	private int giftDices=0;
+	private int exclusions=0;
 	
 	public int getIdNumber() {
 		return idNumber;
@@ -65,5 +65,23 @@ public class StateOfPlayer {
 	public void setExclusions(String exclusions) {
 		this.exclusions = Integer.parseInt(exclusions);
 	}
+	
+	public StateOfPlayer(int idNumber, String name,
+			String houseStateBinaryFlags, String carStateBinaryFlags,
+			String location, int balance, int _1_6Penalty, int giftDices,
+			int exclusions) {
+		super();
+		this.idNumber = idNumber;
+		this.name = name;
+		this.houseStateBinaryFlags = houseStateBinaryFlags;
+		this.carStateBinaryFlags = carStateBinaryFlags;
+		this.location = location;
+		this.balance = balance;
+		this._1_6Penalty = _1_6Penalty;
+		this.giftDices = giftDices;
+		this.exclusions = exclusions;
+	}
+	
+	
 	
 }
