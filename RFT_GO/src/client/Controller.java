@@ -161,7 +161,7 @@ public class Controller{
 	
 	
 	/**
-	 * Házvásárlás felvetése a játékosnak, majd válasz küldése a szervernek.
+	 * Házvásárlás felvetése a játékosnak.
 	 */
 	public void buyHouse(){
 		creditOrCashBuying("House");
@@ -169,7 +169,7 @@ public class Controller{
 	
 	
 	/**
-	 * Autó vásárlás felvetése a játékosnak, majd válasz a szervernek.
+	 * Autó vásárlás felvetése a játékosnak.
 	 */
 	public void buyCar(){
 		creditOrCashBuying("Car");
@@ -177,7 +177,7 @@ public class Controller{
 	
 	
 	/**
-	 * Felajánl valamit a játékosnak, amit creditért vagy pénzért vehet meg.
+	 * Felajánl valamit a játékosnak, amit creditért vagy pénzért vehet meg, válasz a szervernek.
 	 * 
 	 * @param item
 	 */
