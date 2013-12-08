@@ -49,9 +49,9 @@ public class Controller{
              * Ez csak egyszer ellenõriz, de ha nem igaz, már meg is hasalt a progi... */
             if(s.isConnected())
             {
-            	open();
+            	openStreams();
                 System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
-                send(myName);
+                sendMessage(myName);
                 getInitialMessage();
             }
         } catch (IOException e) {
@@ -70,7 +70,7 @@ public class Controller{
 	/**
 	 * IO Streamek megnyitása kapcsolódás után.
 	 * **/
-	private void open() throws IOException {
+	private void openStreams() throws IOException {
 	        in = new DataInputStream(s.getInputStream());
 	        out = new DataOutputStream(s.getOutputStream());
 	}
@@ -78,7 +78,7 @@ public class Controller{
 	/**
 	 * Üzenet küldése a szervernek.
 	 * **/
-	private void send(String msg) throws IOException {
+	private void sendMessage(String msg) throws IOException {
         out.writeUTF(msg);
     }
 	
@@ -121,17 +121,17 @@ public class Controller{
 			
 		try {
 			if (statement==1){
-				out.writeUTF("BUYFORCREDIT");
+				sendMessage("BUYFORCREDIT");
 			}
 			else if(statement==2){
-				out.writeUTF("BUYFORCASH");
+				sendMessage("BUYFORCASH");
 			}
 			else{
-				out.writeUTF("DONTBUY");
+				sendMessage("DONTBUY");
 			}
 			String result=in.readUTF();
 			myView.simpleMessage(result);
-			out.writeUTF("OK");
+			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
@@ -147,17 +147,17 @@ public class Controller{
 				
 		try {
 			if (statement==1){
-				out.writeUTF("BUYFORCREDIT");
+				sendMessage("BUYFORCREDIT");
 			}
 			else if(statement==2){
-				out.writeUTF("BUYFORCASH");
+				sendMessage("BUYFORCASH");
 			}
 			else{
-				out.writeUTF("DONTBUY");
+				sendMessage("DONTBUY");
 			}
 			String result=in.readUTF();
 			myView.simpleMessage(result);
-			out.writeUTF("OK");
+			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
@@ -173,20 +173,20 @@ public class Controller{
 		
 		try {
 			if (statement==1){
-				out.writeUTF("MAKEONLYCARINSURANCE");
+				sendMessage("MAKEONLYCARINSURANCE");
 			}
 			else if(statement==2){
-				out.writeUTF("MAKEONLYHOUSEINSURANCE");
+				sendMessage("MAKEONLYHOUSEINSURANCE");
 			}
 			else if(statement==3){
-				out.writeUTF("MAKEBOTHINSURANCES");
+				sendMessage("MAKEBOTHINSURANCES");
 			}
 			else{
-				out.writeUTF("DONTMAKEANYINSURANCES");
+				sendMessage("DONTMAKEANYINSURANCES");
 			}
 			String result=in.readUTF();
 			myView.simpleMessage(result);
-			out.writeUTF("OK");
+			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
@@ -211,14 +211,14 @@ public class Controller{
 			}
 			
 			if (statement==1){
-				out.writeUTF("BUY"+furnitureType);
+				sendMessage("BUY"+furnitureType);
 			}
 			else{
-				out.writeUTF("DONTBUY"+furnitureType);
+				sendMessage("DONTBUY"+furnitureType);
 			}
 			String result=in.readUTF();
 			myView.simpleMessage(result);
-			out.writeUTF("OK");			
+			sendMessage("OK");			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
