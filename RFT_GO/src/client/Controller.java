@@ -12,7 +12,7 @@ import java.util.List;
 import client.view.View;
 
 /**
- * A kliens hálózati kommunikációját, és a felhasználói felületet vezérlő osztály.
+ * A kliens hálózati kommunikációját, és a felhasználói felületét vezérlő osztály.
  * 
  * @author Ölveti József
  */
@@ -265,7 +265,6 @@ public class Controller implements IController{
 				gameState.add(new StateOfPlayer(playerId));
 				for (StateOfPlayer gs : gameState) {
 					if(gs.getIdNumber()==playerId){
-						found=true;
 						for(int i=2;i<s.length;i=i+2){
 							for(int j=0; j<methods.length; ++j) {
 								if (methods[j].getName().equals(s[i])){
