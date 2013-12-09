@@ -262,7 +262,26 @@ public class Controller implements IController{
 				}
 			}	
 			if (found==false){
-				gameState.add(new StateOfPlayer(playerId, s[3], s[5], s[7], s[9], s[11], s[13], s[15], s[17]));
+				gameState.add(new StateOfPlayer(playerId));
+				for (StateOfPlayer gs : gameState) {
+					if(gs.getIdNumber()==playerId){
+						found=true;
+						for(int i=2;i<s.length;i=i+2){
+							for(int j=0; j<methods.length; ++j) {
+								if (methods[j].getName().equals(s[i])){
+									try {
+										methods[j].invoke(gs, s[i+1]);
+									} catch (IllegalAccessException
+											| IllegalArgumentException
+											| InvocationTargetException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+							}	
+						}
+					}
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

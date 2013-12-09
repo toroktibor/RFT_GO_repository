@@ -82,6 +82,11 @@ public class StateOfPlayer {
 		this.exclusions = Integer.parseInt(exclusions);
 	}
 	
+	public StateOfPlayer(int idNumber) {
+		super();
+		this.idNumber = idNumber;
+	}
+	
 	
 	
 }
