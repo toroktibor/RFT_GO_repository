@@ -120,7 +120,7 @@ public class View implements IView{
 	}
 	
 
-	public void refreshView(StateOfPlayer sop) {
+	public void refreshView() {
 		// TODO Auto-generated method stub
 		
 	}

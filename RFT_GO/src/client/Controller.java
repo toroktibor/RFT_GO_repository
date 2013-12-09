@@ -15,7 +15,7 @@ import client.view.View;
 public class Controller{
 	private String myName="";
 	private View myView=new View();
-	private List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
+	private static List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
 	private List<String> logInf=null;
 	private DataInputStream in=null;
 	private DataOutputStream out=null;
@@ -62,9 +62,9 @@ public class Controller{
 	}
 
 	/**
-	 * Csatlakozás a szerverhez, a GUI-n keresztül bekért adatokkal.
-	 * Név, Host, Port. A Host-hoz a Porton, a névvel.
-	 * Sikeres Csatlakozás után a név küldése a szerver felé.
+	 * Csatlakozï¿½s a szerverhez, a GUI-n keresztï¿½l bekï¿½rt adatokkal.
+	 * Nï¿½v, Host, Port. A Host-hoz a Porton, a nï¿½vvel.
+	 * Sikeres Csatlakozï¿½s utï¿½n a nï¿½v kï¿½ldï¿½se a szerver felï¿½.
 	 */
 	public void login(){ 
 		logInf=myView.getLoginInfos();
@@ -73,22 +73,22 @@ public class Controller{
 		int port=Integer.parseInt(logInf.get(2));
 		
         try {
-            System.out.println("Kapcsolódás a szerverhez: " + host + " és port: " + port);
+            System.out.println("Kapcsolï¿½dï¿½s a szerverhez: " + host + " ï¿½s port: " + port);
             s = new Socket(host, port);
             if(s.isConnected())
             {
             	openStreams();
-                System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
+                System.out.println("Kapcsolï¿½dva a szerverhez: " + host + " ï¿½s port: " + port);
                 sendMessage(myName);
                 getInitialMessage();
             }
         } catch (IOException e) {
-            System.out.println("Nem sikerült csatlakozni a szerverhez. " + e.getMessage());
+            System.out.println("Nem sikerï¿½lt csatlakozni a szerverhez. " + e.getMessage());
         }       
 	}
 	
 	/**
-	 * Input és Output Streamek nyitása a kapcsolódás után.
+	 * Input ï¿½s Output Streamek nyitï¿½sa a kapcsolï¿½dï¿½s utï¿½n.
 	 * 
 	 * @throws IOException
 	 */
@@ -99,9 +99,9 @@ public class Controller{
 	
 	
 	/**
-	 * Üzenet küldése az OutputStreamen keresztül a szerver felé.
+	 * ï¿½zenet kï¿½ldï¿½se az OutputStreamen keresztï¿½l a szerver felï¿½.
 	 * 
-	 * @param msg a küldeni kívánt üzenet.
+	 * @param msg a kï¿½ldeni kï¿½vï¿½nt ï¿½zenet.
 	 * @throws IOException
 	 */
 	public void sendMessage(String msg) throws IOException {
@@ -109,7 +109,7 @@ public class Controller{
     }
 	
 	/**
-	 * Streamek és Socket zárása.
+	 * Streamek ï¿½s Socket zï¿½rï¿½sa.
 	 * 
 	 * @throws IOException
 	 */
@@ -120,9 +120,9 @@ public class Controller{
 	}
 	
 	/**
-	 * Üzenet fogadása az inputStreamen a szervertõl.
+	 * ï¿½zenet fogadï¿½sa az inputStreamen a szervertï¿½l.
 	 * 
-	 * @return Az üzenet
+	 * @return Az ï¿½zenet
 	 * @throws IOException
 	 */
 	public String readStringFromStream() throws IOException{
@@ -131,14 +131,14 @@ public class Controller{
 	
 	
 	/**
-	 * Jelzõ Üzenetek fogadása a szervertõl.
-	 * Majd attól függõen hogy mit kapunk, további metódusok hívása.
+	 * Jelzï¿½ ï¿½zenetek fogadï¿½sa a szervertï¿½l.
+	 * Majd attï¿½l fï¿½ggï¿½en hogy mit kapunk, tovï¿½bbi metï¿½dusok hï¿½vï¿½sa.
 	 */
 	public void getInitialMessage(){
 		try {
             while (true) {
                 String message = readStringFromStream();
-                System.out.println("Üzenet a szervertõl: "+message);
+                System.out.println("ï¿½zenet a szervertï¿½l: "+message);
                 switch (message){
                 	case "GETGAMESTATE":getGameStateMessage();break;
                 	case "BUYHOUSE":buyHouse();break;
@@ -155,13 +155,13 @@ public class Controller{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-            System.out.println("Kapcsolat megszakítva. " + e.getMessage());
+            System.out.println("Kapcsolat megszakï¿½tva. " + e.getMessage());
         }
 	}
 	
 	
 	/**
-	 * Házvásárlás felvetése a játékosnak.
+	 * Hï¿½zvï¿½sï¿½rlï¿½s felvetï¿½se a jï¿½tï¿½kosnak.
 	 */
 	public void buyHouse(){
 		creditOrCashBuying("House");
@@ -169,7 +169,7 @@ public class Controller{
 	
 	
 	/**
-	 * Autó vásárlás felvetése a játékosnak.
+	 * Autï¿½ vï¿½sï¿½rlï¿½s felvetï¿½se a jï¿½tï¿½kosnak.
 	 */
 	public void buyCar(){
 		creditOrCashBuying("Car");
@@ -177,7 +177,7 @@ public class Controller{
 	
 	
 	/**
-	 * Felajánl valamit a játékosnak, amit creditért vagy pénzért vehet meg, válasz a szervernek.
+	 * Felajï¿½nl valamit a jï¿½tï¿½kosnak, amit creditï¿½rt vagy pï¿½nzï¿½rt vehet meg, vï¿½lasz a szervernek.
 	 * 
 	 * @param item
 	 */
@@ -204,7 +204,7 @@ public class Controller{
 	
 	
 	/**
-	 * Biztosítás kötés felvetése a játékosnak, majd válasz a szervernek.
+	 * Biztosï¿½tï¿½s kï¿½tï¿½s felvetï¿½se a jï¿½tï¿½kosnak, majd vï¿½lasz a szervernek.
 	 */
 	public void makeInsurances(){
 		int statement=myView.getInsurances();
@@ -232,18 +232,18 @@ public class Controller{
 	
 	
 	/**
-	 * Bútorvásárlás ajánlása, és válasz a szervernek.
+	 * Bï¿½torvï¿½sï¿½rlï¿½s ajï¿½nlï¿½sa, ï¿½s vï¿½lasz a szervernek.
 	 */
 	public void buyFurnitures(){
 		try {
 			int statement=0;
 			String furnitureType = readStringFromStream();
 			switch (furnitureType){
-				case "COOKER":statement=myView.getFurnitureOptions("Tûzhely");break;
-				case "DISHWASHER":statement=myView.getFurnitureOptions("Mosogatógép");break;
-				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions("Konyhabútor");break;
-				case "ROOMFURNITURE":statement=myView.getFurnitureOptions("Szobabútor");break;
-				case "WASHMACHINE":statement=myView.getFurnitureOptions("Mosógép");break;
+				case "COOKER":statement=myView.getFurnitureOptions("Tï¿½zhely");break;
+				case "DISHWASHER":statement=myView.getFurnitureOptions("Mosogatï¿½gï¿½p");break;
+				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions("Konyhabï¿½tor");break;
+				case "ROOMFURNITURE":statement=myView.getFurnitureOptions("Szobabï¿½tor");break;
+				case "WASHMACHINE":statement=myView.getFurnitureOptions("Mosï¿½gï¿½p");break;
 				default:break;
 			}
 			
@@ -263,7 +263,7 @@ public class Controller{
 	}
 	
 	/**
-	 * Üzenet a szervertõl melyet közlünk a játékossal.
+	 * ï¿½zenet a szervertï¿½l melyet kï¿½zlï¿½nk a jï¿½tï¿½kossal.
 	 */
 	public void getMessageForRead(){
 		try {
@@ -277,7 +277,7 @@ public class Controller{
 	
 	
 	/**
-	 * Állapot frissítés fogadása, és TODO Gui frissítésének meghívása
+	 * ï¿½llapot frissï¿½tï¿½s fogadï¿½sa, ï¿½s TODO Gui frissï¿½tï¿½sï¿½nek meghï¿½vï¿½sa
 	 */
 	public void getGameStateMessage(){
 		try {
@@ -306,7 +306,7 @@ public class Controller{
 				}
 			}	
 			if (found==false){
-				// TODO új játékos az adatokkal, vagy majd máshogy vigyünk be újakat.
+				// TODO ï¿½j jï¿½tï¿½kos az adatokkal, vagy majd mï¿½shogy vigyï¿½nk be ï¿½jakat.
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -315,7 +315,7 @@ public class Controller{
 
 	
 	/**
-	 * Felad és kilép? :D
+	 * Felad ï¿½s kilï¿½p? :D
 	 */
 	public void giveUpAndExit(){
 		// TODO Auto-generated catch block

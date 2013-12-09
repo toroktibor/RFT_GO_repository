@@ -65,5 +65,5 @@ public interface IView {
 	/**
 	 * Frissíti a Gui-t, paraméterként megkap egy játékost szimbolizáló állapot objektumot.
 	 **/
-	public void refreshView(StateOfPlayer sop);
+	public void refreshView();
 }
