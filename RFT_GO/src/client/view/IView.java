@@ -4,43 +4,43 @@ import java.util.List;
 
 public interface IView {
 	/***
-	 * Bek�r a felhaszn�l�t�l valahol 3 stringet n�v, host, port 
-	 * ki, melyik hostal rendelkez� szerverre, milyen porton akar csatlakozni
-	 * ezt list�ban adja vissza. ez indul�skor a controllerb�l megh�v�dik.
+	 * Bekér a felhasználótól valahol 3 stringet név, host, port 
+	 * ki, melyik hostal rendelkező szerverre, milyen porton akar csatlakozni
+	 * ezt listában adja vissza. ez induláskor a controllerből meghívódik.
 	 **/
 	public List<String> getLoginInfos();
 	
 	/**
-	 * l�nyege hogy megk�rdezi a j�t�kost hogy meg akarja e v�s�rolni
-	 * a param�terk�nt kapott dolgot (vagy aut� lesz vagy h�z, egy sz�veg lesz)
+	 * lényege hogy megkérdezi a játékost hogy meg akarja e vásárolni
+	 * a paraméterként kapott dolgot (vagy autó lesz vagy ház, egy szöveg lesz)
 	 * hitelre, kp-ra vagy nem akarja megvenni
 	 * 
 	 * 
 	 * ha hitelre akarja 1
 	 * ha kp-ra akarja 2
 	 * ha nem akarja 0
-	 * �rt�kkel t�r vissza a met�dus
+	 * értékkel tér vissza a metódus
 	 * 
 	 * **/
 	public int getBuyingInfos(String p);
 	
 	/**
-	 * L�nyege hogy megk�rdi hogy akar-e aut�,lak�s biztos�t�st k�tni
+	 * Lényege hogy megkérdi hogy akar-e autó,lakás biztosítást kötni
 	 * 
-	 * visszat�r�s: 
-	 * 0- nem akar k�tni
-	 * 1- aut� biztos�t�s
-	 * 2- h�z biztos�t�s
-	 * 3- mind kett�
+	 * visszatérés: 
+	 * 0- nem akar kötni
+	 * 1- autó biztosítás
+	 * 2- ház biztosítás	 
+	 * 3- mind kettő
 	 * 
 	 * **/
 	public int getInsurances();
 	
 	/**
-	 * L�nyege hogy megk�rdi vesze olyan berendez�st
+	 * Lényege hogy megkérdi vesze olyan berendezést
 	 * amelyet a string tartalmaz
 	 * 
-	 * visszat�r�s:
+	 * visszatérés:
 	 * 0 nem
 	 * 1 igen
 	 * 
@@ -48,15 +48,15 @@ public interface IView {
 	public int getFurnitureOptions(String furniture);
 	
 	/**
-	 * sima �zenet amit leok�zhat
-	 * l�nyeg hogy l�tja amit k�z�lni akar a szerver. (message param�terbe j�n)
+	 * sima üzenet amit leokézhat
+	 * lényeg hogy látja amit közölni akar a szerver. (message paraméterbe jön)
 	 * 
 	 * 
 	 * **/
 	public void simpleMessage(String message);
 	
 	/**
-	 * GUI hoz kell mindenk�pp megjelen�ti az alap ablakot.
+	 * GUI hoz kell mindenképp megjeleníti az alap ablakot.
 	 * **/
 	public void showView();
 	
