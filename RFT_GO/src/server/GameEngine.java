@@ -377,10 +377,10 @@ public class GameEngine implements ICashier, IGamePlay {
 		for(int i = 0; i < allPlayers.size()-1; ++i) {
 			setActualPlayer(allPlayers.get(i));
 			if(actualPlayer.isWinner() == false) {
-				sendMessageForRead("�nnek most nem volt szerencs�je, " + winnersName + " nyerte meg a j�t�kot.");
+				sendMessageForRead("Önnek most nem volt szerencséje, " + winnersName + " nyerte meg a játékot.");
 			}
 			else if(actualPlayer.isWinner() == true) {
-				sendMessageForRead("Gratul�lunk, " + winnersName + "! Sz�p j�t�k volt, �n nyert!");
+				sendMessageForRead("Gratulálunk, " + winnersName + "! Szép játék volt, ön nyert!");
 			}
 		}
 	}
@@ -402,15 +402,15 @@ public class GameEngine implements ICashier, IGamePlay {
 		actualPlayer.setLocation(board.get(newPositionNumber%42));
 		System.out.println("###Player moved to Field No. " + actualPlayer.getLocationNumber() + " ###");
 		if(newPositionNumber > 42) {
-			System.out.println("###K�rnek v�ge. A Start mez�n �thaladt�l, ez�rt kapsz 2000 eur�t, majd " + 
-								"levon�sra ker�lnek k�telez� t�rleszt�r�szleteid. Ha nincs arra el�g p�nzed, vesztett�l.###");
+			System.out.println("###Körnek vége. A Start mezőn áthaladtál, ezért kapsz 2000 eurót, majd " + 
+								"levonásra kerülnek kötelező törlesztőrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
 			if(handleDebits()==true)
 				executeFieldCommand();
 			return;
 		}
 		else if(newPositionNumber == 42) {
-			System.out.println("###K�rnek v�ge. A Start mez�re l�pt�l, ez�rt kapsz 4000 eur�t, majd " + 
-					"levon�sra ker�lnek k�telez� t�rleszt�r�szleteid. Ha nincs arra el�g p�nzed, vesztett�l.###");
+			System.out.println("###Körnek vége. A Start mezőre léptél, ezért kapsz 4000 eurót, majd " + 
+					"levonásra kerülnek kötelező törlesztőrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
 			executeFieldCommand();
 			handleDebits();
 		}
