@@ -16,7 +16,7 @@ import client.view.View;
  * 
  * @author Ölveti József
  */
-public class Controller{
+public class Controller implements IController{
 	private String myName="";
 	private View myView=new View();
 	private static List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
