@@ -22,7 +22,7 @@ public interface IView {
 	 * értékkel tér vissza a metódus
 	 * 
 	 * **/
-	public int getBuyingInfos(String p);
+	public int getBuyingInfos(String s);
 	
 	/**
 	 * Lényege hogy megkérdi hogy akar-e autó,lakás biztosítást kötni, paraméterbe jön a szöveg
@@ -34,26 +34,25 @@ public interface IView {
 	 * 3- mind kettő
 	 * 
 	 * **/
-	public int getInsurances();
+	public int getInsurances(String s);
 	
 	/**
-	 * Lényege hogy megkérdi vesze olyan berendezést
-	 * amelyet a string tartalmaz
+	 * Lényege hogy megkérdi vesz-e xyz dolgot, a string-et kiíratjuk
 	 * 
 	 * visszatérés:
 	 * 0 nem
 	 * 1 igen
 	 * 
 	 * **/
-	public int getFurnitureOptions(String furniture);
+	public int getFurnitureOptions(String s);
 	
 	/**
 	 * sima üzenet amit leokézhat
-	 * lényeg hogylátja amit közölni akar a szerver. (message paraméterbe jön)
+	 * lényeg hogylátja amit közölni akar a szerver. (string paraméterbe jön)
 	 * 
 	 * 
 	 * **/
-	public void simpleMessage(String message);
+	public void simpleMessage(String s);
 	
 	/**
 	 * GUI hoz kell mindenképp megjeleníti az alap ablakot.

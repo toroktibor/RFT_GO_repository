@@ -49,24 +49,24 @@ public class View implements IView{
 	}
 	
 	
-	public int getBuyingInfos(String p){
+	public int getBuyingInfos(String s){
 		
 			return 0;
 	}
 	
 	
-	public int getInsurances(){
+	public int getInsurances(String s){
 		
 		return 0;
 	}
 	
 	
-	public int getFurnitureOptions(String furniture){
+	public int getFurnitureOptions(String s){
 		return 0;
 	}
 
 	
-	public void simpleMessage(String message) {
+	public void simpleMessage(String s) {
 		
 	}
 	
