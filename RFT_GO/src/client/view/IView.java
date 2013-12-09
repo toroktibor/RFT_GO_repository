@@ -2,6 +2,8 @@ package client.view;
 
 import java.util.List;
 
+import client.StateOfPlayer;
+
 public interface IView {
 	/***
 	 * Bekér a felhasználótól valahol 3 stringet név, host, port 
@@ -49,7 +51,7 @@ public interface IView {
 	
 	/**
 	 * sima üzenet amit leokézhat
-	 * lényeg hogy látja amit közölni akar a szerver. (message paraméterbe jön)
+	 * lényeg hogylátja amit közölni akar a szerver. (message paraméterbe jön)
 	 * 
 	 * 
 	 * **/

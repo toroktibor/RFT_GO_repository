@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import client.StateOfPlayer;
+
 public class View implements IView{
 
 	private JFrame frame;
@@ -117,9 +119,11 @@ public class View implements IView{
 		
 	}
 	
+
 	public void refreshView(StateOfPlayer sop) {
-                
-        }
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	
