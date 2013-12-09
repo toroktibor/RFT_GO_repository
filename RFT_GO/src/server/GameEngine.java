@@ -199,32 +199,32 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cser�lve a k�vetkez� sorra...
+		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cserélve a következő sorra...
 		//sendMessageForRead(actualPlayer.getLocation().getDescription());
-		// Az aktu�lis j�t�kos mez�j�nek Command adattagja, a parancsszavakat tartalmaz� 
-		// string feldarabol�sa '#' karakterek ment�n, eredm�ny a commandWords String t�mb.
+		// Az aktuális játékos mezőjének Command adattagja, a parancsszavakat tartalmazó 
+		// string feldarabolása '#' karakterek mentén, eredmény a commandWords String tömb.
 		int commandWordIterator = 0;
 		int methodIterator;
 		String[] commandWords = actualPlayer.getLocation().getCommand().split("#");
 		String executableMethodsName;
-		// A commandWords String t�mb els� eleme a v�grehajtand� met�dusok sz�ma.
+		// A commandWords String tömb első eleme a végrehajtandó metódusok száma.
 		int numberOfExecutableMethods = Integer.parseInt(commandWords[commandWordIterator++]);
-		System.out.println("V�grehajtand� met�dusok sz�ma: " + numberOfExecutableMethods);
-		// Ennek megfelel� sz�m� met�dust kell megh�vni. (ez egy�bk�nt max. 2 lesz.)
-		// Lek�rj�k az oszt�lyt�l a met�dusok list�j�t, hogy majd ezek k�z�l egyet megh�vhassunk.
+		System.out.println("Végrehajtandó metódusok száma: " + numberOfExecutableMethods);
+		// Ennek megfelelő számú metódust kell meghívni. (ez egyébként max. 2 lesz.)
+		// Lekérjük az osztálytól a metódusok listáját, hogy majd ezek közül egyet meghívhassunk.
 		Method[] methods = GameEngine.class.getDeclaredMethods();
-		/*System.out.println("Az oszt�ly met�dusai, ezek k�z�tt keres�nk");
+		/*System.out.println("Az osztály metódusai, ezek között keresünk");
 		for(int i=0; i<methods.length; ++i) {
 			System.out.println(methods[i].getName());
 		}
 		*/
 		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
-			// Az executableMethodsName v�ltoz�ban r�gz�tem a v�grehajtand� met�dus nev�t.
+			// Az executableMethodsName változóban rögzítem a végrehajtandó metódus nevét.
 			executableMethodsName = commandWords[commandWordIterator++];
-			System.out.println("###V�grehajtand� met�dus: " + executableMethodsName + " ###");
-			// Az actMet met�dusban r�gz�tem a v�grehajtand� met�dus objektumot.
+			System.out.println("###Végrehajtandó metódus: " + executableMethodsName + " ###");
+			// Az actMet metódusban rögzítem a végrehajtandó metódus objektumot.
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
-			// Megvizsg�lom a met�dus neve alapj�n, hogy h�ny param�tere lesz, azokat r�gz�tem, �s megh�vom a met�dust.
+			// Megvizsgálom a metódus neve alapján, hogy hány paramétere lesz, azokat rögzítem, és meghívom a metódust.
 			
 			if(	executableMethodsName.equals("addMoney") || 
 				executableMethodsName.equals("deductMoney") || 
