@@ -157,15 +157,14 @@ public class GameEngine implements ICashier, IGamePlay {
 	
 	public void initFields() {
 			board=p.parseField("Fields.xml");
-		
 			return;
-		}
+	}
 	
 	
 	public void initLuckyCards() {
 		deck=p.parseLuckyCards("LuckyCards.xml");
 		return;
-		}
+	}
 	
 	
 	
