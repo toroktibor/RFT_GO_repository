@@ -52,8 +52,9 @@ public class XMLParser {
 		return (List<LuckyCard>) parse(file);	
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	public List<Field> parseField(String file){
-		return (List<Field>) parse(file);
+		return (List<Field>) parse(file);	
 	}
 }
