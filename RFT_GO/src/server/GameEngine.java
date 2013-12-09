@@ -88,23 +88,23 @@ public class GameEngine implements ICashier, IGamePlay {
 		 */
 	public Boolean deductMoney(int amount) {
 		int originalBalance = actualPlayer.getBalance();
-		System.out.println("###Egyenleg levon�s el�tt: " + originalBalance + " Euro ###");
+		System.out.println("###Egyenleg levonás előtt: " + originalBalance + " Euro ###");
 		if(checkBalance(amount) == true) {
 			actualPlayer.setBalance(originalBalance-amount);
-			System.out.println("###Sikeres p�nzlevon�si tranzakci�###");
-			System.out.println("###Egyenleg levon�s ut�n: " + actualPlayer.getBalance() + " Euro ###");
+			System.out.println("###Sikeres pénzlevonási tranzakció###");
+			System.out.println("###Egyenleg levonás után: " + actualPlayer.getBalance() + " Euro ###");
 			return true;
 		}
 		else {
-			System.out.println("###Sikertelen p�nzlevon�si tranzakci� - nem elegend� az egyenleg###");
+			System.out.println("###Sikertelen pénzlevonási tranzakció - nem elegendő az egyenleg###");
 			
 			return false;
 		}
 	}
-	/** Ez a met�dus minden k�r v�g�n h�v�dik meg, �s ha van az aktu�lis j�t�kosnak h�za, illetve aut�ja
-	 * akkor levonja az esetleges h�tral�v� tartoz�sb�l a k�r�nk�nt k�telez�en t�rlesztend� 500 eur�t.
-	 * Ha nem tudja levonni, a j�t�kos kiesett, az isActiva v�ltoz� �rt�k�t ennek megfelel�en �t�ll�tja, 
-	 * �s hamis �rt�kkel t�r vissza, ha pedig siker�lnek a tranzakci�k, akkor igaz visszat�r�si �rt�kkel.
+	/** Ez a metódus minden kör végén hívódik meg, és ha van az aktuális játékosnak háza, illetve autója
+	 * akkor levonja az esetleges hátralévő tartozásból a körönként kötelezően törlesztendő 500 eurót.
+	 * Ha nem tudja levonni, a játékos kiesett, az isActiva változó értékét ennek megfelelően átállítja, 
+	 * és hamis értékkel tér vissza, ha pedig sikerülnek a tranzakciók, akkor igaz visszatérési értékkel.
 	 */
 	public Boolean handleDebits() {
 		if(actualPlayer.getHouse() != null) {
