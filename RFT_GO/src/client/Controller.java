@@ -119,6 +119,15 @@ public class Controller implements IController{
 		return in.readUTF();
 	}
 	
+	private String locDesc(){
+		for (StateOfPlayer gs : gameState) {
+			if(gs.getIdNumber()==myID)
+			{
+				return gs.getLocation();
+			}
+		}
+		return null;
+	}
 	
 	public void getInitialMessage(){
 		try {
@@ -147,17 +156,16 @@ public class Controller implements IController{
 	
 	
 	public void buyHouse(){
-		creditOrCashBuying("House");
+		creditOrCashBuying(locDesc());
 	}
 	
 	
 	public void buyCar(){
-		creditOrCashBuying("Car");
+		creditOrCashBuying(locDesc());
 	}
-	
-	
-	private void creditOrCashBuying(String item){
-		int statement=myView.getBuyingInfos(item);
+
+	private void creditOrCashBuying(String desc){
+		int statement=myView.getBuyingInfos(desc);
 		
 		try {
 			if (statement==1){
@@ -179,7 +187,7 @@ public class Controller implements IController{
 	
 	
 	public void makeInsurances(){
-		int statement=myView.getInsurances("xyz");
+		int statement=myView.getInsurances(locDesc());
 		
 		try {
 			if (statement==1){
@@ -205,16 +213,16 @@ public class Controller implements IController{
 	
 	public void buyFurnitures(){
 		try {
-			int statement=0;
 			String furnitureType = readStringFromStream();
-			switch (furnitureType){
-				case "COOKER":statement=myView.getFurnitureOptions("Tűzhely");break;
-				case "DISHWASHER":statement=myView.getFurnitureOptions("Mosogatógép");break;
-				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions("Konyhabútor");break;
-				case "ROOMFURNITURE":statement=myView.getFurnitureOptions("Szobabútor");break;
-				case "WASHMACHINE":statement=myView.getFurnitureOptions("Mosogép");break;
+			int statement=myView.getFurnitureOptions(locDesc());
+			/*switch (furnitureType){
+				case "COOKER":statement=myView.getFurnitureOptions(locDesc());break;
+				case "DISHWASHER":statement=myView.getFurnitureOptions(locDesc());break;
+				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
+				case "ROOMFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
+				case "WASHMACHINE":statement=myView.getFurnitureOptions(locDesc());break;
 				default:break;
-			}
+			}*/
 			
 			if (statement==1){
 				sendMessage("BUY"+furnitureType);
@@ -290,6 +298,7 @@ public class Controller implements IController{
 					}
 				}
 			}
+			myView.refreshView();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
