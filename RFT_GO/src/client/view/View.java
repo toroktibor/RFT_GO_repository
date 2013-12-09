@@ -24,7 +24,7 @@ public class View implements IView{
 	
 	
 	/**
-	 * Megjelen�ti az alap ablakot ez �gy egyben kell kb
+	 * Megjeleníti az alap ablakot ez így egyben kell kb
 	 * 
 	 * **/
 	public void showView() {
@@ -41,15 +41,15 @@ public class View implements IView{
 	}
 	
 	/***
-	 * Bek�r a felhaszn�l�t�l egy ablakban vagy valahol 3 stringet n�v, host, port 
-	 * ki, melyik hostal rendelkez� szerverre, milyen porton akar csatlakozni, le ok�zza
-	 * ezt list�ban adja vissza. ez indul�skor a controllerb�l megh�v�dik.
+	 * Bekér a felhasználótól egy ablakban vagy valahol 3 stringet név, host, port 
+	 * ki, melyik hostal rendelkező szerverre, milyen porton akar csatlakozni, le okézza
+	 * ezt listában adja vissza. ez induláskor a controllerből meghívódik.
 	 **/
 	public List<String> getLoginInfos() {
-		/* itt t�rt�nik a bek�r�s valahogy */
+		/* itt történik a bekérés valahogy */
 			/*TODO*/
 		
-		/*p�lda visszat�r�si �rt�kek, ezek ugye a bek�rtek lesznek*/
+		/*példa visszatérési értékek, ezek ugye a bekértek lesznek*/
 			List<String> l=new ArrayList<String>();
 			l.add("Jani");
 			l.add("localhost");
@@ -61,15 +61,15 @@ public class View implements IView{
 	
 	
 	/**
-	 * l�nyege hogy egy ablakban megk�rdezi a j�t�kost hogy meg akarja e v�s�rolni
-	 * a param�terk�nt kapott dolgot (vagy aut� lesz vagy h�z, egy sz�veg lesz)
+	 * lényege hogy egy ablakban megkérdezi a játékost hogy meg akarja e vásárolni
+	 * a paraméterként kapott dolgot (vagy autó lesz vagy ház, egy szöveg lesz)
 	 * hitelre, kp-ra vagy nem akarja megvenni
-	 * felugr� ablak k�zep�n valami sz�veg pl: akarsz-e @p venni? stb stb de ez m�g kider�l milyen lesz
+	 * felugró ablak közepén valami szöveg pl: akarsz-e @p venni? stb stb
 	 * 
 	 * ha hitelre akarja 1
 	 * ha kp-ra akarja 2
 	 * ha nem akarja 0
-	 * �rt�kkel t�r vissza a met�dus
+	 * értékkel tér vissza a metódus
 	 * 
 	 * **/
 	public int getBuyingInfos(String p){
@@ -79,13 +79,13 @@ public class View implements IView{
 	
 	
 	/**
-	 * L�nyege hogy felugrik az ablak vagy valami megk�rdi hogy akar-e aut�,lak�s biztos�t�st k�tni
+	 * Lényege hogy felugrik az ablak vagy valami megkérdi hogy akar-e autó,lakás biztosítást kötni
 	 * 
-	 * visszat�r�s: 
-	 * 0- nem akar k�tni
-	 * 1- aut� biztos�t�s
-	 * 2- h�z biztos�t�s
-	 * 3- mind kett�
+	 * visszatérés: 
+	 * 0- nem akar kötni
+	 * 1- autó biztosítás
+	 * 2- ház biztosítás
+	 * 3- mind kettö
 	 * 
 	 * **/
 	public int getInsurances(){
@@ -95,10 +95,10 @@ public class View implements IView{
 	
 	
 	/**
-	 * L�nyege hogy felugrik egy ablak megk�rdi vesze olyan berendez�st
+	 * Lényege hogy felugrik egy ablak megkérdi vesze olyan berendezést
 	 * amelyet a string tartalmaz
 	 * 
-	 * visszat�r�s:
+	 * visszatérés:
 	 * 0 nem
 	 * 1 igen
 	 * 
@@ -108,8 +108,8 @@ public class View implements IView{
 	}
 
 	/**
-	 * Felugr� ablak sima �zenettel amit leok�zhat
-	 * l�nyeg hogy l�tja amit k�z�lni akar a szerver. (message param�terbe j�n)
+	 * Felugró ablak sima üzenettel amit leokézhat
+	 * lényeg hogy látja amit közölni akar a szerver. (message paraméterbe jön)
 	 * 
 	 * 
 	 * **/
@@ -122,8 +122,5 @@ public class View implements IView{
         }
 	
 	
-	/* tov�bbi met�dusok lesznek
-	 * biztos kell m�g egy friss�t� met�dus
-	 * */
 	
 }
