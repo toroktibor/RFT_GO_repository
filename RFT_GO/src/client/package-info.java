@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author Joc
+ * @author olvjoz
  *
  */
 package client;
