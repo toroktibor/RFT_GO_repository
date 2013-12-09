@@ -171,7 +171,7 @@ public class Controller implements IController{
 	
 	
 	public void makeInsurances(){
-		int statement=myView.getInsurances();
+		int statement=myView.getInsurances("xyz");
 		
 		try {
 			if (statement==1){
