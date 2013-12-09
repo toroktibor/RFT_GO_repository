@@ -17,7 +17,8 @@ import client.view.View;
  * @author Ölveti József
  */
 public class Controller implements IController{
-	private String myName="";
+	private static String myName="";
+	private static int myID=0;
 	private View myView=new View();
 	private static List<StateOfPlayer> gameState=new ArrayList<StateOfPlayer>();
 	private List<String> logInf=null;
@@ -60,6 +61,11 @@ public class Controller implements IController{
 	}
 
 
+	public int getMyID() {
+		return myID;
+	}
+	
+
 	public Controller(){
 		myView.showView();
 		login();
@@ -80,6 +86,8 @@ public class Controller implements IController{
             	openStreams();
                 System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
                 sendMessage(myName);
+                String[] id=readStringFromStream().split("#");
+                myID=Integer.parseInt(id[1]);
                 getInitialMessage();
             }
         } catch (IOException e) {
