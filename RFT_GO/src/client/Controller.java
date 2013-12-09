@@ -262,15 +262,5 @@ public class Controller{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-
-	public void giveUpAndExit(){
-		// TODO Auto-generated catch block
-	}
-		
-	
-	public static void main(String[] args) {
-		new Controller();
-	}
+	}		
 }
