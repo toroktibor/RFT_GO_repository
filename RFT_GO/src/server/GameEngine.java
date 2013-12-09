@@ -66,24 +66,24 @@ public class GameEngine implements ICashier, IGamePlay {
 		addMoney((int)result);
 		return;
 	}	
-	/** Ez a met�dus ellen�rzi, hogy rendelkez�sre �ll-e az aktu�lis j�t�kos egyenleg�n a megfelel� �sszeg.
+	/** Ez a metódus ellenőrzi, hogy rendelkezésre áll-e az aktuális játékos egyenlegén a megfelelő összeg.
 	 * 
-	 * @param amount a k�v�nt p�nz�sszeg
-	 * @return igaz, ha rendelkez�sre �ll, �s hamis, ha nem.
+	 * @param amount a kívánt pénzösszeg
+	 * @return igaz, ha rendelkezésre áll, és hamis, ha nem.
 	 */
 	public Boolean checkBalance(int amount) {
 		if(actualPlayer.getBalance() >= amount) {
-			System.out.println("###Egyenleg ellen�rizve - IGEN, v�grehajthat� a tranzakci�###");
+			System.out.println("###Egyenleg ellenőrizve - IGEN, végrehajtható a tranzakció###");
 			return true;
 		}
 		else {
-			System.out.println("###Egyenleg ellen�rizve - NEM v�grehajthat� a tranzakci�###");
+			System.out.println("###Egyenleg ellenőrizve - NEM végrehajtható a tranzakció###");
 			return false;
 		}		
 	}
-	/** Ez a met�dus az aktu�lis j�t�kos egyenleg�r�l levonja a megfelel� �sszeget.
+	/** Ez a metódus az aktuális játékos egyenlegéről levonja a megfelelő összeget.
 		 * 
-		 * @param amount a levonand� p�nz�sszeg
+		 * @param amount a levonandó pénzösszeg
 		 * @return
 		 */
 	public Boolean deductMoney(int amount) {
