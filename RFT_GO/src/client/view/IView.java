@@ -2,8 +2,6 @@ package client.view;
 
 import java.util.List;
 
-import client.StateOfPlayer;
-
 public interface IView {
 	/***
 	 * Bekér a felhasználótól valahol 3 stringet név, host, port 
@@ -14,7 +12,7 @@ public interface IView {
 	
 	/**
 	 * lényege hogy megkérdezi a játékost hogy meg akarja e vásárolni
-	 * a paraméterként kapott dolgot (vagy autó lesz vagy ház, egy szöveg lesz)
+	 * a paraméterként kapott dolgot (egy kiírandó szöveg lesz)
 	 * hitelre, kp-ra vagy nem akarja megvenni
 	 * 
 	 * 
@@ -27,7 +25,7 @@ public interface IView {
 	public int getBuyingInfos(String p);
 	
 	/**
-	 * Lényege hogy megkérdi hogy akar-e autó,lakás biztosítást kötni
+	 * Lényege hogy megkérdi hogy akar-e autó,lakás biztosítást kötni, paraméterbe jön a szöveg
 	 * 
 	 * visszatérés: 
 	 * 0- nem akar kötni

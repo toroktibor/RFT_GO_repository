@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.view.IView;
 import client.view.View;
 
 public class Controller{
@@ -51,7 +50,7 @@ public class Controller{
 	}
 
 
-	public List<StateOfPlayer> getGameState() {
+	public static List<StateOfPlayer> getGameState() {
 		return gameState;
 	}
 
