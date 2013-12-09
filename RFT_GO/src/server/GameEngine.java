@@ -50,14 +50,14 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 	
 	//IMPLEMENTATION OF THE METHODS OF ICASHIER INTERFACE
-	/** Ez a metódus az aktuális játékos egyenlegén jóváírja a megfelelõ összeget.
+	/** Ez a metÃ³dus az aktuÃ¡lis jÃ¡tÃ©kos egyenlegÃ©n jÃ³vÃ¡Ã­rja a megfelelÅ‘ Ã¶sszeget.
 	 * 
-	 * @param amount az átulanandó pénzösszeg
+	 * @param amount az Ã¡tutlanandÃ³ pÃ©nzÃ¶sszeg
 	 */
 	public void addMoney(int amount) {
 		int originalBalance = actualPlayer.getBalance();
 		actualPlayer.setBalance(originalBalance+amount);
-		System.out.println("###Sikeres pénzhozzáadási tranzakció###");
+		System.out.println("###Sikeres pÃ©nzhozzÃ¡adÃ¡si tranzakciÃ³###");
 		return;
 	}
 	public void addPercentage(int percentage) {
@@ -66,52 +66,52 @@ public class GameEngine implements ICashier, IGamePlay {
 		addMoney((int)result);
 		return;
 	}	
-	/** Ez a metódus ellenõrzi, hogy rendelkezésre áll-e az aktuális játékos egyenlegén a megfelelõ összeg.
+	/** Ez a metï¿½dus ellenï¿½rzi, hogy rendelkezï¿½sre ï¿½ll-e az aktuï¿½lis jï¿½tï¿½kos egyenlegï¿½n a megfelelï¿½ ï¿½sszeg.
 	 * 
-	 * @param amount a kívánt pénzösszeg
-	 * @return igaz, ha rendelkezésre áll, és hamis, ha nem.
+	 * @param amount a kï¿½vï¿½nt pï¿½nzï¿½sszeg
+	 * @return igaz, ha rendelkezï¿½sre ï¿½ll, ï¿½s hamis, ha nem.
 	 */
 	public Boolean checkBalance(int amount) {
 		if(actualPlayer.getBalance() >= amount) {
-			System.out.println("###Egyenleg ellenõrizve - IGEN, végrehajtható a tranzakció###");
+			System.out.println("###Egyenleg ellenï¿½rizve - IGEN, vï¿½grehajthatï¿½ a tranzakciï¿½###");
 			return true;
 		}
 		else {
-			System.out.println("###Egyenleg ellenõrizve - NEM végrehajtható a tranzakció###");
+			System.out.println("###Egyenleg ellenï¿½rizve - NEM vï¿½grehajthatï¿½ a tranzakciï¿½###");
 			return false;
 		}		
 	}
-	/** Ez a metódus az aktuális játékos egyenlegérõl levonja a megfelelõ összeget.
+	/** Ez a metï¿½dus az aktuï¿½lis jï¿½tï¿½kos egyenlegï¿½rï¿½l levonja a megfelelï¿½ ï¿½sszeget.
 		 * 
-		 * @param amount a levonandó pénzösszeg
+		 * @param amount a levonandï¿½ pï¿½nzï¿½sszeg
 		 * @return
 		 */
 	public Boolean deductMoney(int amount) {
 		int originalBalance = actualPlayer.getBalance();
-		System.out.println("###Egyenleg levonás elõtt: " + originalBalance + " Euro ###");
+		System.out.println("###Egyenleg levonï¿½s elï¿½tt: " + originalBalance + " Euro ###");
 		if(checkBalance(amount) == true) {
 			actualPlayer.setBalance(originalBalance-amount);
-			System.out.println("###Sikeres pénzlevonási tranzakció###");
-			System.out.println("###Egyenleg levonás után: " + actualPlayer.getBalance() + " Euro ###");
+			System.out.println("###Sikeres pï¿½nzlevonï¿½si tranzakciï¿½###");
+			System.out.println("###Egyenleg levonï¿½s utï¿½n: " + actualPlayer.getBalance() + " Euro ###");
 			return true;
 		}
 		else {
-			System.out.println("###Sikertelen pénzlevonási tranzakció - nem elegendõ az egyenleg###");
+			System.out.println("###Sikertelen pï¿½nzlevonï¿½si tranzakciï¿½ - nem elegendï¿½ az egyenleg###");
 			
 			return false;
 		}
 	}
-	/** Ez a metódus minden kör végén hívódik meg, és ha van az aktuális játékosnak háza, illetve autója
-	 * akkor levonja az esetleges hátralévõ tartozásból a körönként kötelezõen törlesztendõ 500 eurót.
-	 * Ha nem tudja levonni, a játékos kiesett, az isActiva változó értékét ennek megfelelõen átállítja, 
-	 * és hamis értékkel tér vissza, ha pedig sikerülnek a tranzakciók, akkor igaz visszatérési értékkel.
+	/** Ez a metï¿½dus minden kï¿½r vï¿½gï¿½n hï¿½vï¿½dik meg, ï¿½s ha van az aktuï¿½lis jï¿½tï¿½kosnak hï¿½za, illetve autï¿½ja
+	 * akkor levonja az esetleges hï¿½tralï¿½vï¿½ tartozï¿½sbï¿½l a kï¿½rï¿½nkï¿½nt kï¿½telezï¿½en tï¿½rlesztendï¿½ 500 eurï¿½t.
+	 * Ha nem tudja levonni, a jï¿½tï¿½kos kiesett, az isActiva vï¿½ltozï¿½ ï¿½rtï¿½kï¿½t ennek megfelelï¿½en ï¿½tï¿½llï¿½tja, 
+	 * ï¿½s hamis ï¿½rtï¿½kkel tï¿½r vissza, ha pedig sikerï¿½lnek a tranzakciï¿½k, akkor igaz visszatï¿½rï¿½si ï¿½rtï¿½kkel.
 	 */
 	public Boolean handleDebits() {
 		if(actualPlayer.getHouse() != null) {
 			int houseDebit = actualPlayer.getHouse().getDebit();
 			if(houseDebit != 0) {
 				if(checkBalance(500) == false) {
-					System.out.println("Vesztettél, mert nem tudsz törleszteni.");
+					System.out.println("Vesztettï¿½l, mert nem tudsz tï¿½rleszteni.");
 					actualPlayer.setIsActive(false);
 					return false;
 				}
@@ -124,7 +124,7 @@ public class GameEngine implements ICashier, IGamePlay {
 			int carDebit = actualPlayer.getCar().getDebit();
 			if(carDebit != 0) {
 				if(checkBalance(500) == false) {
-					System.out.println("Vesztettél, mert nem tudsz törleszteni.");
+					System.out.println("Vesztettï¿½l, mert nem tudsz tï¿½rleszteni.");
 					actualPlayer.setIsActive(false);
 					return false;
 				}
@@ -138,12 +138,12 @@ public class GameEngine implements ICashier, IGamePlay {
 	
 	
 	//IMPLEMENTATION OF THE METHODS OF IGAMEPLAY INTERFACE
-	/** Ez a metódus a @param allMethosdNameList metódus listában keresi
-	 * a @param goalMethodsName nevû metódust, és visszaadja az indexét, ha megtalálta.
+	/** Ez a metï¿½dus a @param allMethosdNameList metï¿½dus listï¿½ban keresi
+	 * a @param goalMethodsName nevï¿½ metï¿½dust, ï¿½s visszaadja az indexï¿½t, ha megtalï¿½lta.
 	 * 
-	 * @param allMethodsNameList a lista, amiben keressük a metódust
-	 * @param goalMethodsName a keresendõ metódus neve
-	 * @return a keresett metódus indexe a listában.
+	 * @param allMethodsNameList a lista, amiben keressï¿½k a metï¿½dust
+	 * @param goalMethodsName a keresendï¿½ metï¿½dus neve
+	 * @return a keresett metï¿½dus indexe a listï¿½ban.
 	 */
 	private int giveIndexOfSearchedMethod(Method[] allMethodsNameList, String goalMethodsName ) {
 		int indexOfSearchedMethod = -1;
@@ -157,100 +157,100 @@ public class GameEngine implements ICashier, IGamePlay {
 	public void initFields() {
 			board=p.parseField("Fields.xml");
 		/*
-			board.add( new Field( 0, "START mezõ! Új kör kezdetekor, ha erre a mezõre lépsz, kapsz 4000 eurót, ha áthaladsz rajta, " +
-										"akkor 2000 eurót.", 
+			board.add( new Field( 0, "START mezï¿½! ï¿½j kï¿½r kezdetekor, ha erre a mezï¿½re lï¿½psz, kapsz 4000 eurï¿½t, ha ï¿½thaladsz rajta, " +
+										"akkor 2000 eurï¿½t.", 
 										"1#addMoney#4000"));
-			board.add( new Field( 1, "Lakásodat széppé varázsolhatod, ha a Diego boltban vásárolt szõnyeggel díszíted. " +
-										"A vásárlásért fizess 200 eurót.", 
+			board.add( new Field( 1, "Lakï¿½sodat szï¿½ppï¿½ varï¿½zsolhatod, ha a Diego boltban vï¿½sï¿½rolt szï¿½nyeggel dï¿½szï¿½ted. " +
+										"A vï¿½sï¿½rlï¿½sï¿½rt fizess 200 eurï¿½t.", 
 										"1#deductMoney#200"));
-			board.add( new Field( 2, "Vásárolj BKV éves bérletet 200 euróért!", 
+			board.add( new Field( 2, "Vï¿½sï¿½rolj BKV ï¿½ves bï¿½rletet 200 eurï¿½ï¿½rt!", 
 										"1#deductMoney#200"));
-			board.add( new Field( 3, "Húzz egy SZERENCSEKERÉK kártyát, és kövesd annak utasításait !", 
+			board.add( new Field( 3, "Hï¿½zz egy SZERENCSEKERï¿½K kï¿½rtyï¿½t, ï¿½s kï¿½vesd annak utasï¿½tï¿½sait !", 
 										"1#drawNextLuckyCard"));
-			board.add( new Field( 4, "Tölts el egy kellemes estét a Zila Kávéház- és Étteremben! Fizess 40 eurót!", 
+			board.add( new Field( 4, "Tï¿½lts el egy kellemes estï¿½t a Zila Kï¿½vï¿½hï¿½z- ï¿½s ï¿½tteremben! Fizess 40 eurï¿½t!", 
 										"1#deductMoney#40"));
-			board.add( new Field( 5, "Ha nem szeretsz gyalog járni, vagy ha ügyeid intézéséhez autóra van szükséged, most választhatsz egy " +
-									"Citroene C4-es autót. Kp. vásárlás esetén: 10.000 euró, részletre történõ vásárlás " +
-									"esetén kezdõ befizetés: 2.000 euró, minimális törlesztés körönként: 500 euró, végösszeg 12.000 euró", 
+			board.add( new Field( 5, "Ha nem szeretsz gyalog jï¿½rni, vagy ha ï¿½gyeid intï¿½zï¿½sï¿½hez autï¿½ra van szï¿½ksï¿½ged, most vï¿½laszthatsz egy " +
+									"Citroene C4-es autï¿½t. Kp. vï¿½sï¿½rlï¿½s esetï¿½n: 10.000 eurï¿½, rï¿½szletre tï¿½rtï¿½nï¿½ vï¿½sï¿½rlï¿½s " +
+									"esetï¿½n kezdï¿½ befizetï¿½s: 2.000 eurï¿½, minimï¿½lis tï¿½rlesztï¿½s kï¿½rï¿½nkï¿½nt: 500 eurï¿½, vï¿½gï¿½sszeg 12.000 eurï¿½", 
 										"1#offerBuyCar"));
-			board.add( new Field( 6, "Ügyesen vásároltál a Regió Játékkereskedésben! Jutalmad 50 euró!", 
+			board.add( new Field( 6, "ï¿½gyesen vï¿½sï¿½roltï¿½l a Regiï¿½ Jï¿½tï¿½kkereskedï¿½sben! Jutalmad 50 eurï¿½!", 
 										"1#addMoney#50"));
-			board.add( new Field( 7, "Ételeid megromlását elkerülheted, ha hûtõben tárolod õket! Vásárolj hûtõgépet 200 euróért!", 
+			board.add( new Field( 7, "ï¿½teleid megromlï¿½sï¿½t elkerï¿½lheted, ha hï¿½tï¿½ben tï¿½rolod ï¿½ket! Vï¿½sï¿½rolj hï¿½tï¿½gï¿½pet 200 eurï¿½ï¿½rt!", 
 										"1#offerBuyFurniture#FRIGO"));
-			board.add( new Field( 8, "A családi ebédek elkészítéséhez vásárolj modern tûzhelyet 200 eurtóért!", 
+			board.add( new Field( 8, "A csalï¿½di ebï¿½dek elkï¿½szï¿½tï¿½sï¿½hez vï¿½sï¿½rolj modern tï¿½zhelyet 200 eurtï¿½ï¿½rt!", 
 										"1#offerBuyFurniture#COOKER"));
-			board.add( new Field( 9, "Megkötheted autó biztosításodat és lakásbiztosításodat 100-100 euróért az Allianz Hungária Biztosítónál!", 
+			board.add( new Field( 9, "Megkï¿½theted autï¿½ biztosï¿½tï¿½sodat ï¿½s lakï¿½sbiztosï¿½tï¿½sodat 100-100 eurï¿½ï¿½rt az Allianz Hungï¿½ria Biztosï¿½tï¿½nï¿½l!", 
 										"1#offerMakeInsurances"));
-			board.add( new Field( 10, "Húzz egy SZERENCSEKERÉK kártyát, és kövesd annak utasításait !", 
+			board.add( new Field( 10, "Hï¿½zz egy SZERENCSEKERï¿½K kï¿½rtyï¿½t, ï¿½s kï¿½vesd annak utasï¿½tï¿½sait !", 
 										"1#drawNextLuckyCard"));
-			board.add( new Field( 11, "Ha van pénzed és lakásod, vásárolj szép konyhabútort 1.000 euróért!", 
+			board.add( new Field( 11, "Ha van pï¿½nzed ï¿½s lakï¿½sod, vï¿½sï¿½rolj szï¿½p konyhabï¿½tort 1.000 eurï¿½ï¿½rt!", 
 										"1#offerBuyFurniture#KITCHENFURNITURE"));
-			board.add( new Field( 12, "Meglátogattad fõvárosunk kedvenc állatait az Állat- és Növénykertben.", 
+			board.add( new Field( 12, "Meglï¿½togattad fï¿½vï¿½rosunk kedvenc ï¿½llatait az ï¿½llat- ï¿½s Nï¿½vï¿½nykertben.", 
 										"1#addMoney#200"));
-			board.add( new Field( 13, "Betegséged idejére kórházba kerülsz, és csak akkor léphetsz tovább, ha l-est, vagy 6-ost dobsz. " +
-										"A 3. sikertelen dobás után bármilyen dobással kiléphetsz.", 
+			board.add( new Field( 13, "Betegsï¿½ged idejï¿½re kï¿½rhï¿½zba kerï¿½lsz, ï¿½s csak akkor lï¿½phetsz tovï¿½bb, ha l-est, vagy 6-ost dobsz. " +
+										"A 3. sikertelen dobï¿½s utï¿½n bï¿½rmilyen dobï¿½ssal kilï¿½phetsz.", 
 										"1#set_1_6Penalty#3"));
-			board.add( new Field( 14, "Tönkrement a cipõd, vásárolnod kell egy újat a cipõboltból. Fizess 80 eurót.", 
+			board.add( new Field( 14, "Tï¿½nkrement a cipï¿½d, vï¿½sï¿½rolnod kell egy ï¿½jat a cipï¿½boltbï¿½l. Fizess 80 eurï¿½t.", 
 										"1#deductMoney#80"));
-			board.add( new Field( 15, "Gondoltál a környezetvédelemre, és a közösségi közlekedést választottad utazásodhoz. " +
-										"Ezért jutalmul még kétszer dobhatsz.", 
+			board.add( new Field( 15, "Gondoltï¿½l a kï¿½rnyezetvï¿½delemre, ï¿½s a kï¿½zï¿½ssï¿½gi kï¿½zlekedï¿½st vï¿½lasztottad utazï¿½sodhoz. " +
+										"Ezï¿½rt jutalmul mï¿½g kï¿½tszer dobhatsz.", 
 										"1#setGiftDices#2"));
-			board.add( new Field( 16, "Húzz egy SZERENCSEKERÉK kártyát, és kövesd annak utasításait !", 
+			board.add( new Field( 16, "Hï¿½zz egy SZERENCSEKERï¿½K kï¿½rtyï¿½t, ï¿½s kï¿½vesd annak utasï¿½tï¿½sait !", 
 										"1#drawNextLuckyCard"));
-			board.add( new Field( 17, "A film tanít, szórakoztat. Nézd meg a legújabb sikerfilmet barátaiddal a " +
-										"Corvin filmpalotában, és fizess 20 eurót.", 
+			board.add( new Field( 17, "A film tanï¿½t, szï¿½rakoztat. Nï¿½zd meg a legï¿½jabb sikerfilmet barï¿½taiddal a " +
+										"Corvin filmpalotï¿½ban, ï¿½s fizess 20 eurï¿½t.", 
 										"1#deductMoney#20"));
-			board.add( new Field( 18, "Minden könyvújdonságot megtalálsz, és kedvedre böngészhetsz az Alexandra Könyváruházban! " +
-										"A vásárolt könyvekért fizess 60 eurót.", 
+			board.add( new Field( 18, "Minden kï¿½nyvï¿½jdonsï¿½got megtalï¿½lsz, ï¿½s kedvedre bï¿½ngï¿½szhetsz az Alexandra Kï¿½nyvï¿½ruhï¿½zban! " +
+										"A vï¿½sï¿½rolt kï¿½nyvekï¿½rt fizess 60 eurï¿½t.", 
 										"1#deductMoney#60"));
-			board.add( new Field( 19, "Takarékoskodj, mert így szép lakáshoz juthatsz. Ha már van pénzed, fizess be 30.000 eurót " +
-										"a pénztárba és megkapod lakásod. Amennyiben részletfizetésre van csak lehetõséged, " +
-										"fizess 15.000 eurót az OTP Bank pénztárába, a fennmaradó 20.000 eurót " +
-										"pedig 500 eurós részletekben törlesztheted!", 
+			board.add( new Field( 19, "Takarï¿½koskodj, mert ï¿½gy szï¿½p lakï¿½shoz juthatsz. Ha mï¿½r van pï¿½nzed, fizess be 30.000 eurï¿½t " +
+										"a pï¿½nztï¿½rba ï¿½s megkapod lakï¿½sod. Amennyiben rï¿½szletfizetï¿½sre van csak lehetï¿½sï¿½ged, " +
+										"fizess 15.000 eurï¿½t az OTP Bank pï¿½nztï¿½rï¿½ba, a fennmaradï¿½ 20.000 eurï¿½t " +
+										"pedig 500 eurï¿½s rï¿½szletekben tï¿½rlesztheted!", 
 										"1#offerBuyHouse"));
-			board.add( new Field( 20, "Mobiltelefont vettél, és beléptél a GSM hálózatba. Fizess 100 eurót.", 
+			board.add( new Field( 20, "Mobiltelefont vettï¿½l, ï¿½s belï¿½ptï¿½l a GSM hï¿½lï¿½zatba. Fizess 100 eurï¿½t.", 
 										"1#deductMoney#100"));
-			board.add( new Field( 21, "Pihenés? Feltöltõdés? Kikapcsolódás? Választ a Klub Tihanyt! Fizess 280 eurót! Még egyszer dobhatsz!", 
+			board.add( new Field( 21, "Pihenï¿½s? Feltï¿½ltï¿½dï¿½s? Kikapcsolï¿½dï¿½s? Vï¿½laszt a Klub Tihanyt! Fizess 280 eurï¿½t! Mï¿½g egyszer dobhatsz!", 
 										"2#deductMoney#280#setGiftDices#1"));
-			board.add( new Field( 22, "Megtekintetted a Nemzeti Galéria gyönyörû kiállítását.", "0"));
-			board.add( new Field( 23, "Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait!", 
+			board.add( new Field( 22, "Megtekintetted a Nemzeti Galï¿½ria gyï¿½nyï¿½rï¿½ kiï¿½llï¿½tï¿½sï¿½t.", "0"));
+			board.add( new Field( 23, "Hï¿½zz egyet a SZERENCSEKERï¿½K kï¿½rtyï¿½bï¿½l, ï¿½s kï¿½vesd annak utasï¿½tï¿½sait!", 
 										"1#drawNextLuckyCard"));
-			board.add( new Field( 24, "Visegrádi hajókiránduláson veszel részt barátaiddal, amelyért 40 eurót kell fizetned.", 
+			board.add( new Field( 24, "Visegrï¿½di hajï¿½kirï¿½ndulï¿½son veszel rï¿½szt barï¿½taiddal, amelyï¿½rt 40 eurï¿½t kell fizetned.", 
 										"1#deductMoney#40	"));
-			board.add( new Field( 25, "Ma a Kakas Étteremben vacsorázol családoddal, fizess 40 eurót.", 
+			board.add( new Field( 25, "Ma a Kakas ï¿½tteremben vacsorï¿½zol csalï¿½doddal, fizess 40 eurï¿½t.", 
 										"1#deductMoney#40"));
-			board.add( new Field( 26, "Kellemes séta közben tekintsd meg a Margitsziget nevezetességeit !", "0"));
-			board.add( new Field( 27, "Vásárolj mosógépet a Whirpool Márkakereskedésben, fizess 300 eurót!", 
+			board.add( new Field( 26, "Kellemes sï¿½ta kï¿½zben tekintsd meg a Margitsziget nevezetessï¿½geit !", "0"));
+			board.add( new Field( 27, "Vï¿½sï¿½rolj mosï¿½gï¿½pet a Whirpool Mï¿½rkakereskedï¿½sben, fizess 300 eurï¿½t!", 
 										"1#offerBuyFurniture#WASHMACHINE	"));
-			board.add( new Field( 28, "Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait !", 
+			board.add( new Field( 28, "Hï¿½zz egyet a SZERENCSEKERï¿½K kï¿½rtyï¿½bï¿½l, ï¿½s kï¿½vesd annak utasï¿½tï¿½sait !", 
 										"1#drawNextLuckyCard"));
-			board.add( new Field( 29, "Sétálj a Halászbástyán. Innen gyönyörû kilátás nyílik Budapestre.", "0"));
-			board.add( new Field( 30, "A Vista Utazási irodákban elintézhetsz az utazásoddal kapcsolatban mindent kényelmesen és gyorsan! " +
-										"Fizess 300 eurót!", 
+			board.add( new Field( 29, "Sï¿½tï¿½lj a Halï¿½szbï¿½styï¿½n. Innen gyï¿½nyï¿½rï¿½ kilï¿½tï¿½s nyï¿½lik Budapestre.", "0"));
+			board.add( new Field( 30, "A Vista Utazï¿½si irodï¿½kban elintï¿½zhetsz az utazï¿½soddal kapcsolatban mindent kï¿½nyelmesen ï¿½s gyorsan! " +
+										"Fizess 300 eurï¿½t!", 
 										"1#deductMoney#300"));
-			board.add( new Field( 31, "Beléptél a PICK Márkaáruházba. 20 eurót fizetsz.", 
+			board.add( new Field( 31, "Belï¿½ptï¿½l a PICK Mï¿½rkaï¿½ruhï¿½zba. 20 eurï¿½t fizetsz.", 
 										"1#deductMoney#20"));
-			board.add( new Field( 32, "Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait!", 
+			board.add( new Field( 32, "Hï¿½zz egyet a SZERENCSEKERï¿½K kï¿½rtyï¿½bï¿½l, ï¿½s kï¿½vesd annak utasï¿½tï¿½sait!", 
 										"1#drawNextLuckyCard"));
-			board.add( new Field( 33, "Ha van pénzed, vásárolj Electrolux mosogatógépet, melynek ára 300 euró!", 
+			board.add( new Field( 33, "Ha van pï¿½nzed, vï¿½sï¿½rolj Electrolux mosogatï¿½gï¿½pet, melynek ï¿½ra 300 eurï¿½!", 
 										"1#offerBuyFurniture#DISHWASHER"));
-			board.add( new Field( 34, "A SkyEurope olcsó és gyors utazást biztosít Európa nagyvárosaiba, mindezt csak 300 euróért!", 
+			board.add( new Field( 34, "A SkyEurope olcsï¿½ ï¿½s gyors utazï¿½st biztosï¿½t Eurï¿½pa nagyvï¿½rosaiba, mindezt csak 300 eurï¿½ï¿½rt!", 
 										"1#deductMoney#300"));
-			board.add( new Field( 35, "Vásároltál a regiojatek.hu webáruházban, ezért fizess 20 eurót!", 		
+			board.add( new Field( 35, "Vï¿½sï¿½roltï¿½l a regiojatek.hu webï¿½ruhï¿½zban, ezï¿½rt fizess 20 eurï¿½t!", 		
 										"1#deductMoney#20"));
-			board.add( new Field( 36, "Ma a barátaiddal a Mammut Mozi elõadását nézted meg, fizess 20 eurót.",
+			board.add( new Field( 36, "Ma a barï¿½taiddal a Mammut Mozi elï¿½adï¿½sï¿½t nï¿½zted meg, fizess 20 eurï¿½t.",
 										"1#deductMoney#20"));
-			board.add( new Field( 37, "Húzz egyet a SZERENCSEKERÉK kártyából, és kövesd annak utasításait!", 
+			board.add( new Field( 37, "Hï¿½zz egyet a SZERENCSEKERï¿½K kï¿½rtyï¿½bï¿½l, ï¿½s kï¿½vesd annak utasï¿½tï¿½sait!", 
 										"1#drawNextLuckyCard"));
-			board.add( new Field( 38, "Ha már van lakásod, most vásárolhatsz bele szobabútort, mindössze 3.000 euróért!", 
+			board.add( new Field( 38, "Ha mï¿½r van lakï¿½sod, most vï¿½sï¿½rolhatsz bele szobabï¿½tort, mindï¿½ssze 3.000 eurï¿½ï¿½rt!", 
 										"1#offerBuyFurniture#ROOMFURNITURE"));
-			board.add( new Field( 39, "Takarékoskodj, mert így szép lakáshoz juthatsz. Ha már van pénzed, fizess be 30.000 eurót a pénztárba és megkapod lakásod. " +
-					"					Amennyiben részletfizetésre van csak lehetõséged, fizess 15.000 eurót az OTP Bank pénztárába, a fennmaradó 20.000 eurót " +
-					"					pedig 500 eurós részletekben törlesztheted!", 
+			board.add( new Field( 39, "Takarï¿½koskodj, mert ï¿½gy szï¿½p lakï¿½shoz juthatsz. Ha mï¿½r van pï¿½nzed, fizess be 30.000 eurï¿½t a pï¿½nztï¿½rba ï¿½s megkapod lakï¿½sod. " +
+					"					Amennyiben rï¿½szletfizetï¿½sre van csak lehetï¿½sï¿½ged, fizess 15.000 eurï¿½t az OTP Bank pï¿½nztï¿½rï¿½ba, a fennmaradï¿½ 20.000 eurï¿½t " +
+					"					pedig 500 eurï¿½s rï¿½szletekben tï¿½rlesztheted!", 
 										"1#offerBuyHouse"));
-			board.add( new Field( 40, "Az Invitelnél kifizetted a havi telefon- és internetszámládat, melynek összege 20 euró.", 
+			board.add( new Field( 40, "Az Invitelnï¿½l kifizetted a havi telefon- ï¿½s internetszï¿½mlï¿½dat, melynek ï¿½sszege 20 eurï¿½.", 
 										"1#deductMoney#20"));
-			board.add( new Field( 41, "Beléptél az IKEA áruházba! Konyhafelszerelésért fizess 100 eurót!", 
+			board.add( new Field( 41, "Belï¿½ptï¿½l az IKEA ï¿½ruhï¿½zba! Konyhafelszerelï¿½sï¿½rt fizess 100 eurï¿½t!", 
 										"1#deductMoney#100"));
 										
 										*/
@@ -258,49 +258,49 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	public void initLuckyCards() {
 		deck=p.parseLuckyCards("LuckyCards.xml");
-		/*deck.add(new LuckyCard( 1 ,"Fizesd ki gáz- és villanyszámládat a folyószámlán keresztül, melynek összege 40 euró!","1#deductMoney#40" ));						
-		deck.add(new LuckyCard( 2 ,"A Budapesti Nemzetközi Vásár sorsjátékán mosógépet nyertél!","1#wonWashMachine" ));						
-		deck.add(new LuckyCard( 3 ,"Újításért 2.500 eurót kapsz, melyet a pénztár fizet ki!","1#addMoney#2500" ));						
-		deck.add(new LuckyCard( 4 ,"Jó munkádért 1.000 euró jutalomban részesülsz, vedd fel a pénztárból!","1#addMoney#1000" ));						
-		deck.add(new LuckyCard( 5 ,"Hármas találatod volt a lottón, 800 eurót kapsz a pénztártól!","1#addMoney#800" ));						
-		deck.add(new LuckyCard( 6 ,"A lottó 10. játékhetén 10.000 eurót nyertél, amelyet a pénztár fizet ki!"," 1#addMoney#10000" ));						
-		deck.add(new LuckyCard( 7 ,"A lottó nyereménysorsolásán mosogatógépet nyertél!","1#wonDishWasher" ));						
-		deck.add(new LuckyCard( 8 ,"A totón 12-es találattal 6.000 eurót nyertél, amelyet a pénztár fizet ki!","1#addMoney#6000" ));						
-		deck.add(new LuckyCard( 9 ,"A totón 10-es találattal 400 eurót nyertél, amelyet a pénztár fizet ki!","1#addMoney#400" ));						
-		deck.add(new LuckyCard( 10 ,"A totón 11-es találattal 2.000 eurót nyertél, amelyet a pénztár fizet ki!","1#addMoney#2000" ));						
-		deck.add(new LuckyCard( 11 ,"Sorsjátékon szobabútort nyertél! Ha nincs lakásod, 3.000 eurót fizet ki a pénztár!","1#wonRoomFurniture" ));						
-		deck.add(new LuckyCard( 12 ,"Takarékoskodj! A megtakarított pénzed után 7% azonnali kamatot kapsz!","1#addPercentage#7" ));						
-		deck.add(new LuckyCard( 13 ,"Jól takarékoskodtál, ezért az OTP Bank Nyrt. a folyószámládon elhelyezett pénzed után 15% kamatot fizet!","1#addPercentage#15" ));						
-		deck.add(new LuckyCard( 14 ,"Errõl a mezõrõl csak akkor léphetsz tovább, ha 1-est, vagy 6-ost dobsz!","1#set_1_6Penalty#3" ));						
-		deck.add(new LuckyCard( 15 ,"Lépj elõre 1 mezõt!","1#moveWithQuantity#1" ));						
-		deck.add(new LuckyCard( 16 ,"Lépj vissza 3 mezõt!","1#moveWithQuantity#-3" ));						
-		deck.add(new LuckyCard( 17 ,"Egyszer kimaradsz a dobásból!","1#setExclusions#1" ));						
-		deck.add(new LuckyCard( 18 ,"Kivetted éves szabadságod! Kétszer kimaradsz a dobásból!","1#setExclusions#2" ));						
-		deck.add(new LuckyCard( 19 ,"Menj a Start mezõre, így kapsz a pénztártól 4.000 eurót!"," 1#moveToField#0" ));						
-		deck.add(new LuckyCard( 20 ,"Lakásod díszítsd iráni és afgán kézi csomózású perzsa szõnyeggel! Lépj az 1-es mezõre!","1#moveToField#1" ));						
-		deck.add(new LuckyCard( 21 ,"Most vedd meg álmaid autóját! Lépj az 5-ös mezõre, és élvezd az új autódat!","1#moveToField#5" ));						
-		deck.add(new LuckyCard( 22 ,"Ellopták az autódat. Ha van autó biztosításod, a bank kifizeti a károdat. Ha még nincs, lépj a 9-es mezõre, a biztosítónál megkötheted!","2#loseCar#moveToField#9" ));						
-		deck.add(new LuckyCard( 23 ,"Kiégett a lakásod, így elvesztetted az összes berendezési tárgyadat! Ha van lakásbiztosításod, a biztosító megtéríti a károdat. Ha még nincs, lépj a 9-es mezõre, a biztosítónál megkötheted!","2#loseFurnitures#moveToField#9" ));						
-		deck.add(new LuckyCard( 24 ,"Lépj a 11-es mezõre, ahol konyhabútort vásárolhatsz, ha már van lakásod!","1#moveToField#11" ));						
-		deck.add(new LuckyCard( 25 ,"Térj be cipõt vásárolni a Deichmann valamelyik üzletébe! Kényelmes cipõben lépj a 14-es mezõre!","1#moveToField#14" ));						
-		deck.add(new LuckyCard( 26 ,"Látogass el az Alexandra Könyváruházakba. Egy szórólappal kapott 20 eurós kupont felhasználhatsz, amit a végösszegbõl levonnak. Lépj a 18-as mezõre.","2#addMoney#20#moveToField#18" ));						
-		deck.add(new LuckyCard( 27 ,"Pihenés? Feltöltõdés? Kikapcsolódás? Választ a Klub Tihanyt! Lépj a 21-es mezõre, és fizess 280 eurót! Még egyszer dobhatsz!","1#moveToField#21" ));						
-		deck.add(new LuckyCard( 28 ,"Ajándékba kaptál egy vouchert egy visegrádi hajókirándulásra. Belépéskor érvényesítve ingyen kirándulhatsz. Induláshoz lépj a 24-es mezõre!","2#addMoney#40#moveToField#24" ));						
-		deck.add(new LuckyCard( 29 ,"Ebédelj barátaiddal étteremben! Csendes, békés, mediterrán hangulatú helyen, ahová mindig szívesen fogsz visszatérni! Lépj a 25-ös mezõre!","2#addMoney#40#moveToField#25" ));						
-		deck.add(new LuckyCard( 30 ,"Menj ki a Margitszigetre autóbusszal, lépj a 26-os mezõre!","1#moveToField#26" ));						
-		deck.add(new LuckyCard( 31 ,"Vásárolj mosógépet a Hajdú Márkakereskedésben! Lépj a 27-es mezõre!","1#moveToField#27" ));						
-		deck.add(new LuckyCard( 32 ,"A Vista Utazási Irodák nyereménysorsolásán utazást nyertél! Kipihenten folytathatod utadat! Lépj a 30-as mezõre!","2#addMoney#300#moveToField#30" ));						
-		deck.add(new LuckyCard( 33 ,"Jól választottál! 20 euróért telepakoltad a kosaradat mindenféle PICK finomsággal! Lépj a 31-es mezõre!","1#moveToField#31" ));						
-		deck.add(new LuckyCard( 34 ,"Háztartásodat mosogatógéppel szerelheted fel, amely megkönnyíti hétköznapjaidat. Lépj a 33-as mezõre!","1#moveToField#33" ));						
-		deck.add(new LuckyCard( 35 ,"Jól választottál, a SkyEurope gyorsan és olcsón elrepít Európa nagyvárosaiba. Fizesd ki repülõjegyed árát, amely 300 euró, ezután lépj a 34-es mezõre!","1#moveToField#34" ));						
-		deck.add(new LuckyCard( 36 ,"Az Invitelnél 2in1 csomagra szerzõdtél, mely a telefon mellett az Internet hozzáférés díját is tartalmazza, így ez csak 20 euróba kerül! Fizetés után lépj a 40-es mezõre!","1#moveToField#40" ));
+		/*deck.add(new LuckyCard( 1 ,"Fizesd ki gï¿½z- ï¿½s villanyszï¿½mlï¿½dat a folyï¿½szï¿½mlï¿½n keresztï¿½l, melynek ï¿½sszege 40 eurï¿½!","1#deductMoney#40" ));						
+		deck.add(new LuckyCard( 2 ,"A Budapesti Nemzetkï¿½zi Vï¿½sï¿½r sorsjï¿½tï¿½kï¿½n mosï¿½gï¿½pet nyertï¿½l!","1#wonWashMachine" ));						
+		deck.add(new LuckyCard( 3 ,"ï¿½jï¿½tï¿½sï¿½rt 2.500 eurï¿½t kapsz, melyet a pï¿½nztï¿½r fizet ki!","1#addMoney#2500" ));						
+		deck.add(new LuckyCard( 4 ,"Jï¿½ munkï¿½dï¿½rt 1.000 eurï¿½ jutalomban rï¿½szesï¿½lsz, vedd fel a pï¿½nztï¿½rbï¿½l!","1#addMoney#1000" ));						
+		deck.add(new LuckyCard( 5 ,"Hï¿½rmas talï¿½latod volt a lottï¿½n, 800 eurï¿½t kapsz a pï¿½nztï¿½rtï¿½l!","1#addMoney#800" ));						
+		deck.add(new LuckyCard( 6 ,"A lottï¿½ 10. jï¿½tï¿½khetï¿½n 10.000 eurï¿½t nyertï¿½l, amelyet a pï¿½nztï¿½r fizet ki!"," 1#addMoney#10000" ));						
+		deck.add(new LuckyCard( 7 ,"A lottï¿½ nyeremï¿½nysorsolï¿½sï¿½n mosogatï¿½gï¿½pet nyertï¿½l!","1#wonDishWasher" ));						
+		deck.add(new LuckyCard( 8 ,"A totï¿½n 12-es talï¿½lattal 6.000 eurï¿½t nyertï¿½l, amelyet a pï¿½nztï¿½r fizet ki!","1#addMoney#6000" ));						
+		deck.add(new LuckyCard( 9 ,"A totï¿½n 10-es talï¿½lattal 400 eurï¿½t nyertï¿½l, amelyet a pï¿½nztï¿½r fizet ki!","1#addMoney#400" ));						
+		deck.add(new LuckyCard( 10 ,"A totï¿½n 11-es talï¿½lattal 2.000 eurï¿½t nyertï¿½l, amelyet a pï¿½nztï¿½r fizet ki!","1#addMoney#2000" ));						
+		deck.add(new LuckyCard( 11 ,"Sorsjï¿½tï¿½kon szobabï¿½tort nyertï¿½l! Ha nincs lakï¿½sod, 3.000 eurï¿½t fizet ki a pï¿½nztï¿½r!","1#wonRoomFurniture" ));						
+		deck.add(new LuckyCard( 12 ,"Takarï¿½koskodj! A megtakarï¿½tott pï¿½nzed utï¿½n 7% azonnali kamatot kapsz!","1#addPercentage#7" ));						
+		deck.add(new LuckyCard( 13 ,"Jï¿½l takarï¿½koskodtï¿½l, ezï¿½rt az OTP Bank Nyrt. a folyï¿½szï¿½mlï¿½don elhelyezett pï¿½nzed utï¿½n 15% kamatot fizet!","1#addPercentage#15" ));						
+		deck.add(new LuckyCard( 14 ,"Errï¿½l a mezï¿½rï¿½l csak akkor lï¿½phetsz tovï¿½bb, ha 1-est, vagy 6-ost dobsz!","1#set_1_6Penalty#3" ));						
+		deck.add(new LuckyCard( 15 ,"Lï¿½pj elï¿½re 1 mezï¿½t!","1#moveWithQuantity#1" ));						
+		deck.add(new LuckyCard( 16 ,"Lï¿½pj vissza 3 mezï¿½t!","1#moveWithQuantity#-3" ));						
+		deck.add(new LuckyCard( 17 ,"Egyszer kimaradsz a dobï¿½sbï¿½l!","1#setExclusions#1" ));						
+		deck.add(new LuckyCard( 18 ,"Kivetted ï¿½ves szabadsï¿½god! Kï¿½tszer kimaradsz a dobï¿½sbï¿½l!","1#setExclusions#2" ));						
+		deck.add(new LuckyCard( 19 ,"Menj a Start mezï¿½re, ï¿½gy kapsz a pï¿½nztï¿½rtï¿½l 4.000 eurï¿½t!"," 1#moveToField#0" ));						
+		deck.add(new LuckyCard( 20 ,"Lakï¿½sod dï¿½szï¿½tsd irï¿½ni ï¿½s afgï¿½n kï¿½zi csomï¿½zï¿½sï¿½ perzsa szï¿½nyeggel! Lï¿½pj az 1-es mezï¿½re!","1#moveToField#1" ));						
+		deck.add(new LuckyCard( 21 ,"Most vedd meg ï¿½lmaid autï¿½jï¿½t! Lï¿½pj az 5-ï¿½s mezï¿½re, ï¿½s ï¿½lvezd az ï¿½j autï¿½dat!","1#moveToField#5" ));						
+		deck.add(new LuckyCard( 22 ,"Elloptï¿½k az autï¿½dat. Ha van autï¿½ biztosï¿½tï¿½sod, a bank kifizeti a kï¿½rodat. Ha mï¿½g nincs, lï¿½pj a 9-es mezï¿½re, a biztosï¿½tï¿½nï¿½l megkï¿½theted!","2#loseCar#moveToField#9" ));						
+		deck.add(new LuckyCard( 23 ,"Kiï¿½gett a lakï¿½sod, ï¿½gy elvesztetted az ï¿½sszes berendezï¿½si tï¿½rgyadat! Ha van lakï¿½sbiztosï¿½tï¿½sod, a biztosï¿½tï¿½ megtï¿½rï¿½ti a kï¿½rodat. Ha mï¿½g nincs, lï¿½pj a 9-es mezï¿½re, a biztosï¿½tï¿½nï¿½l megkï¿½theted!","2#loseFurnitures#moveToField#9" ));						
+		deck.add(new LuckyCard( 24 ,"Lï¿½pj a 11-es mezï¿½re, ahol konyhabï¿½tort vï¿½sï¿½rolhatsz, ha mï¿½r van lakï¿½sod!","1#moveToField#11" ));						
+		deck.add(new LuckyCard( 25 ,"Tï¿½rj be cipï¿½t vï¿½sï¿½rolni a Deichmann valamelyik ï¿½zletï¿½be! Kï¿½nyelmes cipï¿½ben lï¿½pj a 14-es mezï¿½re!","1#moveToField#14" ));						
+		deck.add(new LuckyCard( 26 ,"Lï¿½togass el az Alexandra Kï¿½nyvï¿½ruhï¿½zakba. Egy szï¿½rï¿½lappal kapott 20 eurï¿½s kupont felhasznï¿½lhatsz, amit a vï¿½gï¿½sszegbï¿½l levonnak. Lï¿½pj a 18-as mezï¿½re.","2#addMoney#20#moveToField#18" ));						
+		deck.add(new LuckyCard( 27 ,"Pihenï¿½s? Feltï¿½ltï¿½dï¿½s? Kikapcsolï¿½dï¿½s? Vï¿½laszt a Klub Tihanyt! Lï¿½pj a 21-es mezï¿½re, ï¿½s fizess 280 eurï¿½t! Mï¿½g egyszer dobhatsz!","1#moveToField#21" ));						
+		deck.add(new LuckyCard( 28 ,"Ajï¿½ndï¿½kba kaptï¿½l egy vouchert egy visegrï¿½di hajï¿½kirï¿½ndulï¿½sra. Belï¿½pï¿½skor ï¿½rvï¿½nyesï¿½tve ingyen kirï¿½ndulhatsz. Indulï¿½shoz lï¿½pj a 24-es mezï¿½re!","2#addMoney#40#moveToField#24" ));						
+		deck.add(new LuckyCard( 29 ,"Ebï¿½delj barï¿½taiddal ï¿½tteremben! Csendes, bï¿½kï¿½s, mediterrï¿½n hangulatï¿½ helyen, ahovï¿½ mindig szï¿½vesen fogsz visszatï¿½rni! Lï¿½pj a 25-ï¿½s mezï¿½re!","2#addMoney#40#moveToField#25" ));						
+		deck.add(new LuckyCard( 30 ,"Menj ki a Margitszigetre autï¿½busszal, lï¿½pj a 26-os mezï¿½re!","1#moveToField#26" ));						
+		deck.add(new LuckyCard( 31 ,"Vï¿½sï¿½rolj mosï¿½gï¿½pet a Hajdï¿½ Mï¿½rkakereskedï¿½sben! Lï¿½pj a 27-es mezï¿½re!","1#moveToField#27" ));						
+		deck.add(new LuckyCard( 32 ,"A Vista Utazï¿½si Irodï¿½k nyeremï¿½nysorsolï¿½sï¿½n utazï¿½st nyertï¿½l! Kipihenten folytathatod utadat! Lï¿½pj a 30-as mezï¿½re!","2#addMoney#300#moveToField#30" ));						
+		deck.add(new LuckyCard( 33 ,"Jï¿½l vï¿½lasztottï¿½l! 20 eurï¿½ï¿½rt telepakoltad a kosaradat mindenfï¿½le PICK finomsï¿½ggal! Lï¿½pj a 31-es mezï¿½re!","1#moveToField#31" ));						
+		deck.add(new LuckyCard( 34 ,"Hï¿½ztartï¿½sodat mosogatï¿½gï¿½ppel szerelheted fel, amely megkï¿½nnyï¿½ti hï¿½tkï¿½znapjaidat. Lï¿½pj a 33-as mezï¿½re!","1#moveToField#33" ));						
+		deck.add(new LuckyCard( 35 ,"Jï¿½l vï¿½lasztottï¿½l, a SkyEurope gyorsan ï¿½s olcsï¿½n elrepï¿½t Eurï¿½pa nagyvï¿½rosaiba. Fizesd ki repï¿½lï¿½jegyed ï¿½rï¿½t, amely 300 eurï¿½, ezutï¿½n lï¿½pj a 34-es mezï¿½re!","1#moveToField#34" ));						
+		deck.add(new LuckyCard( 36 ,"Az Invitelnï¿½l 2in1 csomagra szerzï¿½dtï¿½l, mely a telefon mellett az Internet hozzï¿½fï¿½rï¿½s dï¿½jï¿½t is tartalmazza, ï¿½gy ez csak 20 eurï¿½ba kerï¿½l! Fizetï¿½s utï¿½n lï¿½pj a 40-es mezï¿½re!","1#moveToField#40" ));
 	*/
 		return;
 		}
-	/** Ez a metódus végzi el a kockával való dobást.
-	 *  A metódusban ellenõrzésre kerül, hogy nincs-e 1-6 büntetésben a játékos, mert ha igen,
-	 *  akkor csak megfelelõ értékû dobás esetén hívódik meg a {@code moveWithQuantity()} metódus.
-	 *  Minden esetben tájékozhatjuk a játékost szöveges üzenet formájában az eredményrõl.
+	/** Ez a metï¿½dus vï¿½gzi el a kockï¿½val valï¿½ dobï¿½st.
+	 *  A metï¿½dusban ellenï¿½rzï¿½sre kerï¿½l, hogy nincs-e 1-6 bï¿½ntetï¿½sben a jï¿½tï¿½kos, mert ha igen,
+	 *  akkor csak megfelelï¿½ ï¿½rtï¿½kï¿½ dobï¿½s esetï¿½n hï¿½vï¿½dik meg a {@code moveWithQuantity()} metï¿½dus.
+	 *  Minden esetben tï¿½jï¿½kozhatjuk a jï¿½tï¿½kost szï¿½veges ï¿½zenet formï¿½jï¿½ban az eredmï¿½nyrï¿½l.
 	 */
 	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Random generator = new Random();
@@ -309,50 +309,50 @@ public class GameEngine implements ICashier, IGamePlay {
 		if( 0 < actualPlayer.get_1_6Penalty()) {
 			if((result==1) || (result ==6)) {
 			actualPlayer.set_1_6Penalty(0);
-			sendMessageForRead("Büntetésben voltál, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább," +
-								" de mivel dobásod értéke " + result + ", így lépj elõre ennyi mezõt!");
+			sendMessageForRead("Bï¿½ntetï¿½sben voltï¿½l, mely szerint csak 1-es vagy 6-os dobï¿½ssal lï¿½phetsz tovï¿½bb," +
+								" de mivel dobï¿½sod ï¿½rtï¿½ke " + result + ", ï¿½gy lï¿½pj elï¿½re ennyi mezï¿½t!");
 			moveWithQuantity(result);
 			return;
 			}
 			else {
-				sendMessageForRead("Büntetésben vagy, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább. " +
-									"Most itt maradsz, mert dobásod értéke " + result + ".");
+				sendMessageForRead("Bï¿½ntetï¿½sben vagy, mely szerint csak 1-es vagy 6-os dobï¿½ssal lï¿½phetsz tovï¿½bb. " +
+									"Most itt maradsz, mert dobï¿½sod ï¿½rtï¿½ke " + result + ".");
 				return;
 			}
 		}
 		else {
-			sendMessageForRead("Dobásod értéke " + result + ". Lépj elõre ennyi mezõt!" );
+			sendMessageForRead("Dobï¿½sod ï¿½rtï¿½ke " + result + ". Lï¿½pj elï¿½re ennyi mezï¿½t!" );
 			moveWithQuantity(result);
 			return;
 		}
 	}
 	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cserélve a következõ sorra...
+		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cserï¿½lve a kï¿½vetkezï¿½ sorra...
 		//sendMessageForRead(actualPlayer.getLocation().getDescription());
-		// Az aktuális játékos mezõjének Command adattagja, a parancsszavakat tartalmazó 
-		// string feldarabolása '#' karakterek mentén, eredmény a commandWords String tömb.
+		// Az aktuï¿½lis jï¿½tï¿½kos mezï¿½jï¿½nek Command adattagja, a parancsszavakat tartalmazï¿½ 
+		// string feldarabolï¿½sa '#' karakterek mentï¿½n, eredmï¿½ny a commandWords String tï¿½mb.
 		int commandWordIterator = 0;
 		int methodIterator;
 		String[] commandWords = actualPlayer.getLocation().getCommand().split("#");
 		String executableMethodsName;
-		// A commandWords String tömb elsõ eleme a végrehajtandó metódusok száma.
+		// A commandWords String tï¿½mb elsï¿½ eleme a vï¿½grehajtandï¿½ metï¿½dusok szï¿½ma.
 		int numberOfExecutableMethods = Integer.parseInt(commandWords[commandWordIterator++]);
-		System.out.println("Végrehajtandó metódusok száma: " + numberOfExecutableMethods);
-		// Ennek megfelelõ számú metódust kell meghívni. (ez egyébként max. 2 lesz.)
-		// Lekérjük az osztálytól a metódusok listáját, hogy majd ezek közül egyet meghívhassunk.
+		System.out.println("Vï¿½grehajtandï¿½ metï¿½dusok szï¿½ma: " + numberOfExecutableMethods);
+		// Ennek megfelelï¿½ szï¿½mï¿½ metï¿½dust kell meghï¿½vni. (ez egyï¿½bkï¿½nt max. 2 lesz.)
+		// Lekï¿½rjï¿½k az osztï¿½lytï¿½l a metï¿½dusok listï¿½jï¿½t, hogy majd ezek kï¿½zï¿½l egyet meghï¿½vhassunk.
 		Method[] methods = GameEngine.class.getDeclaredMethods();
-		/*System.out.println("Az osztály metódusai, ezek között keresünk");
+		/*System.out.println("Az osztï¿½ly metï¿½dusai, ezek kï¿½zï¿½tt keresï¿½nk");
 		for(int i=0; i<methods.length; ++i) {
 			System.out.println(methods[i].getName());
 		}
 		*/
 		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
-			// Az executableMethodsName változóban rögzítem a végrehajtandó metódus nevét.
+			// Az executableMethodsName vï¿½ltozï¿½ban rï¿½gzï¿½tem a vï¿½grehajtandï¿½ metï¿½dus nevï¿½t.
 			executableMethodsName = commandWords[commandWordIterator++];
-			System.out.println("###Végrehajtandó metódus: " + executableMethodsName + " ###");
-			// Az actMet metódusban rögzítem a végrehajtandó metódus objektumot.
+			System.out.println("###Vï¿½grehajtandï¿½ metï¿½dus: " + executableMethodsName + " ###");
+			// Az actMet metï¿½dusban rï¿½gzï¿½tem a vï¿½grehajtandï¿½ metï¿½dus objektumot.
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
-			// Megvizsgálom a metódus neve alapján, hogy hány paramétere lesz, azokat rögzítem, és meghívom a metódust.
+			// Megvizsgï¿½lom a metï¿½dus neve alapjï¿½n, hogy hï¿½ny paramï¿½tere lesz, azokat rï¿½gzï¿½tem, ï¿½s meghï¿½vom a metï¿½dust.
 			
 			if(	executableMethodsName.equals("addMoney") || 
 				executableMethodsName.equals("deductMoney") || 
@@ -436,14 +436,14 @@ public class GameEngine implements ICashier, IGamePlay {
 	public void executeLuckyCardCommand() {
 		return;
 	}
-	/** Ebben a metódusban különbözõ játékosokhoz különbözõ socketeket rendelünk.
-	 * Amint érkezik egy kapcsolódási kérelem, az adott socket inputStream-jébõl kinyerjük a kliens üzenetét, 
-	 * amely a játékos neve lesz, ily módon az új játékost hozzáadjuk a játékosok listájához.
-	 * 2 játékos csatlakozása után 2 perces (azaz 120000 ms) türelmi idõ van, amíg további játékosokra várakozunk.
-	 * Ezt követõen elindul a játék a startGame() metódusba történõ visszatéréssel.
-	 * SZERKESZTÉS ALATT! MÉG NEM TESZTELVE! VÁRJA A KRITIKÁKAT! :)
+	/** Ebben a metï¿½dusban kï¿½lï¿½nbï¿½zï¿½ jï¿½tï¿½kosokhoz kï¿½lï¿½nbï¿½zï¿½ socketeket rendelï¿½nk.
+	 * Amint ï¿½rkezik egy kapcsolï¿½dï¿½si kï¿½relem, az adott socket inputStream-jï¿½bï¿½l kinyerjï¿½k a kliens ï¿½zenetï¿½t, 
+	 * amely a jï¿½tï¿½kos neve lesz, ily mï¿½don az ï¿½j jï¿½tï¿½kost hozzï¿½adjuk a jï¿½tï¿½kosok listï¿½jï¿½hoz.
+	 * 2 jï¿½tï¿½kos csatlakozï¿½sa utï¿½n 2 perces (azaz 120000 ms) tï¿½relmi idï¿½ van, amï¿½g tovï¿½bbi jï¿½tï¿½kosokra vï¿½rakozunk.
+	 * Ezt kï¿½vetï¿½en elindul a jï¿½tï¿½k a startGame() metï¿½dusba tï¿½rtï¿½nï¿½ visszatï¿½rï¿½ssel.
+	 * SZERKESZTï¿½S ALATT! Mï¿½G NEM TESZTELVE! Vï¿½RJA A KRITIKï¿½KAT! :)
 	 */
-	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EGÉSZEN MÁS LESZ....
+	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EGï¿½SZEN Mï¿½S LESZ....
 		//BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		//System.out.print("What is your name ? Type here --> ");
 		//String playerName = br.readLine();
@@ -469,15 +469,15 @@ public class GameEngine implements ICashier, IGamePlay {
 		return;
 	}
 	public void sendGameState() {
-		// TODO Auto-generated method stub //majd itt egyeztessünk mert az üzenet váltás érdekes :)
+		// TODO Auto-generated method stub //majd itt egyeztessï¿½nk mert az ï¿½zenet vï¿½ltï¿½s ï¿½rdekes :)
 		
 	}
-	/**Ebben a metódusban elõször meghívjuk a waitForPlayers() metódust, amelyben 6 becsatlakozó játékosra várunk.
-	 * Amennyiben a metódustól a vezérlést visszakapjuk, elindítjuk a tényleges játékot, azaz
-	 * sorra eldöntjük, hogy ki következik dobni, és aki következik az dobhat-e, vagy éppen kimarad, illetve, ha
-	 * többször is dobhat, akkor több lehetõséget kap a szabályoknak megfelelõen.
-	 * Ez egészen addig megy, míg egy játékos meg nem nyerte a játékot.
-	 * Nyerés esetén a gyõztest, és a többieket is értesítjük.
+	/**Ebben a metï¿½dusban elï¿½szï¿½r meghï¿½vjuk a waitForPlayers() metï¿½dust, amelyben 6 becsatlakozï¿½ jï¿½tï¿½kosra vï¿½runk.
+	 * Amennyiben a metï¿½dustï¿½l a vezï¿½rlï¿½st visszakapjuk, elindï¿½tjuk a tï¿½nyleges jï¿½tï¿½kot, azaz
+	 * sorra eldï¿½ntjï¿½k, hogy ki kï¿½vetkezik dobni, ï¿½s aki kï¿½vetkezik az dobhat-e, vagy ï¿½ppen kimarad, illetve, ha
+	 * tï¿½bbszï¿½r is dobhat, akkor tï¿½bb lehetï¿½sï¿½get kap a szabï¿½lyoknak megfelelï¿½en.
+	 * Ez egï¿½szen addig megy, mï¿½g egy jï¿½tï¿½kos meg nem nyerte a jï¿½tï¿½kot.
+	 * Nyerï¿½s esetï¿½n a gyï¿½ztest, ï¿½s a tï¿½bbieket is ï¿½rtesï¿½tjï¿½k.
 	 * 
 	 */
 	public void startGame() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
@@ -505,10 +505,10 @@ public class GameEngine implements ICashier, IGamePlay {
 		for(int i = 0; i < allPlayers.size()-1; ++i) {
 			setActualPlayer(allPlayers.get(i));
 			if(actualPlayer.isWinner() == false) {
-				sendMessageForRead("Önnek most nem volt szerencséje, " + winnersName + " nyerte meg a játékot.");
+				sendMessageForRead("ï¿½nnek most nem volt szerencsï¿½je, " + winnersName + " nyerte meg a jï¿½tï¿½kot.");
 			}
 			else if(actualPlayer.isWinner() == true) {
-				sendMessageForRead("Gratulálunk, " + winnersName + "! Szép játék volt, Ön nyert!");
+				sendMessageForRead("Gratulï¿½lunk, " + winnersName + "! Szï¿½p jï¿½tï¿½k volt, ï¿½n nyert!");
 			}
 		}
 	}
@@ -530,15 +530,15 @@ public class GameEngine implements ICashier, IGamePlay {
 		actualPlayer.setLocation(board.get(newPositionNumber%42));
 		System.out.println("###Player moved to Field No. " + actualPlayer.getLocationNumber() + " ###");
 		if(newPositionNumber > 42) {
-			System.out.println("###Körnek vége. A Start mezõn áthaladtál, ezért kapsz 2000 eurót, majd " + 
-								"levonásra kerülnek kötelezõ törlesztõrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
+			System.out.println("###Kï¿½rnek vï¿½ge. A Start mezï¿½n ï¿½thaladtï¿½l, ezï¿½rt kapsz 2000 eurï¿½t, majd " + 
+								"levonï¿½sra kerï¿½lnek kï¿½telezï¿½ tï¿½rlesztï¿½rï¿½szleteid. Ha nincs arra elï¿½g pï¿½nzed, vesztettï¿½l.###");
 			if(handleDebits()==true)
 				executeFieldCommand();
 			return;
 		}
 		else if(newPositionNumber == 42) {
-			System.out.println("###Körnek vége. A Start mezõre léptél, ezért kapsz 4000 eurót, majd " + 
-					"levonásra kerülnek kötelezõ törlesztõrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
+			System.out.println("###Kï¿½rnek vï¿½ge. A Start mezï¿½re lï¿½ptï¿½l, ezï¿½rt kapsz 4000 eurï¿½t, majd " + 
+					"levonï¿½sra kerï¿½lnek kï¿½telezï¿½ tï¿½rlesztï¿½rï¿½szleteid. Ha nincs arra elï¿½g pï¿½nzed, vesztettï¿½l.###");
 			executeFieldCommand();
 			handleDebits();
 		}
