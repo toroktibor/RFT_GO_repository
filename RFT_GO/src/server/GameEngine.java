@@ -156,7 +156,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 	
 	public void initFields() {
-		board=p.parseField("Fields.xml");
+		board=p.parseFields("Fields.xml");
 		return;
 	}
 	

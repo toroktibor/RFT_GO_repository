@@ -54,7 +54,7 @@ public class XMLParser {
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<Field> parseField(String file){
+	public List<Field> parseFields(String file){
 		return (List<Field>) parse(file);	
 	}
 }
