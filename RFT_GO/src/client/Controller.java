@@ -11,6 +11,11 @@ import java.util.List;
 
 import client.view.View;
 
+/**
+ * A kliens hálózati kommunikációját, és a felhasználói felületet vezérlő osztály.
+ * 
+ * @author Ölveti József
+ */
 public class Controller{
 	private String myName="";
 	private View myView=new View();

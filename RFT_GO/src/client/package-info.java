@@ -1,8 +1,5 @@
 /**
  * 
- */
-/**
- * @author olvjoz
- *
+ * @author Ölveti József
  */
 package client;
