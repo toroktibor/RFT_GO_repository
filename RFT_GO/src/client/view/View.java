@@ -24,7 +24,7 @@ public class View implements IView{
 	
 	
 	/**
-	 * Megjeleníti az alap ablakot ez így egyben kell kb
+	 * Megjelenï¿½ti az alap ablakot ez ï¿½gy egyben kell kb
 	 * 
 	 * **/
 	public void showView() {
@@ -41,15 +41,15 @@ public class View implements IView{
 	}
 	
 	/***
-	 * Bekér a felhasználótól egy ablakban vagy valahol 3 stringet név, host, port 
-	 * ki, melyik hostal rendelkezõ szerverre, milyen porton akar csatlakozni, le okézza
-	 * ezt listában adja vissza. ez induláskor a controllerbõl meghívódik.
+	 * Bekï¿½r a felhasznï¿½lï¿½tï¿½l egy ablakban vagy valahol 3 stringet nï¿½v, host, port 
+	 * ki, melyik hostal rendelkezï¿½ szerverre, milyen porton akar csatlakozni, le okï¿½zza
+	 * ezt listï¿½ban adja vissza. ez indulï¿½skor a controllerbï¿½l meghï¿½vï¿½dik.
 	 **/
 	public List<String> getLoginInfos() {
-		/* itt történik a bekérés valahogy */
+		/* itt tï¿½rtï¿½nik a bekï¿½rï¿½s valahogy */
 			/*TODO*/
 		
-		/*példa visszatérési értékek, ezek ugye a bekértek lesznek*/
+		/*pï¿½lda visszatï¿½rï¿½si ï¿½rtï¿½kek, ezek ugye a bekï¿½rtek lesznek*/
 			List<String> l=new ArrayList<String>();
 			l.add("Jani");
 			l.add("localhost");
@@ -61,15 +61,15 @@ public class View implements IView{
 	
 	
 	/**
-	 * lényege hogy egy ablakban megkérdezi a játékost hogy meg akarja e vásárolni
-	 * a paraméterként kapott dolgot (vagy autó lesz vagy ház, egy szöveg lesz)
+	 * lï¿½nyege hogy egy ablakban megkï¿½rdezi a jï¿½tï¿½kost hogy meg akarja e vï¿½sï¿½rolni
+	 * a paramï¿½terkï¿½nt kapott dolgot (vagy autï¿½ lesz vagy hï¿½z, egy szï¿½veg lesz)
 	 * hitelre, kp-ra vagy nem akarja megvenni
-	 * felugró ablak közepén valami szöveg pl: akarsz-e @p venni? stb stb de ez még kiderül milyen lesz
+	 * felugrï¿½ ablak kï¿½zepï¿½n valami szï¿½veg pl: akarsz-e @p venni? stb stb de ez mï¿½g kiderï¿½l milyen lesz
 	 * 
 	 * ha hitelre akarja 1
 	 * ha kp-ra akarja 2
 	 * ha nem akarja 0
-	 * értékkel tér vissza a metódus
+	 * ï¿½rtï¿½kkel tï¿½r vissza a metï¿½dus
 	 * 
 	 * **/
 	public int getBuyingInfos(String p){
@@ -79,13 +79,13 @@ public class View implements IView{
 	
 	
 	/**
-	 * Lényege hogy felugrik az ablak vagy valami megkérdi hogy akar-e autó,lakás biztosítást kötni
+	 * Lï¿½nyege hogy felugrik az ablak vagy valami megkï¿½rdi hogy akar-e autï¿½,lakï¿½s biztosï¿½tï¿½st kï¿½tni
 	 * 
-	 * visszatérés: 
-	 * 0- nem akar kötni
-	 * 1- autó biztosítás
-	 * 2- ház biztosítás
-	 * 3- mind kettõ
+	 * visszatï¿½rï¿½s: 
+	 * 0- nem akar kï¿½tni
+	 * 1- autï¿½ biztosï¿½tï¿½s
+	 * 2- hï¿½z biztosï¿½tï¿½s
+	 * 3- mind kettï¿½
 	 * 
 	 * **/
 	public int getInsurances(){
@@ -95,10 +95,10 @@ public class View implements IView{
 	
 	
 	/**
-	 * Lényege hogy felugrik egy ablak megkérdi vesze olyan berendezést
+	 * Lï¿½nyege hogy felugrik egy ablak megkï¿½rdi vesze olyan berendezï¿½st
 	 * amelyet a string tartalmaz
 	 * 
-	 * visszatérés:
+	 * visszatï¿½rï¿½s:
 	 * 0 nem
 	 * 1 igen
 	 * 
@@ -108,8 +108,8 @@ public class View implements IView{
 	}
 
 	/**
-	 * Felugró ablak sima üzenettel amit leokézhat
-	 * lényeg hogy látja amit közölni akar a szerver. (message paraméterbe jön)
+	 * Felugrï¿½ ablak sima ï¿½zenettel amit leokï¿½zhat
+	 * lï¿½nyeg hogy lï¿½tja amit kï¿½zï¿½lni akar a szerver. (message paramï¿½terbe jï¿½n)
 	 * 
 	 * 
 	 * **/
@@ -117,10 +117,13 @@ public class View implements IView{
 		
 	}
 	
+	public void refreshView(StateOfPlayer sop) {
+                
+        }
 	
 	
-	/* további metódusok lesznek
-	 * biztos kell még egy frissítõ metódus
+	/* tovï¿½bbi metï¿½dusok lesznek
+	 * biztos kell mï¿½g egy frissï¿½tï¿½ metï¿½dus
 	 * */
 	
 }
