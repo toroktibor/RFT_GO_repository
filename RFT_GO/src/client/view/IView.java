@@ -4,43 +4,43 @@ import java.util.List;
 
 public interface IView {
 	/***
-	 * Bekér a felhasználótól valahol 3 stringet név, host, port 
-	 * ki, melyik hostal rendelkezõ szerverre, milyen porton akar csatlakozni
-	 * ezt listában adja vissza. ez induláskor a controllerbõl meghívódik.
+	 * Bekï¿½r a felhasznï¿½lï¿½tï¿½l valahol 3 stringet nï¿½v, host, port 
+	 * ki, melyik hostal rendelkezï¿½ szerverre, milyen porton akar csatlakozni
+	 * ezt listï¿½ban adja vissza. ez indulï¿½skor a controllerbï¿½l meghï¿½vï¿½dik.
 	 **/
 	public List<String> getLoginInfos();
 	
 	/**
-	 * lényege hogy megkérdezi a játékost hogy meg akarja e vásárolni
-	 * a paraméterként kapott dolgot (vagy autó lesz vagy ház, egy szöveg lesz)
+	 * lï¿½nyege hogy megkï¿½rdezi a jï¿½tï¿½kost hogy meg akarja e vï¿½sï¿½rolni
+	 * a paramï¿½terkï¿½nt kapott dolgot (vagy autï¿½ lesz vagy hï¿½z, egy szï¿½veg lesz)
 	 * hitelre, kp-ra vagy nem akarja megvenni
 	 * 
 	 * 
 	 * ha hitelre akarja 1
 	 * ha kp-ra akarja 2
 	 * ha nem akarja 0
-	 * értékkel tér vissza a metódus
+	 * ï¿½rtï¿½kkel tï¿½r vissza a metï¿½dus
 	 * 
 	 * **/
 	public int getBuyingInfos(String p);
 	
 	/**
-	 * Lényege hogy megkérdi hogy akar-e autó,lakás biztosítást kötni
+	 * Lï¿½nyege hogy megkï¿½rdi hogy akar-e autï¿½,lakï¿½s biztosï¿½tï¿½st kï¿½tni
 	 * 
-	 * visszatérés: 
-	 * 0- nem akar kötni
-	 * 1- autó biztosítás
-	 * 2- ház biztosítás
-	 * 3- mind kettõ
+	 * visszatï¿½rï¿½s: 
+	 * 0- nem akar kï¿½tni
+	 * 1- autï¿½ biztosï¿½tï¿½s
+	 * 2- hï¿½z biztosï¿½tï¿½s
+	 * 3- mind kettï¿½
 	 * 
 	 * **/
 	public int getInsurances();
 	
 	/**
-	 * Lényege hogy megkérdi vesze olyan berendezést
+	 * Lï¿½nyege hogy megkï¿½rdi vesze olyan berendezï¿½st
 	 * amelyet a string tartalmaz
 	 * 
-	 * visszatérés:
+	 * visszatï¿½rï¿½s:
 	 * 0 nem
 	 * 1 igen
 	 * 
@@ -48,15 +48,20 @@ public interface IView {
 	public int getFurnitureOptions(String furniture);
 	
 	/**
-	 * sima üzenet amit leokézhat
-	 * lényeg hogy látja amit közölni akar a szerver. (message paraméterbe jön)
+	 * sima ï¿½zenet amit leokï¿½zhat
+	 * lï¿½nyeg hogy lï¿½tja amit kï¿½zï¿½lni akar a szerver. (message paramï¿½terbe jï¿½n)
 	 * 
 	 * 
 	 * **/
 	public void simpleMessage(String message);
 	
 	/**
-	 * GUI hoz kell mindenképp megjeleníti az alap ablakot.
+	 * GUI hoz kell mindenkï¿½pp megjelenï¿½ti az alap ablakot.
 	 * **/
 	public void showView();
+	
+	/**
+	 * FrissÃ­ti a Gui-t, paramÃ©terkÃ©nt megkap egy jÃ¡tÃ©kost szimbolizÃ¡lÃ³ Ã¡llapot objektumot.
+	 **/
+	public void refreshView(StateOfPlayer sop);
 }
