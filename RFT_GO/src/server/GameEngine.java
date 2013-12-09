@@ -308,14 +308,14 @@ public class GameEngine implements ICashier, IGamePlay {
 	public void executeLuckyCardCommand() {
 		return;
 	}
-	/** Ebben a met�dusban k�l�nb�z� j�t�kosokhoz k�l�nb�z� socketeket rendel�nk.
-	 * Amint �rkezik egy kapcsol�d�si k�relem, az adott socket inputStream-j�b�l kinyerj�k a kliens �zenet�t, 
-	 * amely a j�t�kos neve lesz, ily m�don az �j j�t�kost hozz�adjuk a j�t�kosok list�j�hoz.
-	 * 2 j�t�kos csatlakoz�sa ut�n 2 perces (azaz 120000 ms) t�relmi id� van, am�g tov�bbi j�t�kosokra v�rakozunk.
-	 * Ezt k�vet�en elindul a j�t�k a startGame() met�dusba t�rt�n� visszat�r�ssel.
-	 * SZERKESZT�S ALATT! M�G NEM TESZTELVE! V�RJA A KRITIK�KAT! :)
+	/** Ebben a metódusban különböző játékosokhoz különböző socketeket rendelünk.
+	 * Amint érkezik egy kapcsolódási kérelem, az adott socket inputStream-jéből kinyerjük a kliens üzenetét, 
+	 * amely a játékos neve lesz, ily módon az új játékost hozzáadjuk a játékosok listájához.
+	 * 2 játékos csatlakozása után 2 perces (azaz 120000 ms) türelmi idő van, amíg további játékosokra várakozunk.
+	 * Ezt követően elindul a játék a startGame() metódusba történő visszatéréssel.
+	 * SZERKESZTéS ALATT! MéG NEM TESZTELVE! VáRJA A KRITIKáKAT! :)
 	 */
-	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EG�SZEN M�S LESZ....
+	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EGéSZEN MáS LESZ....
 		//BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		//System.out.print("What is your name ? Type here --> ");
 		//String playerName = br.readLine();
@@ -341,15 +341,15 @@ public class GameEngine implements ICashier, IGamePlay {
 		return;
 	}
 	public void sendGameState() {
-		// TODO Auto-generated method stub //majd itt egyeztess�nk mert az �zenet v�lt�s �rdekes :)
+		// TODO Auto-generated method stub //majd itt egyeztessünk mert az üzenet váltás érdekes :)
 		
 	}
-	/**Ebben a met�dusban el�sz�r megh�vjuk a waitForPlayers() met�dust, amelyben 6 becsatlakoz� j�t�kosra v�runk.
-	 * Amennyiben a met�dust�l a vez�rl�st visszakapjuk, elind�tjuk a t�nyleges j�t�kot, azaz
-	 * sorra eld�ntj�k, hogy ki k�vetkezik dobni, �s aki k�vetkezik az dobhat-e, vagy �ppen kimarad, illetve, ha
-	 * t�bbsz�r is dobhat, akkor t�bb lehet�s�get kap a szab�lyoknak megfelel�en.
-	 * Ez eg�szen addig megy, m�g egy j�t�kos meg nem nyerte a j�t�kot.
-	 * Nyer�s eset�n a gy�ztest, �s a t�bbieket is �rtes�tj�k.
+	/**Ebben a metódusban először meghívjuk a waitForPlayers() metódust, amelyben 6 becsatlakozó játékosra várunk.
+	 * Amennyiben a metódustól a vezérlést visszakapjuk, elindítjuk a tényleges játékot, azaz
+	 * sorra eldöntjük, hogy ki következik dobni, és aki következik az dobhat-e, vagy éppen kimarad, illetve, ha
+	 * többször is dobhat, akkor több lehetőséget kap a szabályoknak megfelelően.
+	 * Ez egészen addig megy, míg egy játékos meg nem nyerte a játékot.
+	 * Nyerés esetén a győztest, és a többieket is értesítjük.
 	 * 
 	 */
 	public void startGame() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
