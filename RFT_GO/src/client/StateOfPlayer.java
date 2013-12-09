@@ -3,8 +3,8 @@ package client;
 public class StateOfPlayer {
 	private int idNumber=0;
 	private String name="";
-	private String houseStateBinaryFlags="";
-	private String carStateBinaryFlags="";
+	private String house="";
+	private String car="";
 	private String location="";
 	private int balance=0;
 	private int _1_6Penalty=0;
@@ -24,16 +24,16 @@ public class StateOfPlayer {
 		this.name = name;
 	}
 	public String getHouseStateBinaryFlags() {
-		return houseStateBinaryFlags;
+		return house;
 	}
 	public void setHouseStateBinaryFlags(String houseStateBinaryFlags) {
-		this.houseStateBinaryFlags = houseStateBinaryFlags;
+		this.house = houseStateBinaryFlags;
 	}
 	public String getCarStateBinaryFlags() {
-		return carStateBinaryFlags;
+		return car;
 	}
 	public void setCarStateBinaryFlags(String carStateBinaryFlags) {
-		this.carStateBinaryFlags = carStateBinaryFlags;
+		this.car = carStateBinaryFlags;
 	}
 	public String getLocation() {
 		return location;
@@ -68,18 +68,18 @@ public class StateOfPlayer {
 	
 	public StateOfPlayer(int idNumber, String name,
 			String houseStateBinaryFlags, String carStateBinaryFlags,
-			String location, int balance, int _1_6Penalty, int giftDices,
-			int exclusions) {
+			String location, String balance, String _1_6Penalty, String giftDices,
+			String exclusions) {
 		super();
 		this.idNumber = idNumber;
 		this.name = name;
-		this.houseStateBinaryFlags = houseStateBinaryFlags;
-		this.carStateBinaryFlags = carStateBinaryFlags;
+		this.house = houseStateBinaryFlags;
+		this.car = carStateBinaryFlags;
 		this.location = location;
-		this.balance = balance;
-		this._1_6Penalty = _1_6Penalty;
-		this.giftDices = giftDices;
-		this.exclusions = exclusions;
+		this.balance = Integer.parseInt(balance);
+		this._1_6Penalty = Integer.parseInt(_1_6Penalty);
+		this.giftDices = Integer.parseInt(giftDices);
+		this.exclusions = Integer.parseInt(exclusions);
 	}
 	
 	

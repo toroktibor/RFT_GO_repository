@@ -234,11 +234,11 @@ public class Controller{
 		try {
 			String message = readStringFromStream();
 			String[] s=message.split("#");
-			int playerid=Integer.parseInt(s[0]);
+			int playerId=Integer.parseInt(s[0]);
 			Method[] methods = StateOfPlayer.class.getDeclaredMethods();
 			boolean found=false;
 			for (StateOfPlayer gs : gameState) {
-				if(gs.getIdNumber()==playerid){
+				if(gs.getIdNumber()==playerId){
 					found=true;
 					for(int i=2;i<s.length;i=i+2){
 						for(int j=0; j<methods.length; ++j) {
@@ -257,7 +257,7 @@ public class Controller{
 				}
 			}	
 			if (found==false){
-				// TODO  új játékos az adatokkal, vagy majd máshogy vigyünk be újakat.
+				gameState.add(new StateOfPlayer(playerId, s[3], s[5], s[7], s[9], s[11], s[13], s[15], s[17]));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
