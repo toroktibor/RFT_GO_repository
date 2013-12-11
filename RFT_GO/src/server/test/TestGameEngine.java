@@ -112,7 +112,7 @@ public class TestGameEngine {
 		boolean wait=true;
 		Calendar time = Calendar.getInstance() ;
 		Calendar time2 = Calendar.getInstance() ;
-		int wtime=120000;
+		int wtime=60000;
 		while((allPlayers.size() < maxNumberOfPlayers) && wait ) {
 			try {
 				/* várakozunk a kliensig ha megjön új játékos a listára felveszük stb
@@ -173,6 +173,10 @@ public class TestGameEngine {
 		for (TestPlayer player : allPlayers) {
 			player.out.writeUTF("MESSAGEFORREAD");
 			player.out.writeUTF("És működik! :D ");
+			player.out.writeUTF("GETGAMESTATE");
+			player.out.writeUTF("1#1#SETHOUSE#Y:Y");
+			player.out.writeUTF("GETGAMESTATE");
+			player.out.writeUTF("1#1#SETHOUSE#Y:N");
 		}
 		while (true){
 			
