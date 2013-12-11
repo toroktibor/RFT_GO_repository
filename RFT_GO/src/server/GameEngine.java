@@ -303,7 +303,7 @@ public class GameEngine implements ICashier, IGamePlay {
 }
 */
 	public void executeLuckyCardCommand() {
-		
+		/* IDE MÉG ÍRNI KELL BASZOD */
 		return;
 	}
 	/** Ebben a metódusban különbözõ játékosokhoz különbözõ socketeket rendelünk.
