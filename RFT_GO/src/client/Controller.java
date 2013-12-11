@@ -77,7 +77,6 @@ public class Controller implements IController{
 		myName=logInf.get(0);
 		String host=logInf.get(1);
 		int port=Integer.parseInt(logInf.get(2));
-		
         try {
             System.out.println("Kapcsolódás a szerverhez: " + host + " és port: " + port);
             s = new Socket(host, port);
