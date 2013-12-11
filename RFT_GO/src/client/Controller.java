@@ -88,6 +88,7 @@ public class Controller implements IController{
                 sendMessage(myName);
                 String[] id=readStringFromStream().split("#");
                 myID=Integer.parseInt(id[1]);
+                System.out.println("myID: "+myID);
                 getInitialMessage();
             }
         } catch (IOException e) {
@@ -132,6 +133,7 @@ public class Controller implements IController{
 	public void getInitialMessage(){
 		try {
             while (true) {
+            	System.out.println("Üzenetre várunk a szervertől!");
                 String message = readStringFromStream();
                 System.out.println("Üzenet a szervertől: "+message);
                 switch (message){
