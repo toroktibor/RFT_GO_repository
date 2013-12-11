@@ -18,6 +18,7 @@ import java.util.Random;
 
 import server.Field;
 import server.LuckyCard;
+import server.Player;
 import server.XMLParser;
 
 public class TestGameEngine {

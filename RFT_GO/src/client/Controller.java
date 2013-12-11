@@ -180,7 +180,12 @@ public class Controller implements IController{
 				sendMessage("DONTBUY");
 			}
 			String result = readStringFromStream();
-			myView.simpleMessage(result);
+			if (result=="SUCCESS"){
+				myView.simpleMessage("Sikeres Vásárlás!");
+			}
+			else if(result=="UNSUCCESS"){
+				myView.simpleMessage("A vásárlás nem történt meg!");
+			}
 			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
@@ -205,7 +210,12 @@ public class Controller implements IController{
 				sendMessage("DONTMAKEANYINSURANCES");
 			}
 			String result = readStringFromStream();
-			myView.simpleMessage(result);
+			if (result=="SUCCESS"){
+				myView.simpleMessage("Sikeres Vásárlás!");
+			}
+			else if(result=="UNSUCCESS"){
+				myView.simpleMessage("A vásárlás nem történt meg!");
+			}
 			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
@@ -233,7 +243,12 @@ public class Controller implements IController{
 				sendMessage("DONTBUY"+furnitureType);
 			}
 			String result = readStringFromStream();
-			myView.simpleMessage(result);
+			if (result=="SUCCESS"){
+				myView.simpleMessage("Sikeres Vásárlás!");
+			}
+			else if(result=="UNSUCCESS"){
+				myView.simpleMessage("A vásárlás nem történt meg!");
+			}
 			sendMessage("OK");			
 		} catch (IOException e) {
 			e.printStackTrace();
