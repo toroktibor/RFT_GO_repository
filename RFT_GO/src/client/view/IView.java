@@ -40,8 +40,8 @@ public interface IView {
 	 * Lényege hogy megkérdi vesz-e xyz dolgot, a string-et kiíratjuk
 	 * 
 	 * visszatérés:
-	 * 0 nem
-	 * 1 igen
+	 * 1 nem
+	 * 0 igen
 	 * 
 	 * **/
 	public int getFurnitureOptions(String s);

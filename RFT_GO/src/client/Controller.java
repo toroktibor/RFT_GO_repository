@@ -88,6 +88,7 @@ public class Controller implements IController{
                 sendMessage(myName);
                 String[] id=readStringFromStream().split("#");
                 myID=Integer.parseInt(id[1]);
+                System.out.println("myID: "+myID);
                 getInitialMessage();
             }
         } catch (IOException e) {
@@ -132,6 +133,7 @@ public class Controller implements IController{
 	public void getInitialMessage(){
 		try {
             while (true) {
+            	System.out.println("Üzenetre várunk a szervertől!");
                 String message = readStringFromStream();
                 System.out.println("Üzenet a szervertől: "+message);
                 switch (message){
@@ -178,7 +180,12 @@ public class Controller implements IController{
 				sendMessage("DONTBUY");
 			}
 			String result = readStringFromStream();
-			myView.simpleMessage(result);
+			if (result=="SUCCESS"){
+				myView.simpleMessage("Sikeres Vásárlás!");
+			}
+			else if(result=="UNSUCCESS"){
+				myView.simpleMessage("A vásárlás nem történt meg!");
+			}
 			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
@@ -203,7 +210,12 @@ public class Controller implements IController{
 				sendMessage("DONTMAKEANYINSURANCES");
 			}
 			String result = readStringFromStream();
-			myView.simpleMessage(result);
+			if (result=="SUCCESS"){
+				myView.simpleMessage("Sikeres Vásárlás!");
+			}
+			else if(result=="UNSUCCESS"){
+				myView.simpleMessage("A vásárlás nem történt meg!");
+			}
 			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
@@ -224,14 +236,19 @@ public class Controller implements IController{
 				default:break;
 			}*/
 			
-			if (statement==1){
+			if (statement==0){
 				sendMessage("BUY"+furnitureType);
 			}
 			else{
 				sendMessage("DONTBUY"+furnitureType);
 			}
 			String result = readStringFromStream();
-			myView.simpleMessage(result);
+			if (result=="SUCCESS"){
+				myView.simpleMessage("Sikeres Vásárlás!");
+			}
+			else if(result=="UNSUCCESS"){
+				myView.simpleMessage("A vásárlás nem történt meg!");
+			}
 			sendMessage("OK");			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -250,6 +267,22 @@ public class Controller implements IController{
 		
 	}
 	
+	private void applyState(Method[] methods, String s[], StateOfPlayer gs){
+		for(int i=2;i<s.length;i=i+2){
+			for(int j=0; j<methods.length; ++j) {
+				if (methods[j].getName().equals(s[i])){
+					try {
+						methods[j].invoke(gs, s[i+1]);
+					} catch (IllegalAccessException
+							| IllegalArgumentException
+							| InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}	
+		}
+	}
 	
 	public void getGameStateMessage(){
 		try {
@@ -259,44 +292,16 @@ public class Controller implements IController{
 			Method[] methods = StateOfPlayer.class.getDeclaredMethods();
 			boolean found=false;
 			for (StateOfPlayer gs : gameState) {
-				if(gs.getIdNumber()==playerId){
+				if(gs.getIdNumber()==playerId && found == false){
 					found=true;
-					for(int i=2;i<s.length;i=i+2){
-						for(int j=0; j<methods.length; ++j) {
-							if (methods[j].getName().equals(s[i])){
-								try {
-									methods[j].invoke(gs, s[i+1]);
-								} catch (IllegalAccessException
-										| IllegalArgumentException
-										| InvocationTargetException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-						}	
-					}
+					applyState(methods, s, gs);
 				}
 			}	
 			if (found==false){
-				gameState.add(new StateOfPlayer(playerId));
-				for (StateOfPlayer gs : gameState) {
-					if(gs.getIdNumber()==playerId){
-						for(int i=2;i<s.length;i=i+2){
-							for(int j=0; j<methods.length; ++j) {
-								if (methods[j].getName().equals(s[i])){
-									try {
-										methods[j].invoke(gs, s[i+1]);
-									} catch (IllegalAccessException
-											| IllegalArgumentException
-											| InvocationTargetException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-								}
-							}	
-						}
-					}
-				}
+				System.out.println("asd");
+				StateOfPlayer gs=new StateOfPlayer(playerId);
+				applyState(methods, s, gs);
+				gameState.add(gs);
 			}
 			myView.refreshView();
 		} catch (IOException e) {
