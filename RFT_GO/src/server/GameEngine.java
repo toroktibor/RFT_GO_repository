@@ -1,15 +1,13 @@
 package server;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +19,9 @@ public class GameEngine implements ICashier, IGamePlay {
 	private List<LuckyCard> deck = new ArrayList<LuckyCard>();
 	private int luckyCardIndex = 0;
 	private XMLParser p=new XMLParser();
+	ServerSocket serverSocket = null;
+	DataInputStream in;
+	DataOutputStream out;
 	
 	
 	//GETTERS AND SETTERS
@@ -50,14 +51,14 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 	
 	//IMPLEMENTATION OF THE METHODS OF ICASHIER INTERFACE
-	/** Ez a metÃ³dus az aktuÃ¡lis jÃ¡tÃ©kos egyenlegÃ©n jÃ³vÃ¡Ã­rja a megfelelÅ‘ Ã¶sszeget.
+	/** Ez a metódus az aktuális játékos egyenlegén jóváírja a megfelelõ összeget.
 	 * 
-	 * @param amount az Ã¡tutlanandÃ³ pÃ©nzÃ¶sszeg
+	 * @param amount az átutlanandó pénzösszeg
 	 */
 	public void addMoney(int amount) {
 		int originalBalance = actualPlayer.getBalance();
 		actualPlayer.setBalance(originalBalance+amount);
-		System.out.println("###Sikeres pÃ©nzhozzÃ¡adÃ¡si tranzakciÃ³###");
+		System.out.println("###MONEY ADDED SUCCESSFULLY###");
 		return;
 	}
 	public void addPercentage(int percentage) {
@@ -66,52 +67,52 @@ public class GameEngine implements ICashier, IGamePlay {
 		addMoney((int)result);
 		return;
 	}	
-	/** Ez a metÃ³dus ellenÅ‘rzi, hogy rendelkezÃ©sre Ã¡ll-e az aktuÃ¡lis jÃ¡tÃ©kos egyenlegÃ©n a megfelelÅ‘ Ã¶sszeg.
+	/** Ez a metódus ellenõrzi, hogy rendelkezésre áll-e az aktuális játékos egyenlegén a megfelelõ összeg.
 	 * 
-	 * @param amount a kÃ­vÃ¡nt pÃ©nzÃ¶sszeg
-	 * @return igaz, ha rendelkezÃ©sre Ã¡ll, Ã©s hamis, ha nem.
+	 * @param amount a kívánt pénzösszeg
+	 * @return igaz, ha rendelkezésre áll, és hamis, ha nem.
 	 */
 	public Boolean checkBalance(int amount) {
 		if(actualPlayer.getBalance() >= amount) {
-			System.out.println("###Egyenleg ellenÅ‘rizve - IGEN, vÃ©grehajthatÃ³ a tranzakciÃ³###");
+			System.out.println("###BALANCE CHECKED - YES, TRANSACTION IS EXECUTABLE###");
 			return true;
 		}
 		else {
-			System.out.println("###Egyenleg ellenÅ‘rizve - NEM vÃ©grehajthatÃ³ a tranzakciÃ³###");
+			System.out.println("###BALANCE CHECKED - NO, TRANSACTION IS NOT EXECUTABLE###");
 			return false;
 		}		
 	}
-	/** Ez a metÃ³dus az aktuÃ¡lis jÃ¡tÃ©kos egyenlegÃ©rÅ‘l levonja a megfelelÅ‘ Ã¶sszeget.
+	/** Ez a metódus az aktuális játékos egyenlegérõl levonja a megfelelõ összeget.
 		 * 
-		 * @param amount a levonandÃ³ pÃ©nzÃ¶sszeg
+		 * @param amount a levonandó pénzösszeg
 		 * @return
 		 */
 	public Boolean deductMoney(int amount) {
 		int originalBalance = actualPlayer.getBalance();
-		System.out.println("###Egyenleg levonÃ¡s elÅ‘tt: " + originalBalance + " Euro ###");
+		System.out.println("###Egyenleg levonás elõtt: " + originalBalance + " Euro ###");
 		if(checkBalance(amount) == true) {
 			actualPlayer.setBalance(originalBalance-amount);
-			System.out.println("###Sikeres pÃ©nzlevonÃ¡si tranzakciÃ³###");
-			System.out.println("###Egyenleg levonÃ¡s utÃ¡n: " + actualPlayer.getBalance() + " Euro ###");
+			System.out.println("###Sikeres pénzlevonási tranzakció###");
+			System.out.println("###Egyenleg levonás után: " + actualPlayer.getBalance() + " Euro ###");
 			return true;
 		}
 		else {
-			System.out.println("###Sikertelen pÃ©nzlevonÃ¡si tranzakciÃ³ - nem elegendÅ‘ az egyenleg###");
+			System.out.println("###Sikertelen pénzlevonási tranzakció - nem elegendõ az egyenleg###");
 			
 			return false;
 		}
 	}
-	/** Ez a metÃ³dus minden kÃ¶r vÃ©gÃ©n hÃ­vÃ³dik meg, Ã©s ha van az aktuÃ¡lis jÃ¡tÃ©kosnak hÃ¡za, illetve autÃ³ja
-	 * akkor levonja az esetleges hÃ¡tralÃ©vÅ‘ tartozÃ¡sbÃ³l a kÃ¶rÃ¶nkÃ©nt kÃ¶telezÅ‘en tÃ¶rlesztendÅ‘ 500 eurÃ³t.
-	 * Ha nem tudja levonni, a jÃ¡tÃ©kos kiesett, az isActiva vÃ¡ltozÃ³ Ã©rtÃ©kÃ©t ennek megfelelÅ‘en Ã¡tÃ¡llÃ­tja, 
-	 * Ã©s hamis Ã©rtÃ©kkel tÃ©r vissza, ha pedig sikerÃ¼lnek a tranzakciÃ³k, akkor igaz visszatÃ©rÃ©si Ã©rtÃ©kkel.
+	/** Ez a metódus minden kör végén hívódik meg, és ha van az aktuális játékosnak háza, illetve autója
+	 * akkor levonja az esetleges hátralévõ tartozásból a körönként kötelezõen törlesztendõ 500 eurót.
+	 * Ha nem tudja levonni, a játékos kiesett, az isActiva változó értékét ennek megfelelõen átállítja, 
+	 * és hamis értékkel tér vissza, ha pedig sikerülnek a tranzakciók, akkor igaz visszatérési értékkel.
 	 */
 	public Boolean handleDebits() {
 		if(actualPlayer.getHouse() != null) {
 			int houseDebit = actualPlayer.getHouse().getDebit();
 			if(houseDebit != 0) {
 				if(checkBalance(500) == false) {
-					System.out.println("VesztettÃ©l, mert nem tudsz tÃ¶rleszteni.");
+					System.out.println("Vesztettél, mert nem tudsz törleszteni.");
 					actualPlayer.setIsActive(false);
 					return false;
 				}
@@ -124,7 +125,7 @@ public class GameEngine implements ICashier, IGamePlay {
 			int carDebit = actualPlayer.getCar().getDebit();
 			if(carDebit != 0) {
 				if(checkBalance(500) == false) {
-					System.out.println("VesztettÃ©l, mert nem tudsz tÃ¶rleszteni.");
+					System.out.println("Vesztettél, mert nem tudsz törleszteni.");
 					actualPlayer.setIsActive(false);
 					return false;
 				}
@@ -138,12 +139,12 @@ public class GameEngine implements ICashier, IGamePlay {
 	
 	
 	//IMPLEMENTATION OF THE METHODS OF IGAMEPLAY INTERFACE
-	/** Ez a metÃ³dus a @param allMethosdNameList metÃ³dus listÃ¡ban keresi
-	 * a @param goalMethodsName nevÅ± metÃ³dust, Ã©s visszaadja az indexÃ©t, ha megtalÃ¡lta.
+	/** Ez a metódus a @param allMethosdNameList metódus listában keresi
+	 * a @param goalMethodsName nevû metódust, és visszaadja az indexét, ha megtalálta.
 	 * 
-	 * @param allMethodsNameList a lista, amiben keressÃ¼k a metÃ³dust
-	 * @param goalMethodsName a keresendÅ‘ metÃ³dus neve
-	 * @return a keresett metÃ³dus indexe a listÃ¡ban.
+	 * @param allMethodsNameList a lista, amiben keressük a metódust
+	 * @param goalMethodsName a keresendõ metódus neve
+	 * @return a keresett metódus indexe a listában.
 	 */
 	private int giveIndexOfSearchedMethod(Method[] allMethodsNameList, String goalMethodsName ) {
 		int indexOfSearchedMethod = -1;
@@ -155,23 +156,17 @@ public class GameEngine implements ICashier, IGamePlay {
 		return indexOfSearchedMethod;
 	}
 	
-	public void initFields() {
+	public void init() {
 		board=p.parseFields("Fields.xml");
-		return;
-	}
-	
-	
-	public void initLuckyCards() {
 		deck=p.parseLuckyCards("LuckyCards.xml");
 		return;
 	}
 	
 	
-	
-	/** Ez a metÃ³dus vÃ©gzi el a kockÃ¡val valÃ³ dobÃ¡st.
-	 *  A metÃ³dusban ellenÅ‘rzÃ©sre kerÃ¼l, hogy nincs-e 1-6 bÃ¼ntetÃ©sben a jÃ¡tÃ©kos, mert ha igen,
-	 *  akkor csak megfelelÅ‘ Ã©rtÃ©kÅ± dobÃ¡s esetÃ©n hÃ­vÃ³dik meg a {@code moveWithQuantity()} metÃ³dus.
-	 *  Minden esetben tÃ¡jÃ©kozhatjuk a jÃ¡tÃ©kost szÃ¶veges Ã¼zenet formÃ¡jÃ¡ban az eredmÃ©nyrÅ‘l.
+	/** Ez a metódus végzi el a kockával való dobást.
+	 *  A metódusban ellenõrzésre kerül, hogy nincs-e 1-6 büntetésben a játékos, mert ha igen,
+	 *  akkor csak megfelelõ értékû dobás esetén hívódik meg a {@code moveWithQuantity()} metódus.
+	 *  Minden esetben tájékozhatjuk a játékost szöveges üzenet formájában az eredményrõl.
 	 */
 	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Random generator = new Random();
@@ -180,50 +175,50 @@ public class GameEngine implements ICashier, IGamePlay {
 		if( 0 < actualPlayer.get_1_6Penalty()) {
 			if((result==1) || (result ==6)) {
 			actualPlayer.set_1_6Penalty(0);
-			sendMessageForRead("BÃ¼ntetÃ©sben voltÃ¡l, mely szerint csak 1-es vagy 6-os dobÃ¡ssal lÃ©phetsz tovÃ¡bb," +
-								" de mivel dobÃ¡sod Ã©rtÃ©ke " + result + ", Ã­gy lÃ©pj elÅ‘re ennyi mezÅ‘t!");
+			sendMessageForRead("Büntetésben voltál, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább," +
+								" de mivel dobásod értéke " + result + ", így lépj elõre ennyi mezõt!");
 			moveWithQuantity(result);
 			return;
 			}
 			else {
-				sendMessageForRead("BÃ¼ntetÃ©sben vagy, mely szerint csak 1-es vagy 6-os dobÃ¡ssal lÃ©phetsz tovÃ¡bb. " +
-									"Most itt maradsz, mert dobÃ¡sod Ã©rtÃ©ke " + result + ".");
+				sendMessageForRead("Büntetésben vagy, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább. " +
+									"Most itt maradsz, mert dobásod értéke " + result + ".");
 				return;
 			}
 		}
 		else {
-			sendMessageForRead("DobÃ¡sod Ã©rtÃ©ke " + result + ". LÃ©pj elÅ‘re ennyi mezÅ‘t!" );
+			sendMessageForRead("Dobásod értéke " + result + ". Lépj elõre ennyi mezõt!" );
 			moveWithQuantity(result);
 			return;
 		}
 	}
 	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cserÃ©lve a kÃ¶vetkezÅ‘ sorra...
+		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cserélve a következõ sorra...
 		//sendMessageForRead(actualPlayer.getLocation().getDescription());
-		// Az aktuÃ¡lis jÃ¡tÃ©kos mezÅ‘jÃ©nek Command adattagja, a parancsszavakat tartalmazÃ³ 
-		// string feldarabolÃ¡sa '#' karakterek mentÃ©n, eredmÃ©ny a commandWords String tÃ¶mb.
+		// Az aktuális játékos mezõjének Command adattagja, a parancsszavakat tartalmazó 
+		// string feldarabolása '#' karakterek mentén, eredmény a commandWords String tömb.
 		int commandWordIterator = 0;
 		int methodIterator;
 		String[] commandWords = actualPlayer.getLocation().getCommand().split("#");
 		String executableMethodsName;
-		// A commandWords String tÃ¶mb elsÅ‘ eleme a vÃ©grehajtandÃ³ metÃ³dusok szÃ¡ma.
+		// A commandWords String tömb elsõ eleme a végrehajtandó metódusok száma.
 		int numberOfExecutableMethods = Integer.parseInt(commandWords[commandWordIterator++]);
-		System.out.println("VÃ©grehajtandÃ³ metÃ³dusok szÃ¡ma: " + numberOfExecutableMethods);
-		// Ennek megfelelÅ‘ szÃ¡mÃº metÃ³dust kell meghÃ­vni. (ez egyÃ©bkÃ©nt max. 2 lesz.)
-		// LekÃ©rjÃ¼k az osztÃ¡lytÃ³l a metÃ³dusok listÃ¡jÃ¡t, hogy majd ezek kÃ¶zÃ¼l egyet meghÃ­vhassunk.
+		System.out.println("Végrehajtandó metódusok száma: " + numberOfExecutableMethods);
+		// Ennek megfelelõ számÃº metódust kell meghívni. (ez egyébként max. 2 lesz.)
+		// Lekérjük az osztálytól a metódusok listáját, hogy majd ezek közül egyet meghívhassunk.
 		Method[] methods = GameEngine.class.getDeclaredMethods();
-		/*System.out.println("Az osztÃ¡ly metÃ³dusai, ezek kÃ¶zÃ¶tt keresÃ¼nk");
+		/*System.out.println("Az osztály metódusai, ezek között keresünk");
 		for(int i=0; i<methods.length; ++i) {
 			System.out.println(methods[i].getName());
 		}
 		*/
 		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
-			// Az executableMethodsName vÃ¡ltozÃ³ban rÃ¶gzÃ­tem a vÃ©grehajtandÃ³ metÃ³dus nevÃ©t.
+			// Az executableMethodsName változóban rögzítem a végrehajtandó metódus nevét.
 			executableMethodsName = commandWords[commandWordIterator++];
-			System.out.println("###VÃ©grehajtandÃ³ metÃ³dus: " + executableMethodsName + " ###");
-			// Az actMet metÃ³dusban rÃ¶gzÃ­tem a vÃ©grehajtandÃ³ metÃ³dus objektumot.
+			System.out.println("###Végrehajtandó metódus: " + executableMethodsName + " ###");
+			// Az actMet metódusban rögzítem a végrehajtandó metódus objektumot.
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
-			// MegvizsgÃ¡lom a metÃ³dus neve alapjÃ¡n, hogy hÃ¡ny paramÃ©tere lesz, azokat rÃ¶gzÃ­tem, Ã©s meghÃ­vom a metÃ³dust.
+			// Megvizsgálom a metódus neve alapján, hogy hány paramétere lesz, azokat rögzítem, és meghívom a metódust.
 			
 			if(	executableMethodsName.equals("addMoney") || 
 				executableMethodsName.equals("deductMoney") || 
@@ -307,48 +302,44 @@ public class GameEngine implements ICashier, IGamePlay {
 	public void executeLuckyCardCommand() {
 		return;
 	}
-	/** Ebben a metÃ³dusban kÃ¼lÃ¶nbÃ¶zÅ‘ jÃ¡tÃ©kosokhoz kÃ¼lÃ¶nbÃ¶zÅ‘ socketeket rendelÃ¼nk.
-	 * Amint Ã©rkezik egy kapcsolÃ³dÃ¡si kÃ©relem, az adott socket inputStream-jÃ©bÅ‘l kinyerjÃ¼k a kliens Ã¼zenetÃ©t, 
-	 * amely a jÃ¡tÃ©kos neve lesz, ily mÃ³don az Ãºj jÃ¡tÃ©kost hozzÃ¡adjuk a jÃ¡tÃ©kosok listÃ¡jÃ¡hoz.
-	 * 2 jÃ¡tÃ©kos csatlakozÃ¡sa utÃ¡n 2 perces (azaz 120000 ms) tÃ¼relmi idÅ‘ van, amÃ­g tovÃ¡bbi jÃ¡tÃ©kosokra vÃ¡rakozunk.
-	 * Ezt kÃ¶vetÅ‘en elindul a jÃ¡tÃ©k a startGame() metÃ³dusba tÃ¶rtÃ©nÅ‘ visszatÃ©rÃ©ssel.
-	 * SZERKESZTÃ©S ALATT! MÃ©G NEM TESZTELVE! VÃ¡RJA A KRITIKÃ¡KAT! :)
+	/** Ebben a metódusban különbözõ játékosokhoz különbözõ socketeket rendelünk.
+	 * Amint érkezik egy kapcsolódási kérelem, az adott socket inputStream-jébõl kinyerjük a kliens üzenetét, 
+	 * amely a játékos neve lesz, ily módon az Ãºj játékost hozzáadjuk a játékosok listájához.
+	 * 2 játékos csatlakozása után 2 perces (azaz 120000 ms) türelmi idõ van, amíg további játékosokra várakozunk.
+	 * Ezt követõen elindul a játék a startGame() metódusba történõ visszatéréssel.
+	 * SZERKESZTéS ALATT! MéG NEM TESZTELVE! VáRJA A KRITIKáKAT! :)
 	 */
-	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EGÃ©SZEN MÃ¡S LESZ....
-		//BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		//System.out.print("What is your name ? Type here --> ");
-		//String playerName = br.readLine();
-		//allPlayers.add(new Player(playerName, board.get(0)));	
-		//br.close();
-		List<Socket> socketList = new ArrayList<Socket>();
-		DataInputStream in;
-		DataOutputStream out;
-		String tmpString;
-		Calendar startTime = Calendar.getInstance() ;
-		Calendar endTime = Calendar.getInstance();
-		while((allPlayers.size() < maxNumberOfPlayers) && (endTime.getTimeInMillis()-startTime.getTimeInMillis() < 120000 ) ) {
-			socketList.add(new Socket());
-			while(socketList.get(socketList.size()-1).isConnected() == false) {}
-			in  = new DataInputStream (socketList.get(socketList.size()-1).getInputStream());
-			out = new DataOutputStream(socketList.get(socketList.size()-1).getOutputStream());
-			tmpString = in.readUTF();
-			allPlayers.add(new Player(tmpString, socketList.get(socketList.size()-1) ,board.get(0)));
+	public void waitForPlayers(int maxNumberOfPlayers) throws IOException {
+		serverSocket = new ServerSocket(5005);
+		Socket actualSocket = new Socket();
+		Integer actualPlayersIndex;
+		while(allPlayers.size() < maxNumberOfPlayers) {
+			actualSocket = serverSocket.accept();
+			if(actualSocket.isConnected()) {
+				in = (DataInputStream) actualSocket.getInputStream();
+				out = (DataOutputStream) actualSocket.getOutputStream();
+				allPlayers.add(new Player(in.readUTF(), actualSocket, board.get(0)));
+				out.flush();
+				actualPlayersIndex = (allPlayers.size()-1);
+				out.writeUTF(actualPlayersIndex.toString());
+				actualSocket.close(); //kérdés nem lesz-e ez gáz???
+			}
 			if( 2 <= allPlayers.size() ) {
-				endTime = Calendar.getInstance();
+				serverSocket.setSoTimeout(120000);
 			}
 		}
 		return;
 	}
 	public void sendGameState() {
-		// TODO Auto-generated method stub //majd itt egyeztessÃ¼nk mert az Ã¼zenet vÃ¡ltÃ¡s Ã©rdekes :)
+		// TODO Auto-generated method stub //majd itt egyeztessünk mert az üzenet váltás érdekes :)
 		
 	}
-	/**Ebben a metÃ³dusban elÅ‘szÃ¶r meghÃ­vjuk a waitForPlayers() metÃ³dust, amelyben 6 becsatlakozÃ³ jÃ¡tÃ©kosra vÃ¡runk.
-	 * Amennyiben a metÃ³dustÃ³l a vezÃ©rlÃ©st visszakapjuk, elindÃ­tjuk a tÃ©nyleges jÃ¡tÃ©kot, azaz
-	 * sorra eldÃ¶ntjÃ¼k, hogy ki kÃ¶vetkezik dobni, Ã©s aki kÃ¶vetkezik az dobhat-e, vagy Ã©ppen kimarad, illetve, ha
-	 * tÃ¶bbszÃ¶r is dobhat, akkor tÃ¶bb lehetÅ‘sÃ©get kap a szabÃ¡lyoknak megfelelÅ‘en.
-	 * Ez egÃ©szen addig megy, mÃ­g egy jÃ¡tÃ©kos meg nem nyerte a jÃ¡tÃ©kot.
-	 * NyerÃ©s esetÃ©n a gyÅ‘ztest, Ã©s a tÃ¶bbieket is Ã©rtesÃ­tjÃ¼k.
+	/**Ebben a metódusban elõször meghívjuk a waitForPlayers() metódust, amelyben 6 becsatlakozó játékosra várunk.
+	 * Amennyiben a metódustól a vezérlést visszakapjuk, elindítjuk a tényleges játékot, azaz
+	 * sorra eldöntjük, hogy ki következik dobni, és aki következik az dobhat-e, vagy éppen kimarad, illetve, ha
+	 * többször is dobhat, akkor több lehetõséget kap a szabályoknak megfelelõen.
+	 * Ez egészen addig megy, míg egy játékos meg nem nyerte a játékot.
+	 * Nyerés esetén a gyõztest, és a többieket is értesítjük.
 	 * 
 	 */
 	public void startGame() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
@@ -376,10 +367,10 @@ public class GameEngine implements ICashier, IGamePlay {
 		for(int i = 0; i < allPlayers.size()-1; ++i) {
 			setActualPlayer(allPlayers.get(i));
 			if(actualPlayer.isWinner() == false) {
-				sendMessageForRead("Ã–nnek most nem volt szerencsÃ©je, " + winnersName + " nyerte meg a jÃ¡tÃ©kot.");
+				sendMessageForRead("Önnek most nem volt szerencséje, " + winnersName + " nyerte meg a játékot.");
 			}
 			else if(actualPlayer.isWinner() == true) {
-				sendMessageForRead("GratulÃ¡lunk, " + winnersName + "! SzÃ©p jÃ¡tÃ©k volt, Ã¶n nyert!");
+				sendMessageForRead("Gratulálunk, " + winnersName + "! Szép játék volt, ön nyert!");
 			}
 		}
 	}
@@ -401,15 +392,15 @@ public class GameEngine implements ICashier, IGamePlay {
 		actualPlayer.setLocation(board.get(newPositionNumber%42));
 		System.out.println("###Player moved to Field No. " + actualPlayer.getLocationNumber() + " ###");
 		if(newPositionNumber > 42) {
-			System.out.println("###KÃ¶rnek vÃ©ge. A Start mezÅ‘n Ã¡thaladtÃ¡l, ezÃ©rt kapsz 2000 eurÃ³t, majd " + 
-								"levonÃ¡sra kerÃ¼lnek kÃ¶telezÅ‘ tÃ¶rlesztÅ‘rÃ©szleteid. Ha nincs arra elÃ©g pÃ©nzed, vesztettÃ©l.###");
+			System.out.println("###Körnek vége. A Start mezõn áthaladtál, ezért kapsz 2000 eurót, majd " + 
+								"levonásra kerülnek kötelezõ törlesztõrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
 			if(handleDebits()==true)
 				executeFieldCommand();
 			return;
 		}
 		else if(newPositionNumber == 42) {
-			System.out.println("###KÃ¶rnek vÃ©ge. A Start mezÅ‘re lÃ©ptÃ©l, ezÃ©rt kapsz 4000 eurÃ³t, majd " + 
-					"levonÃ¡sra kerÃ¼lnek kÃ¶telezÅ‘ tÃ¶rlesztÅ‘rÃ©szleteid. Ha nincs arra elÃ©g pÃ©nzed, vesztettÃ©l.###");
+			System.out.println("###Körnek vége. A Start mezõre léptél, ezért kapsz 4000 eurót, majd " + 
+					"levonásra kerülnek kötelezõ törlesztõrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
 			executeFieldCommand();
 			handleDebits();
 		}
