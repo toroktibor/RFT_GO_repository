@@ -174,9 +174,15 @@ public class TestGameEngine {
 			player.out.writeUTF("MESSAGEFORREAD");
 			player.out.writeUTF("És működik! :D ");
 			player.out.writeUTF("GETGAMESTATE");
-			player.out.writeUTF("1#1#SETHOUSE#Y:Y");
+			player.out.writeUTF("1#1#SETLOCATION#Ha van pénzed, vásárolj Electrolux mosogatógépet, melynek ára 300 euró!");
 			player.out.writeUTF("GETGAMESTATE");
-			player.out.writeUTF("1#1#SETHOUSE#Y:N");
+			player.out.writeUTF("0#1#SETLOCATION#Ha van pénzed, vásárolj Electrolux mosogatógépet, melynek ára 300 euró!");
+			player.out.writeUTF("BUYFURNITURE");
+			player.out.writeUTF("COOKER");
+			System.out.println(player.in.readUTF());
+			player.out.writeUTF("SUCCESS");
+			player.in.readUTF();
+			
 		}
 		while (true){
 			

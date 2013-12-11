@@ -236,7 +236,7 @@ public class Controller implements IController{
 				default:break;
 			}*/
 			
-			if (statement==1){
+			if (statement==0){
 				sendMessage("BUY"+furnitureType);
 			}
 			else{

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import client.Controller;
 import client.StateOfPlayer;
@@ -89,13 +90,17 @@ public class View implements IView{
 	
 	
 	public int getFurnitureOptions(String s){
-		Scanner sc = new Scanner(System.in);
-	    System.out.println(s);
-	    String st=sc.nextLine();
-	    if (st=="i")
-	    	return 1;
-	    else
-		return 0;
+		Object[] options = {"Megvásárol",
+        "Nem kérem!"};
+		int n = JOptionPane.showOptionDialog(frame,
+				s,
+				"Berendezés vásárlás",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,    
+				options,  
+				options[0]); 
+		return n;
 	}
 
 	
