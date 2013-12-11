@@ -2,10 +2,10 @@ package client;
 
 public class StateOfPlayer {
 	private int idNumber=0;
-	private String name="";
-	private String house="";
-	private String car="";
-	private String location="";
+	private String name="NIL";
+	private String house="NIL";
+	private String car="NIL";
+	private String location="NIL";
 	private int balance=0;
 	private int _1_6Penalty=0;
 	private int giftDices=0;
