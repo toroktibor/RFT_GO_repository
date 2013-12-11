@@ -15,13 +15,15 @@ import java.util.Random;
 public class GameEngine implements ICashier, IGamePlay {
 	private Player actualPlayer;
 	private List<Player> allPlayers = new ArrayList<Player>();
-	private List<Field> board = new ArrayList<Field>();
-	private List<LuckyCard> deck = new ArrayList<LuckyCard>();
-	private int luckyCardIndex = 0;
-	private XMLParser p=new XMLParser();
-	ServerSocket serverSocket = null;
-	DataInputStream in;
-	DataOutputStream out;
+	private List<Field> board = new ArrayList<Field>();			//the board contains the list of all 42 fields
+	private List<LuckyCard> deck = new ArrayList<LuckyCard>();	//the deck contains the list of all lucky cards
+	private int luckyCardIndex = 0;		//index of the following lucky card in the row
+	private int playerIndex = 0;		//index of the respective actual player
+	
+	private XMLParser p=new XMLParser();	//the parser used for initialize the lucky cards of the deck and the fields of the board
+	ServerSocket serverSocket = null;	//the server socket, that handle client connections
+	DataInputStream in;		//the input stream of the respective actual player's socket 
+	DataOutputStream out;	//the output stream of the respective actual player's socket 
 	
 	
 	//GETTERS AND SETTERS
@@ -48,6 +50,9 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 	public void setAllPlayers(List<Player> allPlayers) {
 		this.allPlayers = allPlayers;
+	}
+	public void getLuckyCardByIndex(int index) {
+		
 	}
 	
 	//IMPLEMENTATION OF THE METHODS OF ICASHIER INTERFACE
@@ -167,14 +172,16 @@ public class GameEngine implements ICashier, IGamePlay {
 	 *  A metódusban ellenõrzésre kerül, hogy nincs-e 1-6 büntetésben a játékos, mert ha igen,
 	 *  akkor csak megfelelõ értékû dobás esetén hívódik meg a {@code moveWithQuantity()} metódus.
 	 *  Minden esetben tájékozhatjuk a játékost szöveges üzenet formájában az eredményrõl.
+	 * @throws IOException 
 	 */
-	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		Random generator = new Random();
 		int result = generator.nextInt(5);
 		result+=1;
 		if( 0 < actualPlayer.get_1_6Penalty()) {
 			if((result==1) || (result ==6)) {
 			actualPlayer.set_1_6Penalty(0);
+			out.writeUTF("MESSAGEFORREAD");
 			sendMessageForRead("Büntetésben voltál, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább," +
 								" de mivel dobásod értéke " + result + ", így lépj elõre ennyi mezõt!");
 			moveWithQuantity(result);
@@ -187,14 +194,15 @@ public class GameEngine implements ICashier, IGamePlay {
 			}
 		}
 		else {
+			out.writeUTF("MESSAGEFORREAD");
 			sendMessageForRead("Dobásod értéke " + result + ". Lépj elõre ennyi mezõt!" );
 			moveWithQuantity(result);
 			return;
 		}
 	}
-	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		System.out.println(actualPlayer.getLocation().getDescription()); //le lesz cserélve a következõ sorra...
-		//sendMessageForRead(actualPlayer.getLocation().getDescription());
+	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+		out.writeUTF("GETGAMESTATE");
+		out.writeUTF(playerIndex + "#SETLOCATION#" + actualPlayer.getLocation().toString());
 		// Az aktuális játékos mezõjének Command adattagja, a parancsszavakat tartalmazó 
 		// string feldarabolása '#' karakterek mentén, eredmény a commandWords String tömb.
 		int commandWordIterator = 0;
@@ -207,11 +215,6 @@ public class GameEngine implements ICashier, IGamePlay {
 		// Ennek megfelelõ számÃº metódust kell meghívni. (ez egyébként max. 2 lesz.)
 		// Lekérjük az osztálytól a metódusok listáját, hogy majd ezek közül egyet meghívhassunk.
 		Method[] methods = GameEngine.class.getDeclaredMethods();
-		/*System.out.println("Az osztály metódusai, ezek között keresünk");
-		for(int i=0; i<methods.length; ++i) {
-			System.out.println(methods[i].getName());
-		}
-		*/
 		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
 			// Az executableMethodsName változóban rögzítem a végrehajtandó metódus nevét.
 			executableMethodsName = commandWords[commandWordIterator++];
@@ -300,6 +303,7 @@ public class GameEngine implements ICashier, IGamePlay {
 }
 */
 	public void executeLuckyCardCommand() {
+		
 		return;
 	}
 	/** Ebben a metódusban különbözõ játékosokhoz különbözõ socketeket rendelünk.
@@ -386,38 +390,24 @@ public class GameEngine implements ICashier, IGamePlay {
 	private void loseFurnitures() {
 		
 	}
-	private void moveWithQuantity(int amount) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private void moveWithQuantity(int amount) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		int newPositionNumber = actualPlayer.getLocationNumber() + amount;
-		System.out.println("###Player will move from Field No. " + actualPlayer.getLocationNumber() + " with " + amount + " fields.###");
 		actualPlayer.setLocation(board.get(newPositionNumber%42));
-		System.out.println("###Player moved to Field No. " + actualPlayer.getLocationNumber() + " ###");
-		if(newPositionNumber > 42) {
-			System.out.println("###Körnek vége. A Start mezõn áthaladtál, ezért kapsz 2000 eurót, majd " + 
-								"levonásra kerülnek kötelezõ törlesztõrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
-			if(handleDebits()==true)
-				executeFieldCommand();
-			return;
+		//out.writeUTF(playerIndex + "#SETLOCATION#");
+		if(newPositionNumber > 42) { //it means that round finished, and we step over start field
+			if(handleDebits()==true)	//if we can handle debits, so actual player is not in a looser state
+				executeFieldCommand();	//then execute the field command
 		}
-		else if(newPositionNumber == 42) {
-			System.out.println("###Körnek vége. A Start mezõre léptél, ezért kapsz 4000 eurót, majd " + 
-					"levonásra kerülnek kötelezõ törlesztõrészleteid. Ha nincs arra elég pénzed, vesztettél.###");
-			executeFieldCommand();
-			handleDebits();
+		else if(newPositionNumber == 42) {	//it means that round finished, and we are on start field
+			executeFieldCommand();			//execute field command ( so add 4000 euros )
+			handleDebits();					//and then we handle the debits.
 		}
-		else
-			executeFieldCommand();
+		else								//it means a simple step, so the round is not finished
+			executeFieldCommand();			//we execute field command
 		return;
 	}
-	private void moveToField(int goalFieldsNumber) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		if(( -1 < goalFieldsNumber ) && ( goalFieldsNumber < 42 ))
-			{
-			System.out.println("###Player will move from Field No. " + actualPlayer.getLocationNumber());
-			actualPlayer.setLocation(board.get(goalFieldsNumber));
-			System.out.println("###Player has benn moved to Field No. " + actualPlayer.getLocationNumber());
-			
-			}
-		else
-			System.out.println("###Invalid parameter for moveToField() method, it must be between [0, 41]###");
+	private void moveToField(int goalFieldsNumber) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+		actualPlayer.setLocation(board.get(goalFieldsNumber));
 		executeFieldCommand();
 	}
 	private void offerBuyCar() {

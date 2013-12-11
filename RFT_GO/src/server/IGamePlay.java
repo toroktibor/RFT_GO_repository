@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public interface IGamePlay {
-	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException;
-	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException;
+	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException;
+	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException;
 	public void executeLuckyCardCommand();
 	public void init();
 	public void sendGameState();
