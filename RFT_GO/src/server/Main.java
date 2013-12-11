@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		GameEngine ge = new GameEngine();
-		ge.initFields();
+		ge.init();
 		ge.startGame();
 		return;
 	}

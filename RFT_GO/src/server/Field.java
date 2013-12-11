@@ -30,6 +30,12 @@ public class Field{
 		this.description = description;
 		this.command = command;
 	}
+	@Override
+	public String toString() {
+		return (number + ":" + description);
+	}
+	
+	
 
 	
 
