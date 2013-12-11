@@ -169,6 +169,13 @@ public class TestGameEngine {
 		ss=new ServerSocket(6000);
 		initFields();
 		waitForPlayers(6);
+		for (TestPlayer player : allPlayers) {
+			player.out.writeUTF("MESSAGEFORREAD");
+			player.out.writeUTF("És működik! :D ");
+		}
+		while (true){
+			
+		}
 	}
 
 	
