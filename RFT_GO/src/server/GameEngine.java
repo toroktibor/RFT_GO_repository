@@ -22,6 +22,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private int luckyCardIndex = 0;
 	private XMLParser p=new XMLParser();
 	
+	
 	//GETTERS AND SETTERS
 	public Player getActualPlayer() {
 		return actualPlayer;
