@@ -298,7 +298,6 @@ public class Controller implements IController{
 				}
 			}	
 			if (found==false){
-				System.out.println("asd");
 				StateOfPlayer gs=new StateOfPlayer(playerId);
 				applyState(methods, s, gs);
 				gameState.add(gs);
