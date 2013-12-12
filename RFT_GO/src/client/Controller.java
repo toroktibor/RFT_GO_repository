@@ -70,7 +70,8 @@ public class Controller implements IController{
 		myView.showView();
 		login();
 	}
-
+	
+	
 
 	public void login(){ 
 		logInf=myView.getLoginInfos();
