@@ -371,7 +371,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		boolean wait=true;
 		Calendar time = Calendar.getInstance() ;
 		Calendar time2 = Calendar.getInstance() ;
-		int wtime=60000;
+		int wtime=20000;
 		while((allPlayers.size() < maxNumberOfPlayers) && wait ) {
 			try {
 				/* várakozunk a kliensig ha megjön új játékos a listára felveszük stb
@@ -446,7 +446,7 @@ public class GameEngine implements ICashier, IGamePlay {
 			s.concat("#SETBALANCE#" + actualPlayer.getBalance() );
 			s.concat("#SETLOCATION#" + actualPlayer.getLocation().toString());
 		}
-		for(int i = 0; i<allPlayers.size(); ++i) {
+		for(int i = 0; i<allPlayers.size()-1; ++i) {
 			changeActualPlayerByIndex(i);
 			out.writeUTF("GETGAMESTATE");
 			out.writeUTF(s);
@@ -457,8 +457,8 @@ public class GameEngine implements ICashier, IGamePlay {
 	/* DONE - This method change the value of the actualPlayer to a player of allPlayers list given by the index */
 	public void changeActualPlayerByIndex(int index) throws IOException {
 		actualPlayer = allPlayers.get(index);
-		in = (DataInputStream) actualPlayer.getSocket().getInputStream();
-		out = (DataOutputStream) actualPlayer.getSocket().getOutputStream();
+		in = new DataInputStream( actualPlayer.getSocket().getInputStream());
+		out =new DataOutputStream( actualPlayer.getSocket().getOutputStream());
 	}
 	
 	/** DONE - In this method we call initialization method, and then the waitForPlayers() method, in which we wait for maximum 6 players.
@@ -467,6 +467,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	public void startGame() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		int iterator = 0;
 		init();
+		serverSocket=new ServerSocket(6000);
 		waitForPlayers(6);
 		do {
 			changeActualPlayerByIndex(iterator);
@@ -483,7 +484,8 @@ public class GameEngine implements ICashier, IGamePlay {
 				}
 			}
 			iterator += 1;
-			iterator = iterator % (allPlayers.size()+1);
+			if (iterator==allPlayers.size())
+				iterator = 0;
 		} while (actualPlayer.isWinner() == false);
 		
 		String winnersName = actualPlayer.getName();
