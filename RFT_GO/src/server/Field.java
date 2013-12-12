@@ -35,11 +35,4 @@ public class Field{
 		return (number + ":" + description);
 	}
 	
-	
-
-	
-
-	
-	
-	
 }
