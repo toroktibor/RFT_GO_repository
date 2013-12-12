@@ -483,7 +483,7 @@ public class GameEngine implements ICashier, IGamePlay {
 					actualPlayer.setExclusions(actualPlayer.getExclusions()-1);
 				}
 			}
-			iterator += 1;
+			++iterator;
 			if (iterator==allPlayers.size())
 				iterator = 0;
 		} while (actualPlayer.isWinner() == false);
