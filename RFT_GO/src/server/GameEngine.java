@@ -7,7 +7,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -17,7 +19,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private List<Player> allPlayers = new ArrayList<Player>();
 	private List<Field> board = new ArrayList<Field>();			//the board contains the list of all 42 fields
 	private List<LuckyCard> deck = new ArrayList<LuckyCard>();	//the deck contains the list of all lucky cards
-	private int luckyCardIndex = 0;		//index of the following lucky card in the row
+	private int luckyCardIndex = -1;		//index of the following lucky card in the row
 	private int playerIndex = 0;		//index of the respective actual player
 	
 	private XMLParser p=new XMLParser();	//the parser used for initialize the lucky cards of the deck and the fields of the board
@@ -56,26 +58,36 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 	
 	//IMPLEMENTATION OF THE METHODS OF ICASHIER INTERFACE
-	/** Ez a metÛdus az aktu·lis j·tÈkos egyenlegÈn jÛv·Ìrja a megfelelı ˆsszeget.
+	/** This method add the required amount of money to the actual player's balance.
 	 * 
-	 * @param amount az ·tutlanandÛ pÈnzˆsszeg
+	 * @param amount the required amount of money
+	 * @throws IOException 
 	 */
-	public void addMoney(int amount) {
+	//DONE
+	public void addMoney(int amount) throws IOException {
 		int originalBalance = actualPlayer.getBalance();
 		actualPlayer.setBalance(originalBalance+amount);
-		System.out.println("###MONEY ADDED SUCCESSFULLY###");
+		System.out.println("###Money added. Original -> New balance:" 
+							+ originalBalance + "->" + actualPlayer.getBalance() + " ###");
+		sendGameState("BALANCE");
 		return;
 	}
-	public void addPercentage(int percentage) {
+	
+	/* DONE
+	 * NEED REVIEW */
+	public void addPercentage(int percentage) throws IOException {
 		int originalBalance = actualPlayer.getBalance();
 		double result = originalBalance * ((double)percentage / 100);
 		addMoney((int)result);
+		System.out.println("###Percentage added. Original -> New balance: " 
+							+ originalBalance + "->" + actualPlayer.getBalance() + " ###");
 		return;
 	}	
-	/** Ez a metÛdus ellenırzi, hogy rendelkezÈsre ·ll-e az aktu·lis j·tÈkos egyenlegÈn a megfelelı ˆsszeg.
+	
+	/** This method check if the balance of the actual player is greater or equal to the required amount.
 	 * 
-	 * @param amount a kÌv·nt pÈnzˆsszeg
-	 * @return igaz, ha rendelkezÈsre ·ll, Ès hamis, ha nem.
+	 * @param amount the required amount of money
+	 * @return 
 	 */
 	public Boolean checkBalance(int amount) {
 		if(actualPlayer.getBalance() >= amount) {
@@ -87,42 +99,42 @@ public class GameEngine implements ICashier, IGamePlay {
 			return false;
 		}		
 	}
-	/** Ez a metÛdus az aktu·lis j·tÈkos egyenlegÈrıl levonja a megfelelı ˆsszeget.
+	
+	/** This method deduct the required amount of money from the balance of the actual player.
 		 * 
-		 * @param amount a levonandÛ pÈnzˆsszeg
+		 * @param amount the amount of money to deduct
 		 * @return
+	 * @throws IOException 
 		 */
-	public Boolean deductMoney(int amount) {
+	public void deductMoney(int amount) throws IOException {
 		int originalBalance = actualPlayer.getBalance();
-		System.out.println("###Egyenleg levon·s elıtt: " + originalBalance + " Euro ###");
 		if(checkBalance(amount) == true) {
-			actualPlayer.setBalance(originalBalance-amount);
-			System.out.println("###Sikeres pÈnzlevon·si tranzakciÛ###");
-			System.out.println("###Egyenleg levon·s ut·n: " + actualPlayer.getBalance() + " Euro ###");
-			return true;
+			actualPlayer.setBalance(originalBalance - amount);
+			sendGameState("BALANCE");
+			System.out.println("###Money deducted. Original -> New balance: " 
+					+ originalBalance + "->" + actualPlayer.getBalance() + " ###");
 		}
 		else {
-			System.out.println("###Sikertelen pÈnzlevon·si tranzakciÛ - nem elegendı az egyenleg###");
-			
-			return false;
+			System.out.println("###Money deduction unsuccessful. Balance vs. Required: "
+									+ originalBalance + " vs. " + amount +" ###");
 		}
 	}
-	/** Ez a metÛdus minden kˆr vÈgÈn hÌvÛdik meg, Ès ha van az aktu·lis j·tÈkosnak h·za, illetve autÛja
-	 * akkor levonja az esetleges h·tralÈvı tartoz·sbÛl a kˆrˆnkÈnt kˆtelezıen tˆrlesztendı 500 eurÛt.
-	 * Ha nem tudja levonni, a j·tÈkos kiesett, az isActiva v·ltozÛ ÈrtÈkÈt ennek megfelelıen ·t·llÌtja, 
-	 * Ès hamis ÈrtÈkkel tÈr vissza, ha pedig siker¸lnek a tranzakciÛk, akkor igaz visszatÈrÈsi ÈrtÈkkel.
-	 */
-	public Boolean handleDebits() {
+	
+	/* DONE - This method deduct 500 euros for each debts in the end of every round. If it is not possible, the player lose the game. */
+	public void handleDebits() throws IOException{
 		if(actualPlayer.getHouse() != null) {
 			int houseDebit = actualPlayer.getHouse().getDebit();
 			if(houseDebit != 0) {
 				if(checkBalance(500) == false) {
-					System.out.println("VesztettÈl, mert nem tudsz tˆrleszteni.");
+					sendMessageForRead("Vesztett√©l! Nem tudod kifizetni ad√≥ss√°godat!");
 					actualPlayer.setIsActive(false);
-					return false;
+					return;
 				}
 				else {
+					sendMessageForRead("Levontuk a k√∂telez≈ë t√∂rleszt≈ër√©szletet (500 euro) a h√°zad hitel√©b≈ël.");
 					actualPlayer.getHouse().setDebit(houseDebit-500);
+					sendGameState("HOUSE");
+					deductMoney(500); 
 				}
 			}
 		}
@@ -130,26 +142,28 @@ public class GameEngine implements ICashier, IGamePlay {
 			int carDebit = actualPlayer.getCar().getDebit();
 			if(carDebit != 0) {
 				if(checkBalance(500) == false) {
-					System.out.println("VesztettÈl, mert nem tudsz tˆrleszteni.");
+					sendMessageForRead("Vesztett√©l! Nem tudod kifizetni ad√≥ss√°godat!");
 					actualPlayer.setIsActive(false);
-					return false;
 				}
 				else {
+					sendMessageForRead("Levontuk a k√∂telez≈ë t√∂rleszt≈ër√©szletet (500 euro) az aut√≥d hitel√©b≈ël.");
 					actualPlayer.getCar().setDebit(carDebit-500);
+					sendGameState("CAR");
+					deductMoney(500);
 				}
 			}	
 		}
-	return true;
 	}
 	
 	
 	//IMPLEMENTATION OF THE METHODS OF IGAMEPLAY INTERFACE
-	/** Ez a metÛdus a @param allMethosdNameList metÛdus list·ban keresi
-	 * a @param goalMethodsName nev˚ metÛdust, Ès visszaadja az indexÈt, ha megtal·lta.
+	
+	/** This method search in the allMethosdNameList methodlist the given method named by
+	 * @param goalMethodsName parameter, and give back the index of it.
 	 * 
-	 * @param allMethodsNameList a lista, amiben keress¸k a metÛdust
-	 * @param goalMethodsName a keresendı metÛdus neve
-	 * @return a keresett metÛdus indexe a list·ban.
+	 * @param allMethodsNameList the list to search in it
+	 * @param goalMethodsName the name of the searched method
+	 * @return the index of the result method.
 	 */
 	private int giveIndexOfSearchedMethod(Method[] allMethodsNameList, String goalMethodsName ) {
 		int indexOfSearchedMethod = -1;
@@ -161,18 +175,16 @@ public class GameEngine implements ICashier, IGamePlay {
 		return indexOfSearchedMethod;
 	}
 	
+	/* DONE - This method initialize the fields of the board, and the lucky cards of the deck. */
 	public void init() {
 		board=p.parseFields("Fields.xml");
 		deck=p.parseLuckyCards("LuckyCards.xml");
 		return;
 	}
 	
-	
-	/** Ez a metÛdus vÈgzi el a kock·val valÛ dob·st.
-	 *  A metÛdusban ellenırzÈsre ker¸l, hogy nincs-e 1-6 b¸ntetÈsben a j·tÈkos, mert ha igen,
-	 *  akkor csak megfelelı ÈrtÈk˚ dob·s esetÈn hÌvÛdik meg a {@code moveWithQuantity()} metÛdus.
-	 *  Minden esetben t·jÈkozhatjuk a j·tÈkost szˆveges ¸zenet form·j·ban az eredmÈnyrıl.
-	 * @throws IOException 
+	/** This method execute the dice using a random number generator in a range from 1 to 6.
+	 *  If the player has the so called 1-6 Penalty, it is not possible to move away while the result of the dice is not 1 or 6.
+	 *  @throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException 
 	 */
 	public void dice() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		Random generator = new Random();
@@ -182,46 +194,45 @@ public class GameEngine implements ICashier, IGamePlay {
 			if((result==1) || (result ==6)) {
 			actualPlayer.set_1_6Penalty(0);
 			out.writeUTF("MESSAGEFORREAD");
-			sendMessageForRead("B¸ntetÈsben volt·l, mely szerint csak 1-es vagy 6-os dob·ssal lÈphetsz tov·bb," +
-								" de mivel dob·sod ÈrtÈke " + result + ", Ìgy lÈpj elıre ennyi mezıt!");
+			/*FINOM√çT√ÅSRA SZORUL*/
+			sendMessageForRead("B√ºntet√©sben volt√°l, mely szerint csak 1-es vagy 6-os dob√°ssal l√©phetsz tov√°bb," +
+								" de mivel dob√°sod √©rt√©ke " + result + ", √≠gy l√©pj el≈ëre ennyi mez≈ët!");
 			moveWithQuantity(result);
 			return;
 			}
 			else {
-				sendMessageForRead("B¸ntetÈsben vagy, mely szerint csak 1-es vagy 6-os dob·ssal lÈphetsz tov·bb. " +
-									"Most itt maradsz, mert dob·sod ÈrtÈke " + result + ".");
+				sendMessageForRead("B√ºntet√©sben vagy, mely szerint csak 1-es vagy 6-os dob√°ssal l√©phetsz tov√°bb. " +
+									"Most itt maradsz, mert dob√°sod √©rt√©ke " + result + ".");
 				return;
 			}
 		}
 		else {
-			out.writeUTF("MESSAGEFORREAD");
-			sendMessageForRead("Dob·sod ÈrtÈke " + result + ". LÈpj elıre ennyi mezıt!" );
+			sendMessageForRead("Dob√°sod √©rt√©ke " + result + ". L√©pj el≈ëre ennyi mez≈ët!" );
 			moveWithQuantity(result);
 			return;
 		}
 	}
+	
 	public void executeFieldCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
-		out.writeUTF("GETGAMESTATE");
-		out.writeUTF(playerIndex + "#SETLOCATION#" + actualPlayer.getLocation().toString());
-		// Az aktu·lis j·tÈkos mezıjÈnek Command adattagja, a parancsszavakat tartalmazÛ 
-		// string feldarabol·sa '#' karakterek mentÈn, eredmÈny a commandWords String tˆmb.
+		// Az aktu√°lis j√°t√©kos mez≈ëj√©nek Command adattagja, a parancsszavakat tartalmaz√≥ 
+		// string feldarabol√°sa '#' karakterek ment√©n, eredm√©ny a commandWords String t√∂mb.
 		int commandWordIterator = 0;
 		int methodIterator;
 		String[] commandWords = actualPlayer.getLocation().getCommand().split("#");
 		String executableMethodsName;
-		// A commandWords String tˆmb elsı eleme a vÈgrehajtandÛ metÛdusok sz·ma.
+		// A commandWords String t√∂mb els≈ë eleme a v√©grehajtand√≥ met√≥dusok sz√°ma.
 		int numberOfExecutableMethods = Integer.parseInt(commandWords[commandWordIterator++]);
-		System.out.println("VÈgrehajtandÛ metÛdusok sz·ma: " + numberOfExecutableMethods);
-		// Ennek megfelelı sz·m√∫ metÛdust kell meghÌvni. (ez egyÈbkÈnt max. 2 lesz.)
-		// LekÈrj¸k az oszt·lytÛl a metÛdusok list·j·t, hogy majd ezek kˆz¸l egyet meghÌvhassunk.
+		//System.out.println("V√©grehajtand√≥ met√≥dusok sz√°ma: " + numberOfExecutableMethods);
+		// Ennek megfelel≈ë sz√°m√∫ met√≥dust kell megh√≠vni. (ez egy√©k√©nt max. 2 lesz.)
+		// Lek√©rj√ºk az oszt√°lyt√≥l a met√≥dusok list√°j√°t, hogy majd ezek k√∂z√ºl egyet megh√≠vhassunk.
 		Method[] methods = GameEngine.class.getDeclaredMethods();
 		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
-			// Az executableMethodsName v·ltozÛban rˆgzÌtem a vÈgrehajtandÛ metÛdus nevÈt.
+			// Az executableMethodsName v√°ltoz√≥ban r√∂gz√≠tem a v√©grehajtand√≥ met√≥dus nev√©t.
 			executableMethodsName = commandWords[commandWordIterator++];
-			System.out.println("###VÈgrehajtandÛ metÛdus: " + executableMethodsName + " ###");
-			// Az actMet metÛdusban rˆgzÌtem a vÈgrehajtandÛ metÛdus objektumot.
+			//System.out.println("###v√©grehajtand√≥ met√≥dus: " + executableMethodsName + " ###");
+			// Az actMet met√≥dusban r√∂gz√≠tem a v√©grehajtand√≥ met√≥dus objektumot.
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
-			// Megvizsg·lom a metÛdus neve alapj·n, hogy h·ny paramÈtere lesz, azokat rˆgzÌtem, Ès meghÌvom a metÛdust.
+			// Megvizsg√°lom a met√≥dus neve alapj√°n, hogy h√°ny param√©tere lesz, azokat r√∂gz√≠tem, √©s megh√≠vom a metÔøΩdust.
 			
 			if(	executableMethodsName.equals("addMoney") || 
 				executableMethodsName.equals("deductMoney") || 
@@ -302,66 +313,174 @@ public class GameEngine implements ICashier, IGamePlay {
 		return;
 }
 */
-	public void executeLuckyCardCommand() {
-		/* IDE M…G ÕRNI KELL BASZOD */
-		return;
-	}
-	/** Ebben a metÛdusban k¸lˆnbˆzı j·tÈkosokhoz k¸lˆnbˆzı socketeket rendel¸nk.
-	 * Amint Èrkezik egy kapcsolÛd·si kÈrelem, az adott socket inputStream-jÈbıl kinyerj¸k a kliens ¸zenetÈt, 
-	 * amely a j·tÈkos neve lesz, ily mÛdon az √∫j j·tÈkost hozz·adjuk a j·tÈkosok list·j·hoz.
-	 * 2 j·tÈkos csatlakoz·sa ut·n 2 perces (azaz 120000 ms) t¸relmi idı van, amÌg tov·bbi j·tÈkosokra v·rakozunk.
-	 * Ezt kˆvetıen elindul a j·tÈk a startGame() metÛdusba tˆrtÈnı visszatÈrÈssel.
-	 * SZERKESZTÈS ALATT! MÈG NEM TESZTELVE! V·RJA A KRITIK·KAT! :)
-	 */
-	public void waitForPlayers(int maxNumberOfPlayers) throws IOException {
-		serverSocket = new ServerSocket(5005);
-		Socket actualSocket = new Socket();
-		Integer actualPlayersIndex;
-		while(allPlayers.size() < maxNumberOfPlayers) {
-			actualSocket = serverSocket.accept();
-			if(actualSocket.isConnected()) {
-				in = (DataInputStream) actualSocket.getInputStream();
-				out = (DataOutputStream) actualSocket.getOutputStream();
-				allPlayers.add(new Player(in.readUTF(), actualSocket, board.get(0)));
-				out.flush();
-				actualPlayersIndex = (allPlayers.size()-1);
-				out.writeUTF(actualPlayersIndex.toString());
-				actualSocket.close(); //kÈrdÈs nem lesz-e ez g·z???
+
+	public void executeLuckyCardCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		// Az aktu√°lis szerencsek√°rtya Command adattagja, a parancsszavakat tartalmaz√≥ 
+		// string feldarabol√°sa '#' karakterek ment√©n, eredm√©ny a commandWords String t√∂mb.
+		int commandWordIterator = 0;
+		int methodIterator;
+		String[] commandWords = deck.get(luckyCardIndex).getCommand().split("#");
+		String executableMethodsName;
+		// A commandWords String t√∂mb els≈ë eleme a v√©grehajtand√≥ met√≥dusok sz√°ma.
+		int numberOfExecutableMethods = Integer.parseInt(commandWords[commandWordIterator++]);
+		//System.out.println("V√©grehajtand√≥ met√≥dusok sz√°ma: " + numberOfExecutableMethods);
+		// Ennek megfelel≈ë sz√°m√∫ met√≥dust kell megh√≠vni. (ez egy√©k√©nt max. 2 lesz.)
+		// Lek√©rj√ºk az oszt√°lyt√≥l a met√≥dusok list√°j√°t, hogy majd ezek k√∂z√ºl egyet megh√≠vhassunk.
+		Method[] methods = GameEngine.class.getDeclaredMethods();
+		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
+			// Az executableMethodsName v√°ltoz√≥ban r√∂gz√≠tem a v√©grehajtand√≥ met√≥dus nev√©t.
+			executableMethodsName = commandWords[commandWordIterator++];
+			//System.out.println("###v√©grehajtand√≥ met√≥dus: " + executableMethodsName + " ###");
+			// Az actMet met√≥dusban r√∂gz√≠tem a v√©grehajtand√≥ met√≥dus objektumot.
+			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
+			// Megvizsg√°lom a met√≥dus neve alapj√°n, hogy h√°ny param√©tere lesz, azokat r√∂gz√≠tem, √©s megh√≠vom a metÔøΩdust.
+			
+			if(	executableMethodsName.equals("addMoney") || 
+				executableMethodsName.equals("deductMoney") || 
+				executableMethodsName.equals("actualPlayer.set_1_6Penalty") || 
+				executableMethodsName.equals("actualPlayer.setGiftDices")  ||
+				executableMethodsName.equals("moveToField") ||
+				executableMethodsName.equals("moveWithQuantity") ||
+				executableMethodsName.equals("set_1_6Penalty") ||
+				executableMethodsName.equals("setGiftDices") ||
+				executableMethodsName.equals("setExclusion")) {
+				
+				int param1 = Integer.parseInt(commandWords[commandWordIterator]);
+				actMet.invoke(this, param1);
 			}
-			if( 2 <= allPlayers.size() ) {
-				serverSocket.setSoTimeout(120000);
+			else if(executableMethodsName.equals("offerBuyFurniture") || executableMethodsName.equals("sendMessageForRead") ) {
+				String param1 = commandWords[commandWordIterator];
+				actMet.invoke(this, param1);
 			}
+			else if(executableMethodsName.equals("offerBuyHouse") || executableMethodsName.equals("offerBuyCar") 
+					|| executableMethodsName.equals("offerMakeInsurances") || executableMethodsName.equals("drawNextLuckyCard")) {
+				actMet.invoke(this);
+			}
+			commandWordIterator++;
 		}
+		
 		return;
 	}
-	public void sendGameState() {
-		// TODO Auto-generated method stub //majd itt egyeztess¸nk mert az ¸zenet v·lt·s Èrdekes :)
-		
+	
+	/** In this method we wait for the given number players. There is a time limit, after which we start the game.
+	 */
+	/* DONE 
+	 * NEED REVIEW*/
+	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EG√©SZEN M√°S LESZ....
+		/* azt mondjuk v√°rakozunk */
+		boolean wait=true;
+		Calendar time = Calendar.getInstance() ;
+		Calendar time2 = Calendar.getInstance() ;
+		int wtime=60000;
+		while((allPlayers.size() < maxNumberOfPlayers) && wait ) {
+			try {
+				/* v√°rakozunk a kliensig ha megj√∂n √∫j j√°t√©kos a list√°ra felvesz√ºk stb
+				 * mind ezt 2x az els≈ë 2 kliensig
+				 * */
+				System.out.println("Kliensre v√°rakozunk!");
+				Socket oneClient=serverSocket.accept();
+				in=new DataInputStream(oneClient.getInputStream());
+				out=new DataOutputStream(oneClient.getOutputStream());
+				String pname=in.readUTF();
+				System.out.println(pname+" csatlakozott!");
+				actualPlayer = new Player(pname, oneClient, board.get(0));
+				allPlayers.add(actualPlayer);
+				sendGameState("NEWPLAYER");
+				/*Megj√∂tt 2 kliens innent≈ël maximum x id≈ëig (jelen esetben 120sec) v√°runk a tov√°bbi kliensekre
+				 * ha letelt kiv√©telt dob, elkapjuk a kiv√©telt
+				 * 
+				 * alap esetben √∫gy m≈±k√∂dne hogy minden kliens √©rkez√©s√©re v√°runk x id≈ët √©s ha nem j√∂n meg 
+				 * kiv√©tel dob√°s, ha megj√∂n √∫jra indul a v√°rakoz√°s ezzel az id≈ëvel
+				 * na de, most cs√∂kkentj√ºk azzal az id≈ëvel ami a 2. j√°t√©kos √©rkez√©se √≥ta √©s a legut√≥bbi
+				 * j√°t√©kos √©rkez√©se √≥ta telt el, √≠gy az √∫jabb j√°t√©kosoknak egyre kevesebb ideje marad
+				 * magyarul: a 2. j√°t√©koshoz viszony√≠tjuk az id≈ët.
+				 * */
+				if (2==allPlayers.size()){
+					time2 = Calendar.getInstance() ;
+					System.out.println("M√°r van 2 kliens, ezent√∫l maximum "+wtime/1000+" m√°sodpercig v√°runk!");
+					serverSocket.setSoTimeout(wtime);
+				}
+				if (2<allPlayers.size()){
+					time = Calendar.getInstance() ;
+					wtime=wtime-(int) (time.getTimeInMillis()-time2.getTimeInMillis());
+					System.out.println("M√°r van "+allPlayers.size()+" j√°t√©kos, h√°tral√©v≈ë id≈ë "+wtime/1000+" m√°sodperc!");
+					serverSocket.setSoTimeout(wtime);
+				}
+			}
+			
+			/*
+			 * itt kapjuk el azt√°n azt mondjuk nem v√°runk tov√°bb, 
+			 * mivel elkaptuk elindul a k√∂vetkez≈ë ciklus l√©p√©s, de a felt√©tel miatt m√°r nem
+			 * fut le, azaz nem v√°runk tov√°bb kliensre
+			 */
+			catch ( SocketTimeoutException e ) {  
+				System.out.println("Az id≈ë letelt! Indulhat a j√°t√©k!");
+				wait=false;
+	        }  
+		}
 	}
-	/**Ebben a metÛdusban elıszˆr meghÌvjuk a waitForPlayers() metÛdust, amelyben 6 becsatlakozÛ j·tÈkosra v·runk.
-	 * Amennyiben a metÛdustÛl a vezÈrlÈst visszakapjuk, elindÌtjuk a tÈnyleges j·tÈkot, azaz
-	 * sorra eldˆntj¸k, hogy ki kˆvetkezik dobni, Ès aki kˆvetkezik az dobhat-e, vagy Èppen kimarad, illetve, ha
-	 * tˆbbszˆr is dobhat, akkor tˆbb lehetısÈget kap a szab·lyoknak megfelelıen.
-	 * Ez egÈszen addig megy, mÌg egy j·tÈkos meg nem nyerte a j·tÈkot.
-	 * NyerÈs esetÈn a gyıztest, Ès a tˆbbieket is ÈrtesÌtj¸k.
-	 * 
+	
+	public void sendGameState(String option) throws IOException {
+		int originalActualPlayersIndex = allPlayers.indexOf(actualPlayer);
+		String s = String.valueOf(originalActualPlayersIndex);
+		if(option.equals("HOUSE")) {
+			s.concat("#1#SETHOUSE#" + actualPlayer.getHouse().toString());	
+		}
+		else if(option.equals("CAR")) {
+			s.concat("#1#SETCAR#" + actualPlayer.getCar().toString());
+		}
+		else if(option.equals("NAME")) {
+			s.concat("#1#SETNAME#" + actualPlayer.getName().toString());
+		}
+		else if(option.equals("BALANCE")) {
+			s.concat("#1#SETBALANCE#" + actualPlayer.getBalance() );
+		}		
+		else if(option.equals("LOCATION")) {
+			s.concat("#1#SETLOCATION#" + actualPlayer.getLocation().toString());
+		}		
+		else if(option.equals("NEWPLAYER")) {
+			s.concat("#5");
+			s.concat("#SETHOUSE#FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:0");	
+			s.concat("#SETCAR#FALSE:FALSE:0");
+			s.concat("#SETNAME#" + actualPlayer.getName().toString());
+			s.concat("#SETBALANCE#" + actualPlayer.getBalance() );
+			s.concat("#SETLOCATION#" + actualPlayer.getLocation().toString());
+		}
+		for(int i = 0; i<allPlayers.size(); ++i) {
+			changeActualPlayerByIndex(i);
+			out.writeUTF("GETGAMESTATE");
+			out.writeUTF(s);
+		}
+		changeActualPlayerByIndex(originalActualPlayersIndex);		
+	}
+	
+	/* DONE - This method change the value of the actualPlayer to a player of allPlayers list given by the index */
+	public void changeActualPlayerByIndex(int index) throws IOException {
+		actualPlayer = allPlayers.get(index);
+		in = (DataInputStream) actualPlayer.getSocket().getInputStream();
+		out = (DataOutputStream) actualPlayer.getSocket().getOutputStream();
+	}
+	
+	/** DONE - In this method we call initialization method, and then the waitForPlayers() method, in which we wait for maximum 6 players.
+	 * After that, we start the game, so we decide who is the next to dice.
 	 */
 	public void startGame() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		int iterator = 0;
+		init();
 		waitForPlayers(6);
 		do {
-			setActualPlayer(allPlayers.get(iterator));
-			if( actualPlayer.getExclusions() == 0) {
-				dice();
-				executeFieldCommand();
-				while( actualPlayer.getGiftDices() != 0 ) {
+			changeActualPlayerByIndex(iterator);
+			if(actualPlayer.getIsActive() == true) {
+				if( actualPlayer.getExclusions() == 0) {
 					dice();
-					executeFieldCommand();
-					actualPlayer.setGiftDices(actualPlayer.getGiftDices()-1);
+					while( actualPlayer.getGiftDices() != 0 ) {
+						dice();
+						actualPlayer.setGiftDices(actualPlayer.getGiftDices()-1);
+					}
 				}
-			}
-			else if(actualPlayer.getExclusions() > 0) {
-				actualPlayer.setExclusions(actualPlayer.getExclusions()-1);
+				else if(actualPlayer.getExclusions() > 0) {
+					actualPlayer.setExclusions(actualPlayer.getExclusions()-1);
+				}
 			}
 			iterator += 1;
 			iterator = iterator % (allPlayers.size()+1);
@@ -369,34 +488,86 @@ public class GameEngine implements ICashier, IGamePlay {
 		
 		String winnersName = actualPlayer.getName();
 		for(int i = 0; i < allPlayers.size()-1; ++i) {
-			setActualPlayer(allPlayers.get(i));
+			changeActualPlayerByIndex(i);
+			
 			if(actualPlayer.isWinner() == false) {
-				sendMessageForRead("÷nnek most nem volt szerencsÈje, " + winnersName + " nyerte meg a j·tÈkot.");
+				sendMessageForRead("√ñnnek most nem volt szerencs√©je, " + winnersName + " nyerte meg a j√°t√©kot.");
 			}
 			else if(actualPlayer.isWinner() == true) {
-				sendMessageForRead("Gratul·lunk, " + winnersName + "! SzÈp j·tÈk volt, ˆn nyert!");
+				sendMessageForRead("Gratul√°lunk, " + winnersName + "! Sz√©p j√°t√©k volt, √ñn nyert!");
 			}
+			actualPlayer.getSocket().close();
 		}
+		serverSocket.close();
 	}
 
 	//CALLABLE METHODS OF FIELD AND LUCKYCARD COMMANDS
-	private LuckyCard drawNextLuckyCard() {
-		int nextIndex = luckyCardIndex++;
-		return deck.get(nextIndex%42);
+	private void drawNextLuckyCard() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+		luckyCardIndex++;
+		luckyCardIndex %= 37;
+		sendMessageForRead("Ezt a szerencsek√°rty√°t h√∫ztad: " + deck.get(luckyCardIndex).getDescription());
+		executeLuckyCardCommand();
+		}
+	
+	/* DONE
+	 * NEED REVIEW */
+	private void loseCar() throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		if(actualPlayer.getCar() != null) {
+			
+			int moneyToGiveBack = 0;
+			if(actualPlayer.getCar().getDebit() > 0)
+				moneyToGiveBack = 12000 - actualPlayer.getCar().getDebit();
+			else if(actualPlayer.getCar().getDebit() == 0) {
+				moneyToGiveBack = 10000;
+			}
+			if(actualPlayer.getCar().getIsInsured() == true) {
+				addMoney(moneyToGiveBack);
+			}
+			else if(actualPlayer.getCar().getIsInsured() == false) {
+				moveToField(9);
+			}
+		actualPlayer.setCar(null);
+		sendGameState("CAR");
+		}
 	}
-	private void loseCar() {
-		
+	
+	/* DONE
+	 * NEED REVIEW */
+	private void loseFurnitures() throws IOException {
+		if(actualPlayer.getHouse().getIsInsured() == true) {
+			int moneyToGiveBack = 0;
+			if(actualPlayer.getHouse().getHasCooker() == true)
+				moneyToGiveBack += 200;
+			if(actualPlayer.getHouse().getHasDishwasher() == true)
+				moneyToGiveBack += 300;
+			if(actualPlayer.getHouse().getHasFrigo() == true)
+				moneyToGiveBack += 200;
+			if(actualPlayer.getHouse().getHasKitchen() == true)
+				moneyToGiveBack += 1000;
+			if(actualPlayer.getHouse().getHasRoomFurniture() == true)
+				moneyToGiveBack += 3000;
+			if(actualPlayer.getHouse().getHasWashMachine() == true)
+				moneyToGiveBack += 300;
+			addMoney(moneyToGiveBack);
+		}
+		actualPlayer.getHouse().setHasCooker(false);
+		actualPlayer.getHouse().setHasDishwasher(false);
+		actualPlayer.getHouse().setHasFrigo(false);
+		actualPlayer.getHouse().setHasKitchen(false);
+		actualPlayer.getHouse().setHasRoomFurniture(false);
+		actualPlayer.getHouse().setHasWashMachine(false);
+		sendGameState("HOUSE");
 	}
-	private void loseFurnitures() {
-		
-	}
+
+	/* MAYBE DONE
+	 * NEED REVIEW  */
 	private void moveWithQuantity(int amount) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		int newPositionNumber = actualPlayer.getLocationNumber() + amount;
-		actualPlayer.setLocation(board.get(newPositionNumber%42));
-		//out.writeUTF(playerIndex + "#SETLOCATION#");
+		actualPlayer.setLocation(board.get(newPositionNumber % 42));
+		sendGameState("LOCATION");
 		if(newPositionNumber > 42) { //it means that round finished, and we step over start field
-			if(handleDebits()==true)	//if we can handle debits, so actual player is not in a looser state
-				executeFieldCommand();	//then execute the field command
+			handleDebits();	//if we can handle debits, so actual player is not in a looser state
+			executeFieldCommand();	//then execute the field command
 		}
 		else if(newPositionNumber == 42) {	//it means that round finished, and we are on start field
 			executeFieldCommand();			//execute field command ( so add 4000 euros )
@@ -406,43 +577,233 @@ public class GameEngine implements ICashier, IGamePlay {
 			executeFieldCommand();			//we execute field command
 		return;
 	}
-	private void moveToField(int goalFieldsNumber) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	
+	/* MAYBE DONE
+	 * NEED REVIEW  */
+	private void moveToField(int goalFieldsNumber) 
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+		int originalPositionNumber = actualPlayer.getLocationNumber();
 		actualPlayer.setLocation(board.get(goalFieldsNumber));
-		executeFieldCommand();
+		sendGameState("LOCATION");
+		if( ( goalFieldsNumber < originalPositionNumber ) && ( goalFieldsNumber == 0 ) ) {
+			executeFieldCommand();
+			handleDebits();
+		}
+		else if(( goalFieldsNumber < originalPositionNumber ) && ( goalFieldsNumber > 0 ) ) {
+			handleDebits();
+			executeFieldCommand();
+		}
+		else {
+			executeFieldCommand();
+		}
 	}
-	private void offerBuyCar() {
-		System.out.println("###Buying of Car Offered###");
+	
+	/* MAYBE DONE!
+	 * NEED REVIEW */
+	private void offerBuyCar() throws IOException {
+		out.flush();
+		out.writeUTF("BUYCAR");
+		System.out.println("###Buying of Car Offered.###");
+		String incomingMessage = in.readUTF();
+		if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(10000) == true)) {
+			actualPlayer.setCar(new Car());
+			actualPlayer.getCar().setDebit(0);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(10000);
+			sendGameState("CAR");
+		}
+		else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(2000) == true)) {
+			actualPlayer.setCar(new Car());
+			actualPlayer.getCar().setDebit(10000);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(15000);
+			sendGameState("CAR");
+		}
+		else if(incomingMessage.equals("DONTBUY")) {
+			out.flush();
+			out.writeUTF("SUCCESS");
+		}
+		
 	}
-	private void offerBuyFurniture(String string) {
-		System.out.println("###Buying of Furniture Offered: " + string + " ###");
+	
+	/* MAYBE DONE!
+	 * NEED REVIEW !*/
+	private void offerBuyFurniture(String string) throws IOException {
+		out.flush();
+		out.writeUTF("BUYFURNITURE");
+		System.out.println("###Buying of Furniture Offered.###");
+		out.flush();
+		out.writeUTF(string);
+		String incomingMessage = in.readUTF();
+		if((incomingMessage.equals("BUYCOOKER")) && (checkBalance(200) == true)) {
+			actualPlayer.getHouse().setHasCooker(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(200);
+			sendGameState("HOUSE");	
+		}
+		else if((incomingMessage.equals("BUYDISHWASHER")) && (checkBalance(300) == true)) {
+			actualPlayer.getHouse().setHasDishwasher(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(300);
+			sendGameState("HOUSE");	
+		}
+		else if((incomingMessage.equals("BUYFRIGO")) && (checkBalance(200) == true)) {
+			actualPlayer.getHouse().setHasFrigo(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(200);
+			sendGameState("HOUSE");	
+		}
+		else if((incomingMessage.equals("BUYKITCHENFURNITURE")) && (checkBalance(1000) == true)) {
+			actualPlayer.getHouse().setHasKitchen(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(1000);
+			sendGameState("HOUSE");	
+		}
+		else if((incomingMessage.equals("BUYROOMFURNITURE")) && (checkBalance(3000) == true)) {
+			actualPlayer.getHouse().setHasRoomFurniture(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(3000);
+			sendGameState("HOUSE");	
+		}
+		else if((incomingMessage.equals("BUYWASHMACHINE")) && (checkBalance(300) == true)) {
+			actualPlayer.getHouse().setHasWashMachine(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(300);
+			sendGameState("HOUSE");	
+		}
+		else if((incomingMessage.equals("DONTBUYCOOKER")) || (incomingMessage.equals("DONTBUYDISHWASHER")) 
+				|| (incomingMessage.equals("DONTBUYFRIGO")) || (incomingMessage.equals("DONTBUYKITCHENFURNITURE"))
+				|| (incomingMessage.equals("DONTBUYROOMFURNITURE")) || (incomingMessage.equals("DONTBUYWASHMACHINE"))) {
+			out.flush();
+			out.writeUTF("SUCCESS");
+		}
+		else {
+			out.flush();
+			out.writeUTF("UNSUCCESS");
+		}
 	}
-	private void offerBuyHouse() {
-		System.out.println("###Buying of House Offered###");
+	
+	/* MAYBE DONE!
+	 * NEED REVIEW! */
+	private void offerBuyHouse() throws IOException {
+		out.flush();
+		out.writeUTF("BUYHOUSE");
+		System.out.println("###Buying of House Offered.###");
+		String incomingMessage = in.readUTF();
+		if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(30000) == true)) {
+			actualPlayer.setHouse(new House());
+			actualPlayer.getHouse().setDebit(0);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(30000);
+			sendGameState("HOUSE");
+		}
+		else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(15000) == true)) {
+			actualPlayer.setHouse(new House());
+			actualPlayer.getHouse().setDebit(15000);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(15000);
+			sendGameState("HOUSE");
+		}
+		else if(incomingMessage.equals("DONTBUY")) {
+			out.flush();
+			out.writeUTF("SUCCESS");
+		}
+		
 	}
-	private void offerMakeInsurances() {
-		System.out.println("###Making of Insurances Offered###");
+	
+	
+	/* MAYBE DONE!
+	 * NEED REVIEW! */
+	private void offerMakeInsurances() throws IOException {
+		out.flush();
+		out.writeUTF("MAKEINSURANCES");
+		System.out.println("###Making of Insurances Offered.###");
+		
+		String incomingMessage = in.readUTF();
+		if((incomingMessage.equals("MAKEONLYHOUSEINSURANCE")) && (checkBalance(100) == true)) {
+			actualPlayer.getHouse().setIsInsured(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(100);
+			sendGameState("HOUSE");
+		}
+		else if((incomingMessage.equals("MAKEONLYCARINSURANCE")) && (checkBalance(100) == true)) {
+			actualPlayer.getCar().setIsInsured(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(100);
+			sendGameState("CAR");
+		}
+		else if((incomingMessage.equals("MAKEBOTHINSURANCES")) && (checkBalance(200) == true)) {
+			actualPlayer.getCar().setIsInsured(true);
+			actualPlayer.getHouse().setIsInsured(true);
+			out.flush();
+			out.writeUTF("SUCCESS");
+			deductMoney(200);
+			sendGameState("CAR");
+			sendGameState("HOUSE");
+		}
+		else if(incomingMessage.equals("DONTMAKEANYINSURANCES")) {
+			out.flush();
+			out.writeUTF("SUCCESS");
+		}
+		else {
+			out.flush();
+			out.writeUTF("UNSUCCESS");
+		}
 	}
-	private void sendMessageForRead(String description) {
-		System.out.println("###Message For Read Is The Following###");
-		System.out.println(description);
-		System.out.println("###Message Has Been Sent.");
+	
+	
+	/* DONE 
+	 * NEED REVIEW */
+	private void sendMessageForRead(String description) throws IOException {
+		out.writeUTF("MESSAGEFORREAD");
+		out.writeUTF(description);
 	}	
+	
+	
+	/* DONE 
+	 * NEED REVIEW */
 	private void set_1_6Penalty(int amount) {
 		actualPlayer.set_1_6Penalty(amount);
 		return;
 	}
+	
+	
+	/* DONE 
+	 * DON'T NEED REVIEW */
 	private void setExclusions(int amount) {
 		actualPlayer.setExclusions(amount);
 		return;
 	}
+	
+	
+	/* DONE 
+	 * DON'T NEED REVIEW  */
 	private void setGiftDices(int amount) {
 		actualPlayer.setGiftDices(amount);
 		return;
 	}
-	private void wonFurniture(String furnitureName) {
+	
+	
+	/* DONE 
+	 * DON'T NEED REVIEW */
+	private void wonFurniture(String furnitureName) throws IOException {
 		if(furnitureName.equals("DISHWASHER")) {
 			if( (actualPlayer.getHouse() != null) && (actualPlayer.getHouse().getHasDishwasher() == false) ) {
 				actualPlayer.getHouse().setHasDishwasher(true);
+				sendGameState("HOUSE");
+				
 			}	
 			else {
 				addMoney(300);
@@ -451,6 +812,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		else if(furnitureName.equals("WASHMACHINE")) {
 			if( (actualPlayer.getHouse() != null) && (actualPlayer.getHouse().getHasWashMachine() == false) ) {
 				actualPlayer.getHouse().setHasWashMachine(true);
+				sendGameState("HOUSE");
 			}	
 			else {
 				addMoney(300);
@@ -459,6 +821,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		else if(furnitureName.equals("ROOMFURNITURE")) {
 			if( (actualPlayer.getHouse() != null) && (actualPlayer.getHouse().getHasRoomFurniture() == false) ) {
 				actualPlayer.getHouse().setHasRoomFurniture(true);
+				sendGameState("HOUSE");
 			}	
 			else {
 				addMoney(3000);
@@ -466,6 +829,4 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	return;
 	}
-
-	
 }
