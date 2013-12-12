@@ -170,7 +170,6 @@ public class Controller implements IController{
 
 	private void creditOrCashBuying(String desc){
 		int statement=myView.getBuyingInfos(desc);
-		
 		try {
 			if (statement==1){
 				sendMessage("BUYFORCREDIT");

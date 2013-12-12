@@ -604,29 +604,31 @@ public class GameEngine implements ICashier, IGamePlay {
 	/* MAYBE DONE!
 	 * NEED REVIEW */
 	private void offerBuyCar() throws IOException {
-		out.flush();
-		out.writeUTF("BUYCAR");
-		System.out.println("###Buying of Car Offered.###");
-		String incomingMessage = in.readUTF();
-		if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(10000) == true)) {
-			actualPlayer.setCar(new Car());
-			actualPlayer.getCar().setDebit(0);
+		if (actualPlayer.getCar()==null){
 			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(10000);
-			sendGameState("CAR");
-		}
-		else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(2000) == true)) {
-			actualPlayer.setCar(new Car());
-			actualPlayer.getCar().setDebit(10000);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(15000);
-			sendGameState("CAR");
-		}
-		else if(incomingMessage.equals("DONTBUY")) {
-			out.flush();
-			out.writeUTF("UNSUCCESS");
+			out.writeUTF("BUYCAR");
+			System.out.println("###Buying of Car Offered.###");
+			String incomingMessage = in.readUTF();
+			if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(10000) == true)) {
+				actualPlayer.setCar(new Car());
+				actualPlayer.getCar().setDebit(0);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(10000);
+				sendGameState("CAR");
+			}
+			else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(2000) == true)) {
+				actualPlayer.setCar(new Car());
+				actualPlayer.getCar().setDebit(10000);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(15000);
+				sendGameState("CAR");
+			}
+			else if(incomingMessage.equals("DONTBUY")) {
+				out.flush();
+				out.writeUTF("UNSUCCESS");
+			}
 		}
 		
 	}
@@ -634,90 +636,94 @@ public class GameEngine implements ICashier, IGamePlay {
 	/* MAYBE DONE!
 	 * NEED REVIEW !*/
 	private void offerBuyFurniture(String string) throws IOException {
-		out.flush();
-		out.writeUTF("BUYFURNITURE");
-		System.out.println("###Buying of Furniture Offered.###");
-		out.flush();
-		out.writeUTF(string);
-		String incomingMessage = in.readUTF();
-		if((incomingMessage.equals("BUYCOOKER")) && (checkBalance(200) == true)) {
-			actualPlayer.getHouse().setHasCooker(true);
+		if (actualPlayer.getHouse()!=null){
 			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(200);
-			sendGameState("HOUSE");	
-		}
-		else if((incomingMessage.equals("BUYDISHWASHER")) && (checkBalance(300) == true)) {
-			actualPlayer.getHouse().setHasDishwasher(true);
+			out.writeUTF("BUYFURNITURE");
+			System.out.println("###Buying of Furniture Offered.###");
 			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(300);
-			sendGameState("HOUSE");	
-		}
-		else if((incomingMessage.equals("BUYFRIGO")) && (checkBalance(200) == true)) {
-			actualPlayer.getHouse().setHasFrigo(true);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(200);
-			sendGameState("HOUSE");	
-		}
-		else if((incomingMessage.equals("BUYKITCHENFURNITURE")) && (checkBalance(1000) == true)) {
-			actualPlayer.getHouse().setHasKitchen(true);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(1000);
-			sendGameState("HOUSE");	
-		}
-		else if((incomingMessage.equals("BUYROOMFURNITURE")) && (checkBalance(3000) == true)) {
-			actualPlayer.getHouse().setHasRoomFurniture(true);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(3000);
-			sendGameState("HOUSE");	
-		}
-		else if((incomingMessage.equals("BUYWASHMACHINE")) && (checkBalance(300) == true)) {
-			actualPlayer.getHouse().setHasWashMachine(true);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(300);
-			sendGameState("HOUSE");	
-		}
-		else if((incomingMessage.equals("DONTBUYCOOKER")) || (incomingMessage.equals("DONTBUYDISHWASHER")) 
+			out.writeUTF(string);
+			String incomingMessage = in.readUTF();
+			if((incomingMessage.equals("BUYCOOKER")) && (checkBalance(200) == true)) {
+				actualPlayer.getHouse().setHasCooker(true);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(200);
+				sendGameState("HOUSE");	
+			}
+			else if((incomingMessage.equals("BUYDISHWASHER")) && (checkBalance(300) == true)) {
+				actualPlayer.getHouse().setHasDishwasher(true);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(300);
+				sendGameState("HOUSE");	
+			}
+			else if((incomingMessage.equals("BUYFRIGO")) && (checkBalance(200) == true)) {
+				actualPlayer.getHouse().setHasFrigo(true);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(200);
+				sendGameState("HOUSE");	
+			}
+			else if((incomingMessage.equals("BUYKITCHENFURNITURE")) && (checkBalance(1000) == true)) {
+				actualPlayer.getHouse().setHasKitchen(true);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(1000);
+				sendGameState("HOUSE");	
+			}
+			else if((incomingMessage.equals("BUYROOMFURNITURE")) && (checkBalance(3000) == true)) {
+				actualPlayer.getHouse().setHasRoomFurniture(true);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(3000);
+				sendGameState("HOUSE");	
+			}
+			else if((incomingMessage.equals("BUYWASHMACHINE")) && (checkBalance(300) == true)) {
+				actualPlayer.getHouse().setHasWashMachine(true);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(300);
+				sendGameState("HOUSE");	
+			}
+			else if((incomingMessage.equals("DONTBUYCOOKER")) || (incomingMessage.equals("DONTBUYDISHWASHER")) 
 				|| (incomingMessage.equals("DONTBUYFRIGO")) || (incomingMessage.equals("DONTBUYKITCHENFURNITURE"))
 				|| (incomingMessage.equals("DONTBUYROOMFURNITURE")) || (incomingMessage.equals("DONTBUYWASHMACHINE"))) {
-			out.flush();
-			out.writeUTF("UNSUCCESS");
+				out.flush();
+				out.writeUTF("UNSUCCESS");
+			}
 		}
 	}
 	
 	/* MAYBE DONE!
 	 * NEED REVIEW! */
 	private void offerBuyHouse() throws IOException {
-		out.flush();
-		out.writeUTF("BUYHOUSE");
-		System.out.println("###Buying of House Offered.###");
-		String incomingMessage = in.readUTF();
-		if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(30000) == true)) {
-			actualPlayer.setHouse(new House());
-			actualPlayer.getHouse().setDebit(0);
+		if (actualPlayer.getHouse()==null){
 			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(30000);
-			sendGameState("HOUSE");
-		}
-		else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(15000) == true)) {
-			actualPlayer.setHouse(new House());
-			actualPlayer.getHouse().setDebit(15000);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(15000);
-			sendGameState("HOUSE");
-		}
-		else if(incomingMessage.equals("DONTBUY")) {
-			out.flush();
-			out.writeUTF("UNSUCCESS");
-		}
-		
+			out.writeUTF("BUYHOUSE");
+			System.out.println("###Buying of House Offered.###");
+			String incomingMessage = in.readUTF();
+			if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(30000) == true)) {
+				actualPlayer.setHouse(new House());
+				actualPlayer.getHouse().setDebit(0);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(30000);
+				sendGameState("HOUSE");
+			}
+			else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(15000) == true)) {
+				actualPlayer.setHouse(new House());
+				System.out.println(actualPlayer.getHouse());
+				actualPlayer.getHouse().setDebit(15000);
+				out.flush();
+				out.writeUTF("SUCCESS");
+				deductMoney(15000);
+				sendGameState("HOUSE");
+			}
+			else if(incomingMessage.equals("DONTBUY")) {
+				out.flush();
+				out.writeUTF("UNSUCCESS");
+			}
+		}		
 	}
 	
 	

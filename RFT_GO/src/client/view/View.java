@@ -65,12 +65,12 @@ public class View implements IView{
 		Scanner sc = new Scanner(System.in);
 	    System.out.println(s);
 	    String st=sc.nextLine();
-	    if (st=="h")
-	    	return 1;
-	    else if(st=="k")
-	    	return 2;
-	    else
-		return 0;
+	    if (st.equals("h")){
+	    	return 1;}
+	    else if(st.equals("k")){
+	    	return 2;}
+	    else{
+		return 0;}
 	}
 	
 	
@@ -78,14 +78,14 @@ public class View implements IView{
 		Scanner sc = new Scanner(System.in);
 	    System.out.println(s);
 	    String st=sc.nextLine();
-	    if (st=="a")
-	    	return 1;
-	    else if(st=="h")
-	    	return 2;
-	    else if(st=="m")
-	    	return 3;
-	    else
-		return 0;
+	    if (st.equals("a")){
+	    	return 1;}
+	    else if(st.equals("h")){
+	    	return 2;}
+	    else if(st.equals("m")){
+	    	return 3;}
+	    else{
+		return 0;}
 	}
 	
 	

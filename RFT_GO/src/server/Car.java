@@ -1,8 +1,8 @@
 package server;
 
 public class Car {
-	private int debit;
-	private Boolean isInsured;
+	private int debit=0;
+	private Boolean isInsured=false;
 	
 	public int getDebit() {
 		return debit;
