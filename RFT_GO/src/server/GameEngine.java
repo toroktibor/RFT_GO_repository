@@ -385,6 +385,7 @@ public class GameEngine implements ICashier, IGamePlay {
 				System.out.println(pname+" csatlakozott!");
 				actualPlayer = new Player(pname, oneClient, board.get(0));
 				allPlayers.add(actualPlayer);
+				out.writeUTF("SETID#"+String.valueOf(allPlayers.indexOf(actualPlayer)));
 				sendGameState("NEWPLAYER");
 				/*Megjött 2 kliens innentől maximum x időig (jelen esetben 120sec) várunk a további kliensekre
 				 * ha letelt kivételt dob, elkapjuk a kivételt
@@ -509,7 +510,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		luckyCardIndex %= 37;
 		sendMessageForRead("Ezt a szerencsekártyát húztad: " + deck.get(luckyCardIndex).getDescription());
 		executeLuckyCardCommand();
-		}
+	}
 	
 	/* DONE
 	 * NEED REVIEW */
