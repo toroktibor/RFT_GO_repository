@@ -86,8 +86,10 @@ public class Controller implements IController{
                 System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
                 sendMessage(myName);
                 String[] id=readStringFromStream().split("#");
-                myID=Integer.parseInt(id[1]);
-                System.out.println("myID: "+myID);
+                if (id[0].equals("SETID")){
+                	myID=Integer.parseInt(id[1]);
+                }
+                System.out.println("your ID: "+myID);
                 getInitialMessage();
             }
         } catch (IOException e) {
