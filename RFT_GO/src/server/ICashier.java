@@ -1,9 +1,12 @@
 package server;
 
+import java.io.IOException;
+
 public interface ICashier {
-	public Boolean deductMoney(int amount);
-	public void addMoney(int amount);
+	public void deductMoney(int amount) throws IOException;
+	public void addMoney(int amount) throws IOException;
 	public Boolean checkBalance(int amount);
-	public Boolean handleDebits();
-	public void addPercentage(int amount);
+	public void handleDebits() throws IOException;
+	public void addPercentage(int amount) throws IOException;
 }
+
