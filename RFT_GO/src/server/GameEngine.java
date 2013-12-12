@@ -626,7 +626,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 		else if(incomingMessage.equals("DONTBUY")) {
 			out.flush();
-			out.writeUTF("SUCCESS");
+			out.writeUTF("UNSUCCESS");
 		}
 		
 	}
@@ -686,10 +686,6 @@ public class GameEngine implements ICashier, IGamePlay {
 				|| (incomingMessage.equals("DONTBUYFRIGO")) || (incomingMessage.equals("DONTBUYKITCHENFURNITURE"))
 				|| (incomingMessage.equals("DONTBUYROOMFURNITURE")) || (incomingMessage.equals("DONTBUYWASHMACHINE"))) {
 			out.flush();
-			out.writeUTF("SUCCESS");
-		}
-		else {
-			out.flush();
 			out.writeUTF("UNSUCCESS");
 		}
 	}
@@ -719,7 +715,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 		else if(incomingMessage.equals("DONTBUY")) {
 			out.flush();
-			out.writeUTF("SUCCESS");
+			out.writeUTF("UNSUCCESS");
 		}
 		
 	}
@@ -757,10 +753,6 @@ public class GameEngine implements ICashier, IGamePlay {
 			sendGameState("HOUSE");
 		}
 		else if(incomingMessage.equals("DONTMAKEANYINSURANCES")) {
-			out.flush();
-			out.writeUTF("SUCCESS");
-		}
-		else {
 			out.flush();
 			out.writeUTF("UNSUCCESS");
 		}

@@ -1,6 +1,6 @@
 package client;
 
-public class Main {
+public class ClientMain {
 
 	public static void main(String[] args) {
 		new Controller();
