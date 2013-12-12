@@ -67,7 +67,7 @@
 	<Field>
 		<id>13</id>
 		<descrpition>Betegséged idejére kórházba kerülsz, és csak akkor léphetsz tovább, ha l-est, vagy 6-ost dobsz. A 3. sikertelen dobás után bármilyen dobással kiléphetsz.</descrpition>
-		<command>1#set_1_6Penalty#3 </command>
+		<command>1#set_1_6Penalty#3</command>
 	</Field>
 	<Field>
 		<id>14</id>

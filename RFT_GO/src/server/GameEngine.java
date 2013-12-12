@@ -169,7 +169,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		int indexOfSearchedMethod = -1;
 		for(int i = 0; i<allMethodsNameList.length; ++i) {
 			if(allMethodsNameList[i].toString().contains(goalMethodsName)) {
-				indexOfSearchedMethod = i;;
+				indexOfSearchedMethod = i;
 			}
 		}
 		return indexOfSearchedMethod;
@@ -222,14 +222,14 @@ public class GameEngine implements ICashier, IGamePlay {
 		String executableMethodsName;
 		// A commandWords String tömb első eleme a végrehajtandó metódusok száma.
 		int numberOfExecutableMethods = Integer.parseInt(commandWords[commandWordIterator++]);
-		//System.out.println("Végrehajtandó metódusok száma: " + numberOfExecutableMethods);
+		System.out.println("Végrehajtandó metódusok száma: " + numberOfExecutableMethods);
 		// Ennek megfelelő számú metódust kell meghívni. (ez egyéként max. 2 lesz.)
 		// Lekérjük az osztálytól a metódusok listáját, hogy majd ezek közül egyet meghívhassunk.
 		Method[] methods = GameEngine.class.getDeclaredMethods();
 		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
 			// Az executableMethodsName változóban rögzítem a végrehajtandó metódus nevét.
 			executableMethodsName = commandWords[commandWordIterator++];
-			//System.out.println("###végrehajtandó metódus: " + executableMethodsName + " ###");
+			System.out.println("###végrehajtandó metódus: " + executableMethodsName + " ###");
 			// Az actMet metódusban rögzítem a végrehajtandó metódus objektumot.
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
 			// Megvizsgálom a metódus neve alapján, hogy hány paramétere lesz, azokat rögzítem, és meghívom a met�dust.

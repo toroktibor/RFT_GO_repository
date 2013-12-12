@@ -7,7 +7,7 @@
 	<LuckyCard>
 		<id>2</id>
 		<descrpition>A Budapesti Nemzetközi Vásár sorsjátékán mosógépet nyertél!</descrpition>
-		<command>1#wonWashMachine</command>
+		<command>1#wonFurniture#WASHMACHINE</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>3</id>
@@ -32,7 +32,7 @@
 	<LuckyCard>
 		<id>7</id>
 		<descrpition>A lottó nyereménysorsolásán mosogatógépet nyertél!</descrpition>
-		<command>1#wonDishWasher</command>
+		<command>1#wonFurniture#DISHWASHER</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>8</id>
@@ -52,7 +52,7 @@
 	<LuckyCard>
 		<id>11</id>
 		<descrpition>Sorsjátékon szobabútort nyertél! Ha nincs lakásod, 3.000 eurót fizet ki a pénztár!</descrpition>
-		<command>1#wonRoomFurniture</command>
+		<command>1#wonFurniture#ROOMFURNITURE</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>12</id>
