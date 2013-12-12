@@ -16,6 +16,10 @@ public class Car {
 	public void setIsInsured(Boolean isInsured) {
 		this.isInsured = isInsured;
 	}
+	@Override
+	public String toString() {
+		return "TRUE:" + isInsured.toString().toUpperCase() + ":" + debit;
+	}
 	
 	
 }
