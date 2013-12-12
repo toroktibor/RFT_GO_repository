@@ -58,4 +58,17 @@ public class House {
 	public void setHasDishwasher(Boolean hasDishwasher) {
 		this.hasDishwasher = hasDishwasher;
 	}
+	@Override
+	public String toString() {
+		return "TRUE:" 	+ hasCooker.toString().toUpperCase() + ":" 
+						+ hasDishwasher.toString().toUpperCase() + ":"
+						+ hasFrigo.toString().toUpperCase() + ":"
+						+ hasKitchen.toString().toUpperCase() + ":"
+						+ hasRoomFurniture.toString().toUpperCase() + ":"
+						+ hasWashMachine.toString().toUpperCase() + ":"
+						+ isInsured.toString().toUpperCase() + ":"
+						+ debit;
+	}
+	
+	
 }
