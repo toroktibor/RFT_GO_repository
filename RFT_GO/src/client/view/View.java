@@ -62,7 +62,7 @@ public class View implements IView{
 	}
 	
 	
-	public int getBuyingInfos(String s){
+	public int getBuyingInfos(String s, boolean b){
 		Object[] options = {"Nem kell",
         "Hitel","Készpénz"};
 		int n = JOptionPane.showOptionDialog(frame,

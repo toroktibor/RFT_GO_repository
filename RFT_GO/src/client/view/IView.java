@@ -22,7 +22,7 @@ public interface IView {
 	 * értékkel tér vissza a metódus
 	 * 
 	 * **/
-	public int getBuyingInfos(String s);
+	public int getBuyingInfos(String s,boolean c);
 	
 	/**
 	 * Lényege hogy megkérdi hogy akar-e autó,lakás biztosítást kötni, paraméterbe jön a szöveg

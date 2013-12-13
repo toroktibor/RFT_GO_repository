@@ -2,8 +2,8 @@ package client;
 
 public interface IController {
 	public void login();
-	public void buyHouse();
-	public void buyCar();
+	public void buyHouse(boolean b);
+	public void buyCar(boolean b);
 	public void buyFurnitures();
 	public void makeInsurances();
 	public void getInitialMessage();

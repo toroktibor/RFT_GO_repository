@@ -140,8 +140,10 @@ public class Controller implements IController{
                 System.out.println(message);
                 switch (message){
                 	case "GETGAMESTATE":getGameStateMessage();break;
-                	case "BUYHOUSE":buyHouse();break;
-                	case "BUYCAR":buyCar();break;
+                	case "BUYCARFORCASH":buyCar(true);break;
+                	case "BUYCARFORCREDIT":buyCar(false);break;
+                	case "BUYHOUSEFORCASH":buyHouse(true);break;
+                	case "BUYHOUSEFORCREDIT":buyHouse(false);break;
                 	case "BUYFURNITURE":buyFurnitures();break;
                 	case "MAKEINSURANCES":makeInsurances();break;
                 	case "MESSAGEFORREAD":getMessageForRead();break;
@@ -159,17 +161,17 @@ public class Controller implements IController{
 	}
 	
 	
-	public void buyHouse(){
-		creditOrCashBuying(locDesc());
+	public void buyHouse(boolean b){
+		creditOrCashBuying(locDesc(),b);
 	}
 	
 	
-	public void buyCar(){
-		creditOrCashBuying(locDesc());
+	public void buyCar(boolean b){
+		creditOrCashBuying(locDesc(),b);
 	}
 
-	private void creditOrCashBuying(String desc){
-		int statement=myView.getBuyingInfos(desc);
+	private void creditOrCashBuying(String desc,boolean b){
+		int statement=myView.getBuyingInfos(desc,b);
 		try {
 			if (statement==1){
 				sendMessage("BUYFORCREDIT");
@@ -300,5 +302,5 @@ public class Controller implements IController{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}		
+	}	
 }
