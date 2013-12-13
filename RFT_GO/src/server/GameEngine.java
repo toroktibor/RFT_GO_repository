@@ -602,192 +602,203 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	/* MAYBE DONE!
-	 * NEED REVIEW */
+	
 	private void offerBuyCar() throws IOException {
-		if (actualPlayer.getCar()==null){
-			out.flush();
-			out.writeUTF("BUYCAR");
-			System.out.println("###Buying of Car Offered.###");
-			String incomingMessage = in.readUTF();
-			if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(10000) == true)) {
-				actualPlayer.setCar(new Car());
-				actualPlayer.getCar().setDebit(0);
+		String incomingMessage;
+		if(actualPlayer.getCar() != null) {
+			sendMessageForRead("Már van autód, és csak egyet birtokolhatsz.");
+		}
+		else if (actualPlayer.getCar()==null){
+			if(checkBalance(10000) == true) {
 				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(10000);
-				sendGameState("CAR");
+				out.writeUTF("BUYCARFORCASH");
+				System.out.println("###Buying of Car Offered.###");
+				incomingMessage = in.readUTF();
+				if((incomingMessage.equals("BUYFORCASH"))) {
+					actualPlayer.setCar(new Car());
+					actualPlayer.getCar().setDebit(0);
+					out.flush();
+					out.writeUTF("SUCCESS");
+					deductMoney(10000);
+					sendGameState("CAR");
+				}
+				else if((incomingMessage.equals("BUYFORCREDIT"))) {
+					actualPlayer.setCar(new Car());
+					actualPlayer.getCar().setDebit(10000);
+					deductMoney(2000);
+					sendGameState("CAR");
+				}
+				else if(incomingMessage.equals("DONTBUY")) {
+				}
 			}
-			else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(2000) == true)) {
-				actualPlayer.setCar(new Car());
-				actualPlayer.getCar().setDebit(10000);
+			else if(checkBalance(2000) == true) {
 				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(15000);
-				sendGameState("CAR");
+				out.writeUTF("BUYCARFORCREDIT");
+				System.out.println("###Buying of Car Offered.###");
+				incomingMessage = in.readUTF();
+				if((incomingMessage.equals("BUYFORCREDIT"))) {
+					actualPlayer.setCar(new Car());
+					actualPlayer.getCar().setDebit(10000);
+					deductMoney(2000);
+					sendGameState("CAR");
+				}
+				else if(incomingMessage.equals("DONTBUY")) {
+				}
 			}
-			else if(incomingMessage.equals("DONTBUY")) {
-				out.flush();
-				out.writeUTF("UNSUCCESS");
+			else if(checkBalance(2000) == false) {
+				sendMessageForRead("Nincs elegendő pénzed autó vásárlásához.\n" + 
+						"Térj vissza, ha már van legalább 2.000 euród, hogy hitelre vásárolhass!\n" +
+						"Ha egy összegben szeretnéd kifizetni autód árát, 10.000 eurót kell gyűjtened!");
 			}
 		}
-		
 	}
 	
-		private void offerBuyFurniture(String string) throws IOException {
-		String incomingMessage = null;
-		if(actualPlayer.getHouse() == null )
-			sendMessageForRead("Még nem tudsz bútort vásárolni, mert nincs házad.");
-		else if(actualPlayer.getHouse() != null) {
-			if(incomingMessage.equals("COOKER")) {
-				if(checkBalance(200) == false) {
-					sendMessageForRead("Nincs elegendő pénzed a tűzhely megvásárlásához.\nGyere vissza, ha már van 200 euród!");
+	private void offerBuyFurniture(String string) throws IOException {
+	String incomingMessage = null;
+	if(actualPlayer.getHouse() == null )
+		sendMessageForRead("Még nem tudsz bútort vásárolni, mert nincs házad.");
+	else if(actualPlayer.getHouse() != null) {
+		if(string.equals("COOKER")) {
+			if(checkBalance(200) == false) {
+				sendMessageForRead("Nincs elegendő pénzed a tűzhely megvásárlásához.\nGyere vissza, ha már van 200 euród!");
+			}
+			else if(checkBalance(200) == true) {
+				if(actualPlayer.getHouse().getHasCooker() == true) {
+					sendMessageForRead("Már van tűzhelyed, és csak egyet birtokolhatsz.");
 				}
-				else if(checkBalance(200) == true) {
-					if(actualPlayer.getHouse().getHasCooker() == true) {
-						sendMessageForRead("Már van tűzhelyed, és csak egyet vehetsz.");
-					}
-					else if(actualPlayer.getHouse().getHasCooker() == false) {
-						out.flush();
-						out.writeUTF("BUYFURNITURE");					
-						System.out.println("###Buying of Furniture Offered.###");
-						out.flush();
-						out.writeUTF(string);
-						incomingMessage = in.readUTF();
-						if(incomingMessage.equals("BUYCOOKER")) {
-							actualPlayer.getHouse().setHasCooker(true);	
-							deductMoney(200);								
-							sendGameState("HOUSE");							
-							sendGameState("BALANCE");					
-						}
+				else if(actualPlayer.getHouse().getHasCooker() == false) {
+					out.flush();
+					out.writeUTF("BUYFURNITURE");					
+					System.out.println("###Buying of Furniture Offered.###");
+					out.flush();
+					out.writeUTF(string);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("BUYCOOKER")) {
+						actualPlayer.getHouse().setHasCooker(true);	
+						deductMoney(200);								
+						sendGameState("HOUSE");											
 					}
 				}
 			}
-			else if(incomingMessage.equals("DISHWASHER")) {
-				if(checkBalance(300) == false) {
-					sendMessageForRead("Nincs elegendő pénzed a mosogatógép megvásárlásához.\nGyere vissza, ha már van 300 euród!");
+		}
+		else if(string.equals("DISHWASHER")) {
+			if(checkBalance(300) == false) {
+				sendMessageForRead("Nincs elegendő pénzed a mosogatógép megvásárlásához.\nGyere vissza, ha már van 300 euród!");
+			}
+			else if(checkBalance(300) == true) {
+				if(actualPlayer.getHouse().getHasDishwasher() == true) {
+					sendMessageForRead("Már van mosogatógéped, és csak egyet birtokolhatsz.");
 				}
-				else if(checkBalance(300) == true) {
-					if(actualPlayer.getHouse().getHasDishwasher() == true) {
-						sendMessageForRead("Már van mosogatógéped, és csak egyet vehetsz.");
-					}
-					else if(actualPlayer.getHouse().getHasDishwasher() == false) {
-						out.flush();
-						out.writeUTF("BUYFURNITURE");					
-						System.out.println("###Buying of Furniture Offered.###");
-						out.flush();
-						out.writeUTF(string);
-						incomingMessage = in.readUTF();
-						if(incomingMessage.equals("BUYDISHWASHER")) {
-							actualPlayer.getHouse().setHasDishwasher(true);	
-							deductMoney(300);								
-							sendGameState("HOUSE");							
-							sendGameState("BALANCE");					
-						}
+				else if(actualPlayer.getHouse().getHasDishwasher() == false) {
+					out.flush();
+					out.writeUTF("BUYFURNITURE");					
+					System.out.println("###Buying of Furniture Offered.###");
+					out.flush();
+					out.writeUTF(string);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("BUYDISHWASHER")) {
+						actualPlayer.getHouse().setHasDishwasher(true);	
+						deductMoney(300);								
+						sendGameState("HOUSE");											
 					}
 				}
 			}
-			else if(incomingMessage.equals("FRIGO")) {
-				if(checkBalance(200) == false) {
-					sendMessageForRead("Nincs elegendő pénzed a hűtő megvásárlásához.\nGyere vissza, ha már van 200 euród!");
+		}
+		else if(string.equals("FRIGO")) {
+			if(checkBalance(200) == false) {
+				sendMessageForRead("Nincs elegendő pénzed a hűtő megvásárlásához.\nGyere vissza, ha már van 200 euród!");
+			}
+			else if(checkBalance(200) == true) {
+				if(actualPlayer.getHouse().getHasFrigo() == true) {
+					sendMessageForRead("Már van hűtőd, és csak egyet birtokolhatsz.");
 				}
-				else if(checkBalance(200) == true) {
-					if(actualPlayer.getHouse().getHasFrigo() == true) {
-						sendMessageForRead("Már van hűtőd, és csak egyet vehetsz.");
-					}
-					else if(actualPlayer.getHouse().getHasFrigo() == false) {
-						out.flush();
-						out.writeUTF("BUYFURNITURE");					
-						System.out.println("###Buying of Furniture Offered.###");
-						out.flush();
-						out.writeUTF(string);
-						incomingMessage = in.readUTF();
-						if(incomingMessage.equals("BUYFRIGO")) {
-							actualPlayer.getHouse().setHasFrigo(true);	
-							deductMoney(200);								
-							sendGameState("HOUSE");							
-							sendGameState("BALANCE");					
-						}
+				else if(actualPlayer.getHouse().getHasFrigo() == false) {
+					out.flush();
+					out.writeUTF("BUYFURNITURE");					
+					System.out.println("###Buying of Furniture Offered.###");
+					out.flush();
+					out.writeUTF(string);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("BUYFRIGO")) {
+						actualPlayer.getHouse().setHasFrigo(true);	
+						deductMoney(200);								
+						sendGameState("HOUSE");											
 					}
 				}
 			}
-			else if(incomingMessage.equals("KITCHENFURNITURE")) {
-				if(checkBalance(1000) == false) {
-					sendMessageForRead("Nincs elegendő pénzed a konyhaszekrény megvásárlásához.\nGyere vissza, ha már van 1000 euród!");
+		}
+		else if(string.equals("KITCHENFURNITURE")) {
+			if(checkBalance(1000) == false) {
+				sendMessageForRead("Nincs elegendő pénzed a konyhaszekrény megvásárlásához.\nGyere vissza, ha már van 1000 euród!");
+			}
+			else if(checkBalance(1000) == true) {
+				if(actualPlayer.getHouse().getHasKitchen() == true) {
+					sendMessageForRead("Már van konyhaszekrényed, és csak egyet birtokolhatsz.");
 				}
-				else if(checkBalance(1000) == true) {
-					if(actualPlayer.getHouse().getHasKitchen() == true) {
-						sendMessageForRead("Már van konyhaszekrényed, és csak egyet vehetsz.");
-					}
-					else if(actualPlayer.getHouse().getHasKitchen() == false) {
-						out.flush();
-						out.writeUTF("BUYFURNITURE");					
-						System.out.println("###Buying of Furniture Offered.###");
-						out.flush();
-						out.writeUTF(string);
-						incomingMessage = in.readUTF();
-						if(incomingMessage.equals("BUYKITCHENFURNITURE")) {
-							actualPlayer.getHouse().setHasKitchen(true);	
-							deductMoney(1000);								
-							sendGameState("HOUSE");							
-							sendGameState("BALANCE");					
-						}
+				else if(actualPlayer.getHouse().getHasKitchen() == false) {
+					out.flush();
+					out.writeUTF("BUYFURNITURE");					
+					System.out.println("###Buying of Furniture Offered.###");
+					out.flush();
+					out.writeUTF(string);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("BUYKITCHENFURNITURE")) {
+						actualPlayer.getHouse().setHasKitchen(true);	
+						deductMoney(1000);								
+						sendGameState("HOUSE");											
 					}
 				}
 			}
-			else if(incomingMessage.equals("ROOMFURNITURE")) {
-				if(checkBalance(3000) == false) {
-					sendMessageForRead("Nincs elegendő pénzed a szobaszekrény megvásárlásához.\nGyere vissza, ha már van 3000 euród!");
+		}
+		else if(string.equals("ROOMFURNITURE")) {
+			if(checkBalance(3000) == false) {
+				sendMessageForRead("Nincs elegendő pénzed a szobaszekrény megvásárlásához.\nGyere vissza, ha már van 3000 euród!");
+			}
+			else if(checkBalance(3000) == true) {
+				if(actualPlayer.getHouse().getHasRoomFurniture() == true) {
+					sendMessageForRead("Már van szobaszekrényed, és csak egyet birtokolhatsz.");
 				}
-				else if(checkBalance(3000) == true) {
-					if(actualPlayer.getHouse().getHasRoomFurniture() == true) {
-						sendMessageForRead("Már van szobaszekrényed, és csak egyet vehetsz.");
-					}
-					else if(actualPlayer.getHouse().getHasRoomFurniture() == false) {
-						out.flush();
-						out.writeUTF("BUYFURNITURE");					
-						System.out.println("###Buying of Furniture Offered.###");
-						out.flush();
-						out.writeUTF(string);
-						incomingMessage = in.readUTF();
-						if(incomingMessage.equals("BUYROOMFURNITURE")) {
-							actualPlayer.getHouse().setHasRoomFurniture(true);	
-							deductMoney(3000);								
-							sendGameState("HOUSE");							
-							sendGameState("BALANCE");					
-						}
+				else if(actualPlayer.getHouse().getHasRoomFurniture() == false) {
+					out.flush();
+					out.writeUTF("BUYFURNITURE");					
+					System.out.println("###Buying of Furniture Offered.###");
+					out.flush();
+					out.writeUTF(string);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("BUYROOMFURNITURE")) {
+						actualPlayer.getHouse().setHasRoomFurniture(true);	
+						deductMoney(3000);								
+						sendGameState("HOUSE");											
 					}
 				}
 			}
-			else if(incomingMessage.equals("WASHMACHINE")) {
-				if(checkBalance(300) == false) {
-					sendMessageForRead("Nincs elegendő pénzed a mosógép megvásárlásához.");
+		}
+		else if(string.equals("WASHMACHINE")) {
+			if(checkBalance(300) == false) {
+				sendMessageForRead("Nincs elegendő pénzed a mosógép megvásárlásához.\nGyere vissza, ha már van 300 euród!");
+			}
+			else if(checkBalance(300) == true) {
+				if(actualPlayer.getHouse().getHasWashMachine() == true) {
+					sendMessageForRead("Már van mosógéped, és csak egyet birtokolhatsz.");
 				}
-				else if(checkBalance(300) == true) {
-					if(actualPlayer.getHouse().getHasWashMachine() == true) {
-						sendMessageForRead("Már van mosógéped, és csak egyet vehetsz.\nGyere vissza, ha már van 300 euród!");
-					}
-					else if(actualPlayer.getHouse().getHasWashMachine() == false) {
-						out.flush();
-						out.writeUTF("BUYFURNITURE");					
-						System.out.println("###Buying of Furniture Offered.###");
-						out.flush();
-						out.writeUTF(string);
-						incomingMessage = in.readUTF();
-						if(incomingMessage.equals("BUYWASHMACHINE")) {
-							actualPlayer.getHouse().setHasWashMachine(true);	
-							deductMoney(300);								
-							sendGameState("HOUSE");							
-							sendGameState("BALANCE");					
-						}
+				else if(actualPlayer.getHouse().getHasWashMachine() == false) {
+					out.flush();
+					out.writeUTF("BUYFURNITURE");					
+					System.out.println("###Buying of Furniture Offered.###");
+					out.flush();
+					out.writeUTF(string);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("BUYWASHMACHINE")) {
+						actualPlayer.getHouse().setHasWashMachine(true);	
+						deductMoney(300);								
+						sendGameState("HOUSE");											
 					}
 				}
-			else if(checkBalance(200) == true) 
-				if(actualPlayer.getHouse().getHasCooker() == true)
-					sendMessageForRead("Már van tűzhelyed, és csak egyet vehetsz.");
 			}
 		}
 	}
+}
+
 	
 
 	/* MAYBE DONE!
