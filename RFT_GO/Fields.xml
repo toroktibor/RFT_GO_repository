@@ -147,7 +147,7 @@
 	</Field>
 	<Field>
 		<id>29</id>
-		<descrpition>Megkötheted autóbiztosításodat 100 euróért az Unica Biztosítónál.</descrpition>
+		<descrpition>Megkötheted autóbiztosításodat 100 euróért az Uniqa Biztosítónál.</descrpition>
 		<command>1#offerMakeInsurances#CAR</command>
 	</Field>
 	<Field>
