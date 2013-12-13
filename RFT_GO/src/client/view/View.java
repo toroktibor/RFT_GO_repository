@@ -127,7 +127,7 @@ public class View implements IView{
 	}
 
 	
-	public void simpleMessage(String s) {
+	public String simpleMessage(String s) {
 		Object[] options = {"OK"};
 				int n = JOptionPane.showOptionDialog(frame,
 						s,
@@ -138,7 +138,7 @@ public class View implements IView{
 						options,  
 						options[0]); 
 		
-
+		return String.valueOf(n);
 	}
 	
 

@@ -49,10 +49,11 @@ public interface IView {
 	/**
 	 * sima üzenet amit leokézhat
 	 * lényeg hogylátja amit közölni akar a szerver. (string paraméterbe jön)
+	 * @return 
 	 * 
 	 * 
 	 * **/
-	public void simpleMessage(String s);
+	public String simpleMessage(String s);
 	
 	/**
 	 * GUI hoz kell mindenképp megjeleníti az alap ablakot.

@@ -912,6 +912,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private void sendMessageForRead(String description) throws IOException {
 		out.writeUTF("MESSAGEFORREAD");
 		out.writeUTF(description);
+		in.readUTF();
 	}	
 	
 	

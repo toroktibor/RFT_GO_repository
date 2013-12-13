@@ -259,7 +259,8 @@ public class Controller implements IController{
 	public void getMessageForRead(){
 		try {
 			String message = readStringFromStream();
-			myView.simpleMessage(message);
+			
+			out.writeUTF(myView.simpleMessage(message)+"");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
