@@ -2,13 +2,13 @@ package server;
 
 public class House {
 	private int debit;
-	private Boolean isInsured;
-	private Boolean hasKitchen;
-	private Boolean hasRoomFurniture;
-	private Boolean hasFrigo;
-	private Boolean hasCooker;
-	private Boolean hasWashMachine;
-	private Boolean hasDishwasher;
+	private Boolean isInsured=false;
+	private Boolean hasKitchen=false;
+	private Boolean hasRoomFurniture=false;
+	private Boolean hasFrigo=false;
+	private Boolean hasCooker=false;
+	private Boolean hasWashMachine=false;
+	private Boolean hasDishwasher=false;
 	
 	public int getDebit() {
 		return debit;
