@@ -649,15 +649,12 @@ public class GameEngine implements ICashier, IGamePlay {
 						incomingMessage = in.readUTF();
 						if(incomingMessage.equals("BUYCOOKER")) {			//if the player want to buy the cooker
 							actualPlayer.getHouse().setHasCooker(true);		//we give it to the player
-							out.flush();
-							out.writeUTF("SUCCESS");
 							deductMoney(200);								//deduct the price of it
 							sendGameState("HOUSE");							//and send gamestate infos about the house
 							sendGameState("BALANCE");						//and the balance
 						}
 						else if(incomingMessage.equals("DONTBUYCOOKER")) {	//but if the player don't want to buy it
-							out.flush();
-							out.writeUTF("SUCCESS");
+																			//we don't do anything
 						}
 					}
 					else { 												//but if the player does not have the required money
@@ -681,15 +678,12 @@ public class GameEngine implements ICashier, IGamePlay {
 						incomingMessage = in.readUTF();
 						if(incomingMessage.equals("BUYDISHWASHER")) {			//if the player want to buy the cooker
 							actualPlayer.getHouse().setHasDishwasher(true);		//we give it to the player
-							out.flush();
-							out.writeUTF("SUCCESS");
 							deductMoney(300);								//deduct the price of it
 							sendGameState("HOUSE");							//and send gamestate infos about the house
 							sendGameState("BALANCE");						//and the balance
 						}
 						else if(incomingMessage.equals("DONTBUYDISHWASHER")) {	//but if the player don't want to buy it
-							out.flush();
-							out.writeUTF("SUCCESS");
+																				//we don't do anything
 						}
 					}
 					else { 												//but if the player does not have the required money
@@ -713,15 +707,12 @@ public class GameEngine implements ICashier, IGamePlay {
 						incomingMessage = in.readUTF();
 						if(incomingMessage.equals("BUYFRIGO")) {			//if the player want to buy the cooker
 							actualPlayer.getHouse().setHasFrigo(true);		//we give it to the player
-							out.flush();
-							out.writeUTF("SUCCESS");
 							deductMoney(200);								//deduct the price of it
 							sendGameState("HOUSE");							//and send gamestate infos about the house
 							sendGameState("BALANCE");						//and the balance
 						}
 						else if(incomingMessage.equals("DONTBUYFRIGO")) {	//but if the player don't want to buy it
-							out.flush();
-							out.writeUTF("SUCCESS");
+																			//we don't do anything
 						}
 					}
 					else { 												//but if the player does not have the required money
@@ -745,15 +736,12 @@ public class GameEngine implements ICashier, IGamePlay {
 						incomingMessage = in.readUTF();
 						if(incomingMessage.equals("BUYKITCHENFURNITURE")) {			//if the player want to buy the cooker
 							actualPlayer.getHouse().setHasKitchen(true);		//we give it to the player
-							out.flush();
-							out.writeUTF("SUCCESS");
 							deductMoney(1000);								//deduct the price of it
 							sendGameState("HOUSE");							//and send gamestate infos about the house
 							sendGameState("BALANCE");						//and the balance
 						}
 						else if(incomingMessage.equals("DONTBUYKITCHENFURNITURE")) {	//but if the player don't want to buy it
-							out.flush();
-							out.writeUTF("SUCCESS");
+																						//we don't do anything
 						}
 					}
 					else { 												//but if the player does not have the required money
@@ -777,15 +765,12 @@ public class GameEngine implements ICashier, IGamePlay {
 						incomingMessage = in.readUTF();
 						if(incomingMessage.equals("BUYROOMFURNITURE")) {			//if the player want to buy the cooker
 							actualPlayer.getHouse().setHasRoomFurniture(true);		//we give it to the player
-							out.flush();
-							out.writeUTF("SUCCESS");
 							deductMoney(3000);								//deduct the price of it
 							sendGameState("HOUSE");							//and send gamestate infos about the house
 							sendGameState("BALANCE");						//and the balance
 						}
 						else if(incomingMessage.equals("DONTBUYROOMFURNITURE")) {	//but if the player don't want to buy it
-							out.flush();
-							out.writeUTF("SUCCESS");
+																					//we don't do anything
 						}
 					}
 					else { 												//but if the player does not have the required money
@@ -809,15 +794,12 @@ public class GameEngine implements ICashier, IGamePlay {
 						incomingMessage = in.readUTF();
 						if(incomingMessage.equals("BUYWASHMACHINE")) {			//if the player want to buy the cooker
 							actualPlayer.getHouse().setHasWashMachine(true);		//we give it to the player
-							out.flush();
-							out.writeUTF("SUCCESS");
 							deductMoney(300);								//deduct the price of it
 							sendGameState("HOUSE");							//and send gamestate infos about the house
 							sendGameState("BALANCE");						//and the balance
 						}
 						else if(incomingMessage.equals("DONTBUYWASHMACHINE")) {	//but if the player don't want to buy it
-							out.flush();
-							out.writeUTF("SUCCESS");
+																				//we don't do anything
 						}
 					}
 					else { 												//but if the player does not have the required money
@@ -829,10 +811,6 @@ public class GameEngine implements ICashier, IGamePlay {
 					out.flush();
 					out.writeUTF("ALREADYHAVETHIS");
 				}
-			}
-			else {
-				out.flush();
-				out.writeUTF("UNSUCCESS");
 			}
 		}
 	}
