@@ -634,6 +634,23 @@ public class GameEngine implements ICashier, IGamePlay {
 		
 	}
 	
+	private void offerBuyFurniture2(String string) throws IOException {
+		String incomingMessage;
+		if(actualPlayer.getHouse() == null )
+			sendMessageForRead("Még nem tudsz bútorokat vásárolni, mert nincs házad.");
+		else if(actualPlayer.getHouse() != null) {
+			if(incomingMessage.equals("COOKER") 
+			if(checkBalance(200) == false) {
+				sendMessageForread("Nincs elegendő pénzed a tűzhely megvásárlásához.");
+			}
+			else if(checkBalance(200) == true) 
+				if(actualPlayer.getHouse().getHasCooker() == true)
+					sendMessageForRead("Már van tűzhelyed, és csak egyet vehetsz.");
+		/* CONTINUE HERE MADAFUCKA*/
+		}
+	}
+	
+	
 	/* MAYBE DONE!
 	 * NEED REVIEW !*/
 	private void offerBuyFurniture(String string) throws IOException {
