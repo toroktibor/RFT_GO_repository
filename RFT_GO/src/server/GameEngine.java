@@ -634,7 +634,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		
 	}
 	
-	private void offerBuyFurniture2(String string) throws IOException {
+	private void offerBuyFurnitureTwo(String string) throws IOException {
 		String incomingMessage = null;
 		if(actualPlayer.getHouse() == null )
 			sendMessageForRead("Még nem tudsz bútorokat vásárolni, mert nincs házad.");
