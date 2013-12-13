@@ -15,6 +15,7 @@ public interface IView {
 	 * a paraméterként kapott dolgot (egy kiírandó szöveg lesz)
 	 * hitelre, kp-ra vagy nem akarja megvenni
 	 * 
+	 * ÚJ DOLOG ! ha a logikai változó igaz akkor kpra is vehet valamit, ha a logikai változó c hamis akkor max csak hitelre vehet valamit
 	 * 
 	 * ha hitelre akarja 1
 	 * ha kp-ra akarja 2
