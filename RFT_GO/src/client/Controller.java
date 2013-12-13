@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import oracle.jrockit.jfr.Options;
 import client.view.View;
 
 /**
@@ -189,29 +190,24 @@ public class Controller implements IController{
 	
 	
 	public void makeInsurances(){
-		int statement=myView.getInsurances(locDesc());
-		
+
 		try {
-			if (statement==1){
-				sendMessage("MAKEONLYCARINSURANCE");
+			String options=in.readUTF();
+			if (options.equals("BOTH")){
+				int statement=myView.getInsurances(locDesc());
+				if (statement==1){
+					sendMessage("MAKEONLYCARINSURANCE");
+				}
+				else if(statement==2){
+					sendMessage("MAKEONLYHOUSEINSURANCE");
+				}
+				else if(statement==3){
+					sendMessage("MAKEBOTHINSURANCES");
+				}
+				else{
+					sendMessage("DONTMAKEANYINSURANCES");
+				}			
 			}
-			else if(statement==2){
-				sendMessage("MAKEONLYHOUSEINSURANCE");
-			}
-			else if(statement==3){
-				sendMessage("MAKEBOTHINSURANCES");
-			}
-			else{
-				sendMessage("DONTMAKEANYINSURANCES");
-			}
-			String result = readStringFromStream();
-			if (result=="SUCCESS"){
-				myView.simpleMessage("Sikeres Vásárlás!");
-			}
-			else if(result=="UNSUCCESS"){
-				myView.simpleMessage("A vásárlás nem történt meg!");
-			}
-			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
