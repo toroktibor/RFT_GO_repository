@@ -507,7 +507,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	//CALLABLE METHODS OF FIELD AND LUCKYCARD COMMANDS
 	private void drawNextLuckyCard() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		luckyCardIndex++;
-		luckyCardIndex %= 37;
+		luckyCardIndex %= 36;
 		sendMessageForRead("Ezt a szerencsekártyát húztad: " + deck.get(luckyCardIndex).getDescription());
 		executeLuckyCardCommand();
 	}
@@ -851,6 +851,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	
 	/* FAULTY!!!!!!!!!!!!!!!! */
 	private void offerMakeInsurances() throws IOException {
+		if (actualPlayer.getHouse()!=null && actualPlayer.getHouse() !=null){
 		out.flush();
 		out.writeUTF("MAKEINSURANCES");
 		System.out.println("###Making of Insurances Offered.###");
@@ -882,6 +883,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		else if(incomingMessage.equals("DONTMAKEANYINSURANCES")) {
 			out.flush();
 			out.writeUTF("UNSUCCESS");
+		}
 		}
 	}
 	
