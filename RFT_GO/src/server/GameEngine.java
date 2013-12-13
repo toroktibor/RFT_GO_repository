@@ -425,27 +425,27 @@ public class GameEngine implements ICashier, IGamePlay {
 		int originalActualPlayersIndex = allPlayers.indexOf(actualPlayer);
 		String s = String.valueOf(originalActualPlayersIndex);
 		if(option.equals("HOUSE")) {
-			s.concat("#1#SETHOUSE#" + actualPlayer.getHouse().toString());	
+			s=s+"#1#SETHOUSE#" + actualPlayer.getHouse().toString();	
 		}
 		else if(option.equals("CAR")) {
-			s.concat("#1#SETCAR#" + actualPlayer.getCar().toString());
+			s=s+"#1#SETCAR#" + actualPlayer.getCar().toString();
 		}
 		else if(option.equals("NAME")) {
-			s.concat("#1#SETNAME#" + actualPlayer.getName().toString());
+			s=s+"#1#SETNAME#" + actualPlayer.getName().toString();
 		}
 		else if(option.equals("BALANCE")) {
-			s.concat("#1#SETBALANCE#" + actualPlayer.getBalance() );
+			s=s+"#1#SETBALANCE#" + actualPlayer.getBalance() ;
 		}		
 		else if(option.equals("LOCATION")) {
-			s.concat("#1#SETLOCATION#" + actualPlayer.getLocation().toString());
+			s=s+"#1#SETLOCATION#" + actualPlayer.getLocation().toString();
 		}		
 		else if(option.equals("NEWPLAYER")) {
-			s.concat("#5");
-			s.concat("#SETHOUSE#FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:0");	
-			s.concat("#SETCAR#FALSE:FALSE:0");
-			s.concat("#SETNAME#" + actualPlayer.getName().toString());
-			s.concat("#SETBALANCE#" + actualPlayer.getBalance() );
-			s.concat("#SETLOCATION#" + actualPlayer.getLocation().toString());
+			s=s+"#5";
+			s=s+"#SETHOUSE#FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:0";	
+			s=s+"#SETCAR#FALSE:FALSE:0";
+			s=s+"#SETNAME#" + actualPlayer.getName().toString();
+			s=s+"#SETBALANCE#" + actualPlayer.getBalance() ;
+			s=s+"#SETLOCATION#" + actualPlayer.getLocation().toString();
 		}
 		for(int i = 0; i<allPlayers.size()-1; ++i) {
 			changeActualPlayerByIndex(i);
@@ -567,6 +567,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private void moveWithQuantity(int amount) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		int newPositionNumber = actualPlayer.getLocationNumber() + amount;
 		actualPlayer.setLocation(board.get(newPositionNumber % 42));
+		System.out.println(actualPlayer.getLocationNumber());
 		sendGameState("LOCATION");
 		if(newPositionNumber > 42) { //it means that round finished, and we step over start field
 			handleDebits();	//if we can handle debits, so actual player is not in a looser state

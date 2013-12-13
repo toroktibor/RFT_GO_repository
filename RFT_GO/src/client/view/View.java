@@ -63,7 +63,6 @@ public class View implements IView{
 	
 	public int getBuyingInfos(String s){
 		Scanner sc = new Scanner(System.in);
-	    System.out.println(s);
 	    String st=sc.nextLine();
 	    if (st.equals("h")){
 	    	return 1;}
@@ -76,7 +75,6 @@ public class View implements IView{
 	
 	public int getInsurances(String s){
 		Scanner sc = new Scanner(System.in);
-	    System.out.println(s);
 	    String st=sc.nextLine();
 	    if (st.equals("a")){
 	    	return 1;}
@@ -113,7 +111,11 @@ public class View implements IView{
 	public void refreshView() {
 		
 		List<StateOfPlayer> sp=Controller.getGameState();
-
+		for (StateOfPlayer stateOfPlayer : sp) {
+			if (stateOfPlayer.getIdNumber()==Controller.getMyID()){
+				System.out.println(stateOfPlayer.getLocation());
+			}
+		}
 	}
 	
 	

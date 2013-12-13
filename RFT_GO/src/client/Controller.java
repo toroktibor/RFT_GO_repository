@@ -61,7 +61,7 @@ public class Controller implements IController{
 	}
 
 
-	public int getMyID() {
+	public static int getMyID() {
 		return myID;
 	}
 	
@@ -126,7 +126,7 @@ public class Controller implements IController{
 		for (StateOfPlayer gs : gameState) {
 			if(gs.getIdNumber()==myID)
 			{
-				return gs.getLocation();
+				return gs.getLocation().toString();
 			}
 		}
 		return null;
@@ -137,7 +137,7 @@ public class Controller implements IController{
             while (true) {
             	System.out.println("Üzenetre várunk a szervertől!");
                 String message = readStringFromStream();
-                System.out.println("Üzenet a szervertől: "+message);
+                System.out.println(message);
                 switch (message){
                 	case "GETGAMESTATE":getGameStateMessage();break;
                 	case "BUYHOUSE":buyHouse();break;
@@ -145,6 +145,8 @@ public class Controller implements IController{
                 	case "BUYFURNITURE":buyFurnitures();break;
                 	case "MAKEINSURANCES":makeInsurances();break;
                 	case "MESSAGEFORREAD":getMessageForRead();break;
+                	case "ALREADYHAVETHIS":simpleMessage("Már van ilyen...");;break;
+                	case "NOTENOUGHMONEY":simpleMessage("Nincs elég pénzed vásárláshoz!");;break;
                 	default:break;
                 }
             }
@@ -227,36 +229,32 @@ public class Controller implements IController{
 	public void buyFurnitures(){
 		try {
 			String furnitureType = readStringFromStream();
-			int statement=myView.getFurnitureOptions(locDesc());
-			/*switch (furnitureType){
-				case "COOKER":statement=myView.getFurnitureOptions(locDesc());break;
-				case "DISHWASHER":statement=myView.getFurnitureOptions(locDesc());break;
-				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
-				case "ROOMFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
-				case "WASHMACHINE":statement=myView.getFurnitureOptions(locDesc());break;
-				default:break;
-			}*/
+				int statement=myView.getFurnitureOptions(locDesc());
+
+				/*switch (furnitureType){
+					case "COOKER":statement=myView.getFurnitureOptions(locDesc());break;
+					case "DISHWASHER":statement=myView.getFurnitureOptions(locDesc());break;
+					case "KITCHENFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
+					case "ROOMFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
+					case "WASHMACHINE":statement=myView.getFurnitureOptions(locDesc());break;
+					default:break;
+				}*/
 			
-			if (statement==0){
-				sendMessage("BUY"+furnitureType);
-			}
-			else{
-				sendMessage("DONTBUY"+furnitureType);
-			}
-			String result = readStringFromStream();
-			if (result=="SUCCESS"){
-				myView.simpleMessage("Sikeres Vásárlás!");
-			}
-			else if(result=="UNSUCCESS"){
-				myView.simpleMessage("A vásárlás nem történt meg!");
-			}
-			sendMessage("OK");			
+				if (statement==0){
+					sendMessage("BUY"+furnitureType);
+				}
+				else{
+					sendMessage("DONTBUY"+furnitureType);
+				}			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
 
+	public void simpleMessage(String s){
+		myView.simpleMessage(s);
+	}
 	
 	public void getMessageForRead(){
 		try {
@@ -271,7 +269,7 @@ public class Controller implements IController{
 	private void applyState(Method[] methods, String s[], StateOfPlayer gs){
 		for(int i=2;i<s.length;i=i+2){
 			for(int j=0; j<methods.length; ++j) {
-				if (methods[j].getName().equals(s[i])){
+				if (methods[j].getName().toUpperCase().equals(s[i])){
 					try {
 						methods[j].invoke(gs, s[i+1]);
 					} catch (IllegalAccessException
