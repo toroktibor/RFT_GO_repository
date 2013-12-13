@@ -193,7 +193,6 @@ public class GameEngine implements ICashier, IGamePlay {
 		if( 0 < actualPlayer.get_1_6Penalty()) {
 			if((result==1) || (result ==6)) {
 			actualPlayer.set_1_6Penalty(0);
-			out.writeUTF("MESSAGEFORREAD");
 			/*FINOMÍTÁSRA SZORUL*/
 			sendMessageForRead("Büntetésben voltál, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább," +
 								" de mivel dobásod értéke " + result + ", így lépj előre ennyi mezőt!");
@@ -313,7 +312,8 @@ public class GameEngine implements ICashier, IGamePlay {
 		return;
 }
 */
-
+	
+	/* FAULTY!!!!!!!!!!!!!!!! */
 	public void executeLuckyCardCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// Az aktuális szerencsekártya Command adattagja, a parancsszavakat tartalmazó 
 		// string feldarabolása '#' karakterek mentén, eredmény a commandWords String tömb.
@@ -636,58 +636,201 @@ public class GameEngine implements ICashier, IGamePlay {
 	/* MAYBE DONE!
 	 * NEED REVIEW !*/
 	private void offerBuyFurniture(String string) throws IOException {
-		if (actualPlayer.getHouse()!=null){
-			out.flush();
-			out.writeUTF("BUYFURNITURE");
-			System.out.println("###Buying of Furniture Offered.###");
-			out.flush();
-			out.writeUTF(string);
-			String incomingMessage = in.readUTF();
-			if((incomingMessage.equals("BUYCOOKER")) && (checkBalance(200) == true)) {
-				actualPlayer.getHouse().setHasCooker(true);
-				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(200);
-				sendGameState("HOUSE");	
+		String incomingMessage;
+		if (actualPlayer.getHouse()!=null) {								//we offer buying furnitures only if the player has a house
+			if(string.equals("COOKER")) {								//if on the actual field the "COOKER" is buyable
+				if(actualPlayer.getHouse().getHasCooker() == false) { 	//and if the player does not have it
+					if( checkBalance(200) == true ) {					//and if the player has the required money to buy it
+						out.flush();									//we offer business
+						out.writeUTF("BUYFURNITURE");					
+						System.out.println("###Buying of Furniture Offered.###");
+						out.flush();
+						out.writeUTF(string);
+						incomingMessage = in.readUTF();
+						if(incomingMessage.equals("BUYCOOKER")) {			//if the player want to buy the cooker
+							actualPlayer.getHouse().setHasCooker(true);		//we give it to the player
+							out.flush();
+							out.writeUTF("SUCCESS");
+							deductMoney(200);								//deduct the price of it
+							sendGameState("HOUSE");							//and send gamestate infos about the house
+							sendGameState("BALANCE");						//and the balance
+						}
+						else if(incomingMessage.equals("DONTBUYCOOKER")) {	//but if the player don't want to buy it
+							out.flush();
+							out.writeUTF("SUCCESS");
+						}
+					}
+					else { 												//but if the player does not have the required money
+						out.flush();
+						out.writeUTF("NOTENOUGHMONEY");
+					}		
+				}
+				else {
+					out.flush();
+					out.writeUTF("ALREADYHAVETHIS");
+				}
 			}
-			else if((incomingMessage.equals("BUYDISHWASHER")) && (checkBalance(300) == true)) {
-				actualPlayer.getHouse().setHasDishwasher(true);
-				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(300);
-				sendGameState("HOUSE");	
+			else if( string.equals("DISHWASHER") ) {								//if on the actual field the "COOKER" is buyable
+				if(actualPlayer.getHouse().getHasDishwasher() == false) { 	//and if the player does not have it
+					if( checkBalance(300) == true ) {					//and if the player has the required money to buy it
+						out.flush();									//we offer business
+						out.writeUTF("BUYFURNITURE");					
+						System.out.println("###Buying of Furniture Offered.###");
+						out.flush();
+						out.writeUTF(string);
+						incomingMessage = in.readUTF();
+						if(incomingMessage.equals("BUYDISHWASHER")) {			//if the player want to buy the cooker
+							actualPlayer.getHouse().setHasDishwasher(true);		//we give it to the player
+							out.flush();
+							out.writeUTF("SUCCESS");
+							deductMoney(300);								//deduct the price of it
+							sendGameState("HOUSE");							//and send gamestate infos about the house
+							sendGameState("BALANCE");						//and the balance
+						}
+						else if(incomingMessage.equals("DONTBUYDISHWASHER")) {	//but if the player don't want to buy it
+							out.flush();
+							out.writeUTF("SUCCESS");
+						}
+					}
+					else { 												//but if the player does not have the required money
+						out.flush();
+						out.writeUTF("NOTENOUGHMONEY");
+					}		
+				}
+				else {
+					out.flush();
+					out.writeUTF("ALREADYHAVETHIS");
+				}
 			}
-			else if((incomingMessage.equals("BUYFRIGO")) && (checkBalance(200) == true)) {
-				actualPlayer.getHouse().setHasFrigo(true);
-				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(200);
-				sendGameState("HOUSE");	
+			else if( string.equals("FRIGO") ) {								//if on the actual field the "COOKER" is buyable
+				if(actualPlayer.getHouse().getHasFrigo() == false) { 	//and if the player does not have it
+					if( checkBalance(200) == true ) {					//and if the player has the required money to buy it
+						out.flush();									//we offer business
+						out.writeUTF("BUYFURNITURE");					
+						System.out.println("###Buying of Furniture Offered.###");
+						out.flush();
+						out.writeUTF(string);
+						incomingMessage = in.readUTF();
+						if(incomingMessage.equals("BUYFRIGO")) {			//if the player want to buy the cooker
+							actualPlayer.getHouse().setHasFrigo(true);		//we give it to the player
+							out.flush();
+							out.writeUTF("SUCCESS");
+							deductMoney(200);								//deduct the price of it
+							sendGameState("HOUSE");							//and send gamestate infos about the house
+							sendGameState("BALANCE");						//and the balance
+						}
+						else if(incomingMessage.equals("DONTBUYFRIGO")) {	//but if the player don't want to buy it
+							out.flush();
+							out.writeUTF("SUCCESS");
+						}
+					}
+					else { 												//but if the player does not have the required money
+						out.flush();
+						out.writeUTF("NOTENOUGHMONEY");
+					}		
+				}
+				else {
+					out.flush();
+					out.writeUTF("ALREADYHAVETHIS");
+				}
 			}
-			else if((incomingMessage.equals("BUYKITCHENFURNITURE")) && (checkBalance(1000) == true)) {
-				actualPlayer.getHouse().setHasKitchen(true);
-				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(1000);
-				sendGameState("HOUSE");	
+			else if( string.equals("KITCHENFURNITURE") ) {								//if on the actual field the "COOKER" is buyable
+				if(actualPlayer.getHouse().getHasKitchen() == false) { 	//and if the player does not have it
+					if( checkBalance(1000) == true ) {					//and if the player has the required money to buy it
+						out.flush();									//we offer business
+						out.writeUTF("BUYFURNITURE");					
+						System.out.println("###Buying of Furniture Offered.###");
+						out.flush();
+						out.writeUTF(string);
+						incomingMessage = in.readUTF();
+						if(incomingMessage.equals("BUYKITCHENFURNITURE")) {			//if the player want to buy the cooker
+							actualPlayer.getHouse().setHasKitchen(true);		//we give it to the player
+							out.flush();
+							out.writeUTF("SUCCESS");
+							deductMoney(1000);								//deduct the price of it
+							sendGameState("HOUSE");							//and send gamestate infos about the house
+							sendGameState("BALANCE");						//and the balance
+						}
+						else if(incomingMessage.equals("DONTBUYKITCHENFURNITURE")) {	//but if the player don't want to buy it
+							out.flush();
+							out.writeUTF("SUCCESS");
+						}
+					}
+					else { 												//but if the player does not have the required money
+						out.flush();
+						out.writeUTF("NOTENOUGHMONEY");
+					}		
+				}
+				else {
+					out.flush();
+					out.writeUTF("ALREADYHAVETHIS");
+				}
 			}
-			else if((incomingMessage.equals("BUYROOMFURNITURE")) && (checkBalance(3000) == true)) {
-				actualPlayer.getHouse().setHasRoomFurniture(true);
-				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(3000);
-				sendGameState("HOUSE");	
+			else if( string.equals("ROOMFURNITURE") ) {								//if on the actual field the "COOKER" is buyable
+				if(actualPlayer.getHouse().getHasRoomFurniture() == false) { 	//and if the player does not have it
+					if( checkBalance(3000) == true ) {					//and if the player has the required money to buy it
+						out.flush();									//we offer business
+						out.writeUTF("BUYFURNITURE");					
+						System.out.println("###Buying of Furniture Offered.###");
+						out.flush();
+						out.writeUTF(string);
+						incomingMessage = in.readUTF();
+						if(incomingMessage.equals("BUYROOMFURNITURE")) {			//if the player want to buy the cooker
+							actualPlayer.getHouse().setHasRoomFurniture(true);		//we give it to the player
+							out.flush();
+							out.writeUTF("SUCCESS");
+							deductMoney(3000);								//deduct the price of it
+							sendGameState("HOUSE");							//and send gamestate infos about the house
+							sendGameState("BALANCE");						//and the balance
+						}
+						else if(incomingMessage.equals("DONTBUYROOMFURNITURE")) {	//but if the player don't want to buy it
+							out.flush();
+							out.writeUTF("SUCCESS");
+						}
+					}
+					else { 												//but if the player does not have the required money
+						out.flush();
+						out.writeUTF("NOTENOUGHMONEY");
+					}		
+				}
+				else {
+					out.flush();
+					out.writeUTF("ALREADYHAVETHIS");
+				}
 			}
-			else if((incomingMessage.equals("BUYWASHMACHINE")) && (checkBalance(300) == true)) {
-				actualPlayer.getHouse().setHasWashMachine(true);
-				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(300);
-				sendGameState("HOUSE");	
+			else if( string.equals("WASHMACHINE") ) {								//if on the actual field the "COOKER" is buyable
+				if(actualPlayer.getHouse().getHasWashMachine() == false) { 	//and if the player does not have it
+					if( checkBalance(300) == true ) {					//and if the player has the required money to buy it
+						out.flush();									//we offer business
+						out.writeUTF("BUYFURNITURE");					
+						System.out.println("###Buying of Furniture Offered.###");
+						out.flush();
+						out.writeUTF(string);
+						incomingMessage = in.readUTF();
+						if(incomingMessage.equals("BUYWASHMACHINE")) {			//if the player want to buy the cooker
+							actualPlayer.getHouse().setHasWashMachine(true);		//we give it to the player
+							out.flush();
+							out.writeUTF("SUCCESS");
+							deductMoney(300);								//deduct the price of it
+							sendGameState("HOUSE");							//and send gamestate infos about the house
+							sendGameState("BALANCE");						//and the balance
+						}
+						else if(incomingMessage.equals("DONTBUYWASHMACHINE")) {	//but if the player don't want to buy it
+							out.flush();
+							out.writeUTF("SUCCESS");
+						}
+					}
+					else { 												//but if the player does not have the required money
+						out.flush();
+						out.writeUTF("NOTENOUGHMONEY");
+					}		
+				}
+				else {
+					out.flush();
+					out.writeUTF("ALREADYHAVETHIS");
+				}
 			}
-			else if((incomingMessage.equals("DONTBUYCOOKER")) || (incomingMessage.equals("DONTBUYDISHWASHER")) 
-				|| (incomingMessage.equals("DONTBUYFRIGO")) || (incomingMessage.equals("DONTBUYKITCHENFURNITURE"))
-				|| (incomingMessage.equals("DONTBUYROOMFURNITURE")) || (incomingMessage.equals("DONTBUYWASHMACHINE"))) {
+			else {
 				out.flush();
 				out.writeUTF("UNSUCCESS");
 			}
@@ -697,7 +840,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	/* MAYBE DONE!
 	 * NEED REVIEW! */
 	private void offerBuyHouse() throws IOException {
-		if (actualPlayer.getHouse()==null){
+		if (actualPlayer.getHouse()==null) {	//if player does not have a house, we offer to buy it
 			out.flush();
 			out.writeUTF("BUYHOUSE");
 			System.out.println("###Buying of House Offered.###");
@@ -727,8 +870,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 	
 	
-	/* MAYBE DONE!
-	 * NEED REVIEW! */
+	/* FAULTY!!!!!!!!!!!!!!!! */
 	private void offerMakeInsurances() throws IOException {
 		out.flush();
 		out.writeUTF("MAKEINSURANCES");
