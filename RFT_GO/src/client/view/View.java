@@ -41,6 +41,7 @@ public class View implements IView{
 			}
 		});
 	}
+		
 	
 	public List<String> getLoginInfos() {
 		Scanner sc = new Scanner(System.in);
