@@ -145,8 +145,6 @@ public class Controller implements IController{
                 	case "BUYFURNITURE":buyFurnitures();break;
                 	case "MAKEINSURANCES":makeInsurances();break;
                 	case "MESSAGEFORREAD":getMessageForRead();break;
-                	case "ALREADYHAVETHIS":simpleMessage("Már van ilyen...");;break;
-                	case "NOTENOUGHMONEY":simpleMessage("Nincs elég pénzed vásárláshoz!");;break;
                 	default:break;
                 }
             }
@@ -229,33 +227,29 @@ public class Controller implements IController{
 	public void buyFurnitures(){
 		try {
 			String furnitureType = readStringFromStream();
-				int statement=myView.getFurnitureOptions(locDesc());
+			int statement=myView.getFurnitureOptions(locDesc());
 
-				/*switch (furnitureType){
-					case "COOKER":statement=myView.getFurnitureOptions(locDesc());break;
-					case "DISHWASHER":statement=myView.getFurnitureOptions(locDesc());break;
-					case "KITCHENFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
-					case "ROOMFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
-					case "WASHMACHINE":statement=myView.getFurnitureOptions(locDesc());break;
-					default:break;
-				}*/
+			/*switch (furnitureType){
+				case "COOKER":statement=myView.getFurnitureOptions(locDesc());break;
+				case "DISHWASHER":statement=myView.getFurnitureOptions(locDesc());break;
+				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
+				case "ROOMFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
+				case "WASHMACHINE":statement=myView.getFurnitureOptions(locDesc());break;
+				default:break;
+			}*/
 			
-				if (statement==0){
-					sendMessage("BUY"+furnitureType);
-				}
-				else{
-					sendMessage("DONTBUY"+furnitureType);
-				}			
+			if (statement==0){
+				sendMessage("BUY"+furnitureType);
+			}
+			else{
+				sendMessage("DONTBUY"+furnitureType);
+			}			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 	}
 
-	public void simpleMessage(String s){
-		myView.simpleMessage(s);
-	}
-	
 	public void getMessageForRead(){
 		try {
 			String message = readStringFromStream();
