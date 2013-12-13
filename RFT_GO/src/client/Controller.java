@@ -182,14 +182,6 @@ public class Controller implements IController{
 			else{
 				sendMessage("DONTBUY");
 			}
-			String result = readStringFromStream();
-			if (result=="SUCCESS"){
-				myView.simpleMessage("Sikeres Vásárlás!");
-			}
-			else if(result=="UNSUCCESS"){
-				myView.simpleMessage("A vásárlás nem történt meg!");
-			}
-			sendMessage("OK");
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
