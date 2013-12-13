@@ -617,8 +617,6 @@ public class GameEngine implements ICashier, IGamePlay {
 				if((incomingMessage.equals("BUYFORCASH"))) {
 					actualPlayer.setCar(new Car());
 					actualPlayer.getCar().setDebit(0);
-					out.flush();
-					out.writeUTF("SUCCESS");
 					deductMoney(10000);
 					sendGameState("CAR");
 				}
@@ -799,40 +797,53 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 }
 
-	
-
-	/* MAYBE DONE!
-	 * NEED REVIEW! */
 	private void offerBuyHouse() throws IOException {
-		if (actualPlayer.getHouse()==null) {	//if player does not have a house, we offer to buy it
-			out.flush();
-			out.writeUTF("BUYHOUSE");
-			System.out.println("###Buying of House Offered.###");
-			String incomingMessage = in.readUTF();
-			if((incomingMessage.equals("BUYFORCASH")) && (checkBalance(30000) == true)) {
-				actualPlayer.setHouse(new House());
-				actualPlayer.getHouse().setDebit(0);
+		String incomingMessage;
+		if(actualPlayer.getHouse() != null) {
+			sendMessageForRead("Már van házad, és csak egyet birtokolhatsz.");
+		}
+		else if (actualPlayer.getHouse()==null){
+			if(checkBalance(30000) == true) {
 				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(30000);
-				sendGameState("HOUSE");
+				out.writeUTF("BUYHOUSEFORCASH");
+				System.out.println("###Buying of House Offered.###");
+				incomingMessage = in.readUTF();
+				if((incomingMessage.equals("BUYFORCASH"))) {
+					actualPlayer.setHouse(new House());
+					actualPlayer.getHouse().setDebit(0);
+					deductMoney(30000);
+					sendGameState("HOUSE");
+				}
+				else if((incomingMessage.equals("BUYFORCREDIT"))) {
+					actualPlayer.setHouse(new House());
+					actualPlayer.getHouse().setDebit(15000);
+					deductMoney(15000);
+					sendGameState("HOUSE");
+				}
+				else if(incomingMessage.equals("DONTBUY")) {
+				}
 			}
-			else if((incomingMessage.equals("BUYFORCREDIT")) && (checkBalance(15000) == true)) {
-				actualPlayer.setHouse(new House());
-				System.out.println(actualPlayer.getHouse());
-				actualPlayer.getHouse().setDebit(15000);
+			else if(checkBalance(15000) == true) {
 				out.flush();
-				out.writeUTF("SUCCESS");
-				deductMoney(15000);
-				sendGameState("HOUSE");
+				out.writeUTF("BUYHOUSEFORCREDIT");
+				System.out.println("###Buying of House Offered.###");
+				incomingMessage = in.readUTF();
+				if((incomingMessage.equals("BUYFORCREDIT"))) {
+					actualPlayer.setHouse(new House());
+					actualPlayer.getHouse().setDebit(15000);
+					deductMoney(15000);
+					sendGameState("HOUSE");
+				}
+				else if(incomingMessage.equals("DONTBUY")) {
+				}
 			}
-			else if(incomingMessage.equals("DONTBUY")) {
-				out.flush();
-				out.writeUTF("UNSUCCESS");
+			else if(checkBalance(15000) == false) {
+				sendMessageForRead("Nincs elegendő pénzed ház vásárlásához.\n" + 
+						"Térj vissza, ha már van legalább 15.000 euród, hogy hitelre vásárolhass!\n" +
+						"Ha egy összegben szeretnéd kifizetni házad árát, 30.000 eurót kell gyűjtened!");
 			}
-		}		
+		}
 	}
-	
 	
 	/* FAULTY!!!!!!!!!!!!!!!! */
 	private void offerMakeInsurances() throws IOException {
@@ -872,42 +883,27 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	
-	/* DONE 
-	 * NEED REVIEW */
 	private void sendMessageForRead(String description) throws IOException {
 		out.writeUTF("MESSAGEFORREAD");
 		out.writeUTF(description);
 		in.readUTF();
 	}	
 	
-	
-	/* DONE 
-	 * NEED REVIEW */
 	private void set_1_6Penalty(int amount) {
 		actualPlayer.set_1_6Penalty(amount);
 		return;
 	}
 	
-	
-	/* DONE 
-	 * DON'T NEED REVIEW */
 	private void setExclusions(int amount) {
 		actualPlayer.setExclusions(amount);
 		return;
 	}
 	
-	
-	/* DONE 
-	 * DON'T NEED REVIEW  */
 	private void setGiftDices(int amount) {
 		actualPlayer.setGiftDices(amount);
 		return;
 	}
 	
-	
-	/* DONE 
-	 * DON'T NEED REVIEW */
 	private void wonFurniture(String furnitureName) throws IOException {
 		if(furnitureName.equals("DISHWASHER")) {
 			if( (actualPlayer.getHouse() != null) && (actualPlayer.getHouse().getHasDishwasher() == false) ) {
