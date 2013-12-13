@@ -62,19 +62,43 @@ public class View implements IView{
 	
 	
 	public int getBuyingInfos(String s){
-		Scanner sc = new Scanner(System.in);
+		Object[] options = {"Nem kell",
+        "Hitel","Készpénz"};
+		int n = JOptionPane.showOptionDialog(frame,
+				s,
+				"Vásárlás",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,    
+				options,  
+				options[0]); 
+		return n;
+		/*Scanner sc = new Scanner(System.in);
 	    String st=sc.nextLine();
 	    if (st.equals("h")){
 	    	return 1;}
 	    else if(st.equals("k")){
 	    	return 2;}
 	    else{
-		return 0;}
+		return 0;
+		}*/
 	}
 	
 	
 	public int getInsurances(String s){
-		Scanner sc = new Scanner(System.in);
+		Object[] options = {"Ház biztosítás",
+        "Autó Biztosítás","Nem kérek!"};
+		int n = JOptionPane.showOptionDialog(frame,
+				s,
+				"Biztosítás",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,    
+				options,  
+				options[0]); 
+		return n;
+		
+		/*Scanner sc = new Scanner(System.in);
 	    String st=sc.nextLine();
 	    if (st.equals("a")){
 	    	return 1;}
@@ -83,7 +107,7 @@ public class View implements IView{
 	    else if(st.equals("m")){
 	    	return 3;}
 	    else{
-		return 0;}
+		return 0;}*/
 	}
 	
 	
@@ -92,7 +116,7 @@ public class View implements IView{
         "Nem kérem!"};
 		int n = JOptionPane.showOptionDialog(frame,
 				s,
-				"Berendezés vásárlás",
+				"Berendezés",
 				JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE,
 				null,    
@@ -103,7 +127,17 @@ public class View implements IView{
 
 	
 	public void simpleMessage(String s) {
-		System.out.println(s);
+		Object[] options = {"OK"};
+				int n = JOptionPane.showOptionDialog(frame,
+						s,
+						"Üzenet",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,    
+						options,  
+						options[0]); 
+		
+
 	}
 	
 
