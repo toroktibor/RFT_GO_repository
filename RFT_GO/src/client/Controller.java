@@ -30,48 +30,31 @@ public class Controller implements IController{
 	public String getMyName() {
 		return myName;
 	}
-
-
 	public View getMyView() {
 		return myView;
 	}
-
-
 	public List<String> getLogInf() {
 		return logInf;
 	}
-
-
 	public DataInputStream getIn() {
 		return in;
 	}
-
-
 	public DataOutputStream getOut() {
 		return out;
 	}
-
-
 	public Socket getS() {
 		return s;
 	}
-
-
 	public static List<StateOfPlayer> getGameState() {
 		return gameState;
 	}
-
-
 	public static int getMyID() {
 		return myID;
 	}
-	
-
 	public Controller(){
 		myView.showView();
 		login();
 	}
-	
 	
 
 	public void login(){ 

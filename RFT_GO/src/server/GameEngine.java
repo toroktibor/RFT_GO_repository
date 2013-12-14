@@ -22,7 +22,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	private int luckyCardIndex = -1;		//index of the following lucky card in the row
 	private int playerIndex = 0;		//index of the respective actual player
 	
-	private XMLParser p=new XMLParser();	//the parser used for initialize the lucky cards of the deck and the fields of the board
+	private XMLParser parser=new XMLParser();	//the parser used for initialize the lucky cards of the deck and the fields of the board
 	ServerSocket serverSocket = null;	//the server socket, that handle client connections
 	DataInputStream in;		//the input stream of the respective actual player's socket 
 	DataOutputStream out;	//the output stream of the respective actual player's socket 
@@ -175,8 +175,8 @@ public class GameEngine implements ICashier, IGamePlay {
 	
 	/** This method initialize the fields of the board, and the lucky cards of the deck. */
 	public void init() {
-		board=p.parseFields("Fields.xml");
-		deck=p.parseLuckyCards("LuckyCards.xml");
+		board=parser.parseFields("Fields.xml");
+		deck=parser.parseLuckyCards("LuckyCards.xml");
 		return;
 	}
 	
