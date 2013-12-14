@@ -245,7 +245,7 @@ public class View extends JFrame implements IView {
 		List<String> l = new ArrayList<String>();
 		l.add(name);
 		l.add(host);
-//		l.add(port);
+		l.add(port);
 		return l;
 		/*--*/
 	}
