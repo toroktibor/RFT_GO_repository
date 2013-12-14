@@ -26,16 +26,15 @@ public interface IView {
 	public int getBuyingInfos(String s,boolean c);
 	
 	/**
-	 * Lényege hogy megkérdi hogy akar-e autó,lakás biztosítást kötni, paraméterbe jön a szöveg
+	 * Lényege hogy megkérdi hogy akar-e biztosítást kötni, paraméterbe jön a szöveg
 	 * 
 	 * visszatérés: 
-	 * 0- nem akar kötni
-	 * 1- autó biztosítás
-	 * 2- ház biztosítás	 
-	 * 3- mind kettő
+	 * 1- nem akar kötni
+	 * 0- nem köt
+	 * 
 	 * 
 	 * **/
-	public int getInsurances(String s);
+	public int getInsurance(String s);
 	
 	/**
 	 * Lényege hogy megkérdi vesz-e xyz dolgot, a string-et kiíratjuk

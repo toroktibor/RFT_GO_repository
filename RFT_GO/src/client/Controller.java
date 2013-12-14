@@ -146,7 +146,7 @@ public class Controller implements IController{
                 	case "BUYHOUSEFORCASH":buyHouse(true);break;
                 	case "BUYHOUSEFORCREDIT":buyHouse(false);break;
                 	case "BUYFURNITURE":buyFurnitures();break;
-                	case "MAKEINSURANCES":makeInsurances();break;
+                	case "MAKEINSURANCE":makeInsurance();break;
                 	case "MESSAGEFORREAD":getMessageForRead();break;
                 	default:break;
                 }
@@ -189,23 +189,17 @@ public class Controller implements IController{
 	}
 	
 	
-	public void makeInsurances(){
+	public void makeInsurance(){
 
 		try {
 			String options=in.readUTF();
-			if (options.equals("BOTH")){
-				int statement=myView.getInsurances(locDesc());
-				if (statement==1){
-					sendMessage("MAKEONLYCARINSURANCE");
+			if (options.equals("CAR") || options.equals("HOUSE")){
+				int statement=myView.getInsurance(locDesc());
+				if (statement==0){
+					sendMessage("MAKEINSURANCE");
 				}
-				else if(statement==2){
-					sendMessage("MAKEONLYHOUSEINSURANCE");
-				}
-				else if(statement==3){
-					sendMessage("MAKEBOTHINSURANCES");
-				}
-				else{
-					sendMessage("DONTMAKEANYINSURANCES");
+				else if (statement == 1){
+					sendMessage("DONTMAKEINSURANCE");
 				}			
 			}
 		} catch (IOException e) {

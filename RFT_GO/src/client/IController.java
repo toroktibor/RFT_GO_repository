@@ -5,7 +5,7 @@ public interface IController {
 	public void buyHouse(boolean b);
 	public void buyCar(boolean b);
 	public void buyFurnitures();
-	public void makeInsurances();
+	public void makeInsurance();
 	public void getInitialMessage();
 	public void getMessageForRead();
 	public void getGameStateMessage();

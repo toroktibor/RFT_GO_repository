@@ -63,7 +63,7 @@ public class View implements IView{
 	
 	
 	public int getBuyingInfos(String s, boolean b){
-		Object[] options = {"Nem kell",
+		if (b==true){Object[] options = {"Nem kell",
         "Hitel","Készpénz"};
 		int n = JOptionPane.showOptionDialog(frame,
 				s,
@@ -73,7 +73,17 @@ public class View implements IView{
 				null,    
 				options,  
 				options[0]); 
-		return n;
+		return n;}else{		Object[] options = {"Nem kell",
+		        "Hitel"};
+				int n = JOptionPane.showOptionDialog(frame,
+						s,
+						"Vásárlás",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,    
+						options,  
+						options[0]); 
+				return n;}
 		/*Scanner sc = new Scanner(System.in);
 	    String st=sc.nextLine();
 	    if (st.equals("h")){
@@ -86,9 +96,9 @@ public class View implements IView{
 	}
 	
 	
-	public int getInsurances(String s){
-		Object[] options = {"Ház biztosítás",
-        "Autó Biztosítás","Nem kérek!"};
+	public int getInsurance(String s){
+		Object[] options = {"Megköt",
+        "Nem köt!"};
 		int n = JOptionPane.showOptionDialog(frame,
 				s,
 				"Biztosítás",
