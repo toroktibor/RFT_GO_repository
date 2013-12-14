@@ -254,9 +254,9 @@ public class View extends JFrame implements IView {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(s);
 		String st = sc.nextLine();
-		if (st == "h")
+		if (st.equals("h"))
 			return 1;
-		else if (st == "k")
+		else if (st.equals("k"))
 			return 2;
 		else
 			return 0;
@@ -266,11 +266,11 @@ public class View extends JFrame implements IView {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(s);
 		String st = sc.nextLine();
-		if (st == "a")
+		if (st.equals("a"))
 			return 1;
-		else if (st == "h")
+		else if (st.equals("h"))
 			return 2;
-		else if (st == "m")
+		else if (st.equals("m"))
 			return 3;
 		else
 			return 0;
