@@ -1,4 +1,4 @@
-package server;
+﻿package server;
 
 public class House {
 	private int debit;

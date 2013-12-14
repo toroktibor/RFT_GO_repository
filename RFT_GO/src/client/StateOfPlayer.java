@@ -1,4 +1,4 @@
-package client;
+﻿package client;
 
 public class StateOfPlayer {
 	private int idNumber=0;
