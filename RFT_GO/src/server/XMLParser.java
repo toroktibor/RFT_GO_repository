@@ -48,13 +48,13 @@ public class XMLParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<LuckyCard> parseLuckyCards(String file){
-		return (List<LuckyCard>) parse(file);	
+	public List<LuckyCard> parseLuckyCards(String fileName){
+		return (List<LuckyCard>) parse(fileName);	
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<Field> parseFields(String file){
-		return (List<Field>) parse(file);	
+	public List<Field> parseFields(String fileName){
+		return (List<Field>) parse(fileName);	
 	}
 }
