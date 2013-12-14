@@ -233,25 +233,21 @@ public class GameEngine implements ICashier, IGamePlay {
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
 			// Megvizsgálom a metódus neve alapján, hogy hány paramétere lesz, azokat rögzítem, és meghívom a met�dust.
 			
-			if(	executableMethodsName.equals("addMoney") || 
-				executableMethodsName.equals("deductMoney") || 
-				executableMethodsName.equals("actualPlayer.set_1_6Penalty") || 
-				executableMethodsName.equals("actualPlayer.setGiftDices")  ||
-				executableMethodsName.equals("moveToField") ||
-				executableMethodsName.equals("moveWithQuantity") ||
-				executableMethodsName.equals("set_1_6Penalty") ||
-				executableMethodsName.equals("setGiftDices") ||
+			if(	executableMethodsName.equals("addMoney") || executableMethodsName.equals("deductMoney") || 
+				executableMethodsName.equals("moveToField") || executableMethodsName.equals("moveWithQuantity") ||
+				executableMethodsName.equals("set_1_6Penalty") || executableMethodsName.equals("setGiftDices") ||
 				executableMethodsName.equals("setExclusion")) {
 				
 				int param1 = Integer.parseInt(commandWords[commandWordIterator]);
 				actMet.invoke(this, param1);
 			}
-			else if(executableMethodsName.equals("offerBuyFurniture") || executableMethodsName.equals("sendMessageForRead") ) {
+			else if(executableMethodsName.equals("offerBuyFurniture") || executableMethodsName.equals("sendMessageForRead") ||
+					executableMethodsName.equals("offerMakeInsurances")) {
 				String param1 = commandWords[commandWordIterator];
 				actMet.invoke(this, param1);
 			}
 			else if(executableMethodsName.equals("offerBuyHouse") || executableMethodsName.equals("offerBuyCar") 
-					|| executableMethodsName.equals("offerMakeInsurances") || executableMethodsName.equals("drawNextLuckyCard")) {
+					 || executableMethodsName.equals("drawNextLuckyCard")) {
 				actMet.invoke(this);
 			}
 			commandWordIterator++;
@@ -313,7 +309,6 @@ public class GameEngine implements ICashier, IGamePlay {
 }
 */
 	
-	/* FAULTY!!!!!!!!!!!!!!!! */
 	public void executeLuckyCardCommand() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// Az aktuális szerencsekártya Command adattagja, a parancsszavakat tartalmazó 
 		// string feldarabolása '#' karakterek mentén, eredmény a commandWords String tömb.
@@ -335,25 +330,20 @@ public class GameEngine implements ICashier, IGamePlay {
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
 			// Megvizsgálom a metódus neve alapján, hogy hány paramétere lesz, azokat rögzítem, és meghívom a met�dust.
 			
-			if(	executableMethodsName.equals("addMoney") || 
-				executableMethodsName.equals("deductMoney") || 
-				executableMethodsName.equals("actualPlayer.set_1_6Penalty") || 
-				executableMethodsName.equals("actualPlayer.setGiftDices")  ||
-				executableMethodsName.equals("moveToField") ||
-				executableMethodsName.equals("moveWithQuantity") ||
-				executableMethodsName.equals("set_1_6Penalty") ||
-				executableMethodsName.equals("setGiftDices") ||
-				executableMethodsName.equals("setExclusion")) {
+			if(	executableMethodsName.equals("addMoney") || executableMethodsName.equals("deductMoney") ||
+				executableMethodsName.equals("addPercentage") || executableMethodsName.equals("set_1_6Penalty") || 
+				executableMethodsName.equals("setGiftDices")  ||executableMethodsName.equals("setExclusion") ||
+				executableMethodsName.equals("moveToField") ||	executableMethodsName.equals("moveWithQuantity")) {
 				
 				int param1 = Integer.parseInt(commandWords[commandWordIterator]);
 				actMet.invoke(this, param1);
 			}
-			else if(executableMethodsName.equals("offerBuyFurniture") || executableMethodsName.equals("sendMessageForRead") ) {
+			else if(executableMethodsName.equals("wonFurniture")) {
 				String param1 = commandWords[commandWordIterator];
 				actMet.invoke(this, param1);
 			}
-			else if(executableMethodsName.equals("offerBuyHouse") || executableMethodsName.equals("offerBuyCar") 
-					|| executableMethodsName.equals("offerMakeInsurances") || executableMethodsName.equals("drawNextLuckyCard")) {
+			else if(	(executableMethodsName.equals("loseFurnitures")) ||
+					(executableMethodsName.equals("loseCar"))) {
 				actMet.invoke(this);
 			}
 			commandWordIterator++;
@@ -364,8 +354,6 @@ public class GameEngine implements ICashier, IGamePlay {
 	
 	/** In this method we wait for the given number players. There is a time limit, after which we start the game.
 	 */
-	/* DONE 
-	 * NEED REVIEW*/
 	public void waitForPlayers(int maxNumberOfPlayers) throws IOException { //EZ EGéSZEN MáS LESZ....
 		/* azt mondjuk várakozunk */
 		boolean wait=true;
@@ -602,7 +590,6 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	
 	private void offerBuyCar() throws IOException {
 		String incomingMessage;
 		if(actualPlayer.getCar() != null) {
@@ -651,12 +638,12 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	private void offerBuyFurniture(String string) throws IOException {
+	private void offerBuyFurniture(String option) throws IOException {
 	String incomingMessage = null;
 	if(actualPlayer.getHouse() == null )
 		sendMessageForRead("Még nem tudsz bútort vásárolni, mert nincs házad.");
 	else if(actualPlayer.getHouse() != null) {
-		if(string.equals("COOKER")) {
+		if(option.equals("COOKER")) {
 			if(checkBalance(200) == false) {
 				sendMessageForRead("Nincs elegendő pénzed a tűzhely megvásárlásához.\nGyere vissza, ha már van 200 euród!");
 			}
@@ -669,7 +656,7 @@ public class GameEngine implements ICashier, IGamePlay {
 					out.writeUTF("BUYFURNITURE");					
 					System.out.println("###Buying of Furniture Offered.###");
 					out.flush();
-					out.writeUTF(string);
+					out.writeUTF(option);
 					incomingMessage = in.readUTF();
 					if(incomingMessage.equals("BUYCOOKER")) {
 						actualPlayer.getHouse().setHasCooker(true);	
@@ -679,7 +666,7 @@ public class GameEngine implements ICashier, IGamePlay {
 				}
 			}
 		}
-		else if(string.equals("DISHWASHER")) {
+		else if(option.equals("DISHWASHER")) {
 			if(checkBalance(300) == false) {
 				sendMessageForRead("Nincs elegendő pénzed a mosogatógép megvásárlásához.\nGyere vissza, ha már van 300 euród!");
 			}
@@ -692,7 +679,7 @@ public class GameEngine implements ICashier, IGamePlay {
 					out.writeUTF("BUYFURNITURE");					
 					System.out.println("###Buying of Furniture Offered.###");
 					out.flush();
-					out.writeUTF(string);
+					out.writeUTF(option);
 					incomingMessage = in.readUTF();
 					if(incomingMessage.equals("BUYDISHWASHER")) {
 						actualPlayer.getHouse().setHasDishwasher(true);	
@@ -702,7 +689,7 @@ public class GameEngine implements ICashier, IGamePlay {
 				}
 			}
 		}
-		else if(string.equals("FRIGO")) {
+		else if(option.equals("FRIGO")) {
 			if(checkBalance(200) == false) {
 				sendMessageForRead("Nincs elegendő pénzed a hűtő megvásárlásához.\nGyere vissza, ha már van 200 euród!");
 			}
@@ -715,7 +702,7 @@ public class GameEngine implements ICashier, IGamePlay {
 					out.writeUTF("BUYFURNITURE");					
 					System.out.println("###Buying of Furniture Offered.###");
 					out.flush();
-					out.writeUTF(string);
+					out.writeUTF(option);
 					incomingMessage = in.readUTF();
 					if(incomingMessage.equals("BUYFRIGO")) {
 						actualPlayer.getHouse().setHasFrigo(true);	
@@ -725,7 +712,7 @@ public class GameEngine implements ICashier, IGamePlay {
 				}
 			}
 		}
-		else if(string.equals("KITCHENFURNITURE")) {
+		else if(option.equals("KITCHENFURNITURE")) {
 			if(checkBalance(1000) == false) {
 				sendMessageForRead("Nincs elegendő pénzed a konyhaszekrény megvásárlásához.\nGyere vissza, ha már van 1000 euród!");
 			}
@@ -738,7 +725,7 @@ public class GameEngine implements ICashier, IGamePlay {
 					out.writeUTF("BUYFURNITURE");					
 					System.out.println("###Buying of Furniture Offered.###");
 					out.flush();
-					out.writeUTF(string);
+					out.writeUTF(option);
 					incomingMessage = in.readUTF();
 					if(incomingMessage.equals("BUYKITCHENFURNITURE")) {
 						actualPlayer.getHouse().setHasKitchen(true);	
@@ -748,7 +735,7 @@ public class GameEngine implements ICashier, IGamePlay {
 				}
 			}
 		}
-		else if(string.equals("ROOMFURNITURE")) {
+		else if(option.equals("ROOMFURNITURE")) {
 			if(checkBalance(3000) == false) {
 				sendMessageForRead("Nincs elegendő pénzed a szobaszekrény megvásárlásához.\nGyere vissza, ha már van 3000 euród!");
 			}
@@ -761,7 +748,7 @@ public class GameEngine implements ICashier, IGamePlay {
 					out.writeUTF("BUYFURNITURE");					
 					System.out.println("###Buying of Furniture Offered.###");
 					out.flush();
-					out.writeUTF(string);
+					out.writeUTF(option);
 					incomingMessage = in.readUTF();
 					if(incomingMessage.equals("BUYROOMFURNITURE")) {
 						actualPlayer.getHouse().setHasRoomFurniture(true);	
@@ -771,7 +758,7 @@ public class GameEngine implements ICashier, IGamePlay {
 				}
 			}
 		}
-		else if(string.equals("WASHMACHINE")) {
+		else if(option.equals("WASHMACHINE")) {
 			if(checkBalance(300) == false) {
 				sendMessageForRead("Nincs elegendő pénzed a mosógép megvásárlásához.\nGyere vissza, ha már van 300 euród!");
 			}
@@ -784,7 +771,7 @@ public class GameEngine implements ICashier, IGamePlay {
 					out.writeUTF("BUYFURNITURE");					
 					System.out.println("###Buying of Furniture Offered.###");
 					out.flush();
-					out.writeUTF(string);
+					out.writeUTF(option);
 					incomingMessage = in.readUTF();
 					if(incomingMessage.equals("BUYWASHMACHINE")) {
 						actualPlayer.getHouse().setHasWashMachine(true);	
@@ -845,48 +832,70 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	/* FAULTY!!!!!!!!!!!!!!!! */
-	private void offerMakeInsurances() throws IOException {
-		if (actualPlayer.getHouse()!=null && actualPlayer.getHouse() !=null){
-		out.flush();
-		out.writeUTF("MAKEINSURANCES");
-		System.out.println("###Making of Insurances Offered.###");
-		
-		String incomingMessage = in.readUTF();
-		if((incomingMessage.equals("MAKEONLYHOUSEINSURANCE")) && (checkBalance(100) == true)) {
-			actualPlayer.getHouse().setIsInsured(true);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(100);
-			sendGameState("HOUSE");
+	private void offerMakeInsurances(String option) throws IOException {
+		String incomingMessage;
+		if(option.equals("CAR")) {
+			if(actualPlayer.getCar() == null) {
+				sendMessageForRead("Mivel még nincs autód, nem tudsz biztosítást kötni rá.\nTérj vissza, ha már vásároltál autót.");
+			}
+			else if(actualPlayer.getCar() != null) {
+				if(actualPlayer.getCar().getIsInsured() == true) {
+					sendMessageForRead("Autódra már van érvényes biztosítás kötve, és egyszerre csak egy biztosítás lehet életben.");
+				}
+				else if((checkBalance(100) == false)) {
+					sendMessageForRead("Nincs elegendő pénzed, hogy autódra biztosítást köss.\nTérj vissza, ha már összegyűjtöttél 100 eurót!");
+				}
+				else if(checkBalance(100) == true) {
+					out.flush();
+					out.writeUTF("MAKEINSURANCE");
+					System.out.println("###Making Insurances Offered.###");
+					out.flush();
+					out.writeUTF(option);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("MAKEINSURANCE")) {
+						actualPlayer.getCar().setIsInsured(true);	
+						deductMoney(100);								
+						sendGameState("CAR");											
+					}
+					else if(incomingMessage.equals("DONTMAKEINSURANCE")) {
+					}
+				}
+			}
 		}
-		else if((incomingMessage.equals("MAKEONLYCARINSURANCE")) && (checkBalance(100) == true)) {
-			actualPlayer.getCar().setIsInsured(true);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(100);
-			sendGameState("CAR");
-		}
-		else if((incomingMessage.equals("MAKEBOTHINSURANCES")) && (checkBalance(200) == true)) {
-			actualPlayer.getCar().setIsInsured(true);
-			actualPlayer.getHouse().setIsInsured(true);
-			out.flush();
-			out.writeUTF("SUCCESS");
-			deductMoney(200);
-			sendGameState("CAR");
-			sendGameState("HOUSE");
-		}
-		else if(incomingMessage.equals("DONTMAKEANYINSURANCES")) {
-			out.flush();
-			out.writeUTF("UNSUCCESS");
-		}
+		else if(option.equals("HOUSE")) {
+			if(actualPlayer.getHouse() == null) {
+				sendMessageForRead("Mivel még nincs házad, nem tudsz biztosítást kötni rá.\nTérj vissza, ha már vásároltál házat.");
+			}
+			else if(actualPlayer.getHouse() != null) {
+				if(actualPlayer.getHouse().getIsInsured() == true) {
+					sendMessageForRead("Házadra már van érvényes biztosítás kötve, és egyszerre csak egy biztosítás lehet életben.");
+				}
+				else if((checkBalance(100) == false)) {
+					sendMessageForRead("Nincs elegendő pénzed, hogy házadra biztosítást köss.\nTérj vissza, ha már összegyűjtöttél 100 eurót!");
+				}
+				else if(checkBalance(100) == true) {
+					out.flush();
+					out.writeUTF("MAKEINSURANCE");
+					System.out.println("###Making Insurances Offered.###");
+					out.flush();
+					out.writeUTF(option);
+					incomingMessage = in.readUTF();
+					if(incomingMessage.equals("MAKEINSURANCE")) {
+						actualPlayer.getHouse().setIsInsured(true);	
+						deductMoney(100);								
+						sendGameState("HOUSE");											
+					}
+					else if(incomingMessage.equals("DONTMAKEINSURANCE")) {
+					}
+				}
+			}
 		}
 	}
 	
 	private void sendMessageForRead(String description) throws IOException {
 		out.writeUTF("MESSAGEFORREAD");
 		out.writeUTF(description);
-		in.readUTF();
+		in.readUTF();	//WHAT IS THAT JÓZSI? :D
 	}	
 	
 	private void set_1_6Penalty(int amount) {
@@ -903,6 +912,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		actualPlayer.setGiftDices(amount);
 		return;
 	}
+	
 	
 	private void wonFurniture(String furnitureName) throws IOException {
 		if(furnitureName.equals("DISHWASHER")) {
@@ -935,4 +945,3 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	return;
 	}
-}
