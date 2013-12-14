@@ -106,8 +106,8 @@
 	</LuckyCard>
 	<LuckyCard>
 		<id>22</id>
-		<descrpition>Ellopták az autódat. Ha van autó biztosításod, a bank kifizeti a károdat. Ha még nincs, lépj a 9-es mezőre, a biztosítónál megkötheted!</descrpition>
-		<command>2#loseCar#null#moveToField#9</command>
+		<descrpition>Ellopták az autódat. Ha van autóbiztosításod, a biztosító kifizeti a károdat. Ha még nincs, lépj a 29-es mezőre, a biztosítónál megkötheted!</descrpition>
+		<command>2#loseCar#null#moveToField#29</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>23</id>
