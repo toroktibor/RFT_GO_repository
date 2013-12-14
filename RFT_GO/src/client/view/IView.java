@@ -37,6 +37,7 @@ public interface IView {
 	public int getInsurance(String s);
 	
 	/**
+	 * 
 	 * Lényege hogy megkérdi vesz-e xyz dolgot, a string-et kiíratjuk
 	 * 
 	 * visszatérés:
