@@ -46,8 +46,8 @@
 	</Field>
 	<Field>
 		<id>9</id>
-		<descrpition>Megkötheted autó biztosításodat és lakásbiztosításodat 100-100 euróért az Allianz Hungária Biztosítónál!</descrpition>
-		<command>1#offerMakeInsurances</command>
+		<descrpition>Megkötheted lakásbiztosításodat 100 euróért az Allianz Hungária Biztosítónál!</descrpition>
+		<command>1#offerMakeInsurances#HOUSE</command>
 	</Field>
 	<Field>
 		<id>10</id>
@@ -147,8 +147,8 @@
 	</Field>
 	<Field>
 		<id>29</id>
-		<descrpition>Sétálj a Halászbástyán. Innen gyönyörű kilátás nyílik Budapestre.</descrpition>
-		<command>0</command>
+		<descrpition>Megkötheted autóbiztosításodat 100 euróért az Uniqa Biztosítónál.</descrpition>
+		<command>1#offerMakeInsurances#CAR</command>
 	</Field>
 	<Field>
 		<id>30</id>
