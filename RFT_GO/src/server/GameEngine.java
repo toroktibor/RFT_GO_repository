@@ -418,25 +418,25 @@ public class GameEngine implements ICashier, IGamePlay {
 		String s = String.valueOf(originalActualPlayersIndex);
 		if(option.equals("HOUSE")) {
 			if(allPlayers.get(originalActualPlayersIndex).getHouse() != null)
-				s += "#1#SETHOUSE#" + actualPlayer.getHouse().toString();	
+				s=s.concat("#1#SETHOUSE#" + actualPlayer.getHouse().toString());	
 			else
-				s += "#1#SETHOUSE#FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:0";
+				s=s.concat("#1#SETHOUSE#FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:0");
 		}
 		else if(option.equals("CAR")) {
 			if(allPlayers.get(originalActualPlayersIndex).getCar()!= null)
-				s += "#1#SETCAR#" + actualPlayer.getCar().toString();
+				s=s.concat("#1#SETCAR#" + actualPlayer.getCar().toString());
 			else
-				s += "#1#SETCAR#FALSE:FALSE:0";
+				s=s.concat("#1#SETCAR#FALSE:FALSE:0");
 		}
 		else if(option.equals("NAME")) {
 
-				s += "#1#SETNAME#" + actualPlayer.getName().toString();
+			s=s.concat("#1#SETNAME#" + actualPlayer.getName().toString());
 		}
 		else if(option.equals("BALANCE")) {
-			s+= "#1#SETBALANCE#" + actualPlayer.getBalance();
+			s=s.concat("#1#SETBALANCE#" + actualPlayer.getBalance());
 		}		
 		else if(option.equals("LOCATION")) {
-			s += "#1#SETLOCATION#" + actualPlayer.getLocation().toString();
+			s=s.concat("#1#SETLOCATION#" + actualPlayer.getLocation().toString());
 		}		
 		else if(option.equals("NEWPLAYER")) {
 			s=s.concat("#5");
