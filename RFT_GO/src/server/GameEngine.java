@@ -63,7 +63,6 @@ public class GameEngine implements ICashier, IGamePlay {
 	 * @param amount the required amount of money
 	 * @throws IOException 
 	 */
-	//DONE
 	public void addMoney(int amount) throws IOException {
 		int originalBalance = actualPlayer.getBalance();
 		actualPlayer.setBalance(originalBalance+amount);
@@ -73,8 +72,6 @@ public class GameEngine implements ICashier, IGamePlay {
 		return;
 	}
 	
-	/* DONE
-	 * NEED REVIEW */
 	public void addPercentage(int percentage) throws IOException {
 		int originalBalance = actualPlayer.getBalance();
 		double result = originalBalance * ((double)percentage / 100);
@@ -120,7 +117,9 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	/* DONE - This method deduct 500 euros for each debts in the end of every round. If it is not possible, the player lose the game. */
+	/** DONE - This method deduct 500 euros for each debts in the end of every round. 
+	 * If it is not possible, the player lose the game. 
+	 * */
 	public void handleDebits() throws IOException{
 		if(actualPlayer.getHouse() != null) {
 			int houseDebit = actualPlayer.getHouse().getDebit();
@@ -155,7 +154,6 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	
 	//IMPLEMENTATION OF THE METHODS OF IGAMEPLAY INTERFACE
 	
 	/** This method search in the allMethosdNameList methodlist the given method named by
@@ -175,7 +173,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		return indexOfSearchedMethod;
 	}
 	
-	/* DONE - This method initialize the fields of the board, and the lucky cards of the deck. */
+	/** This method initialize the fields of the board, and the lucky cards of the deck. */
 	public void init() {
 		board=p.parseFields("Fields.xml");
 		deck=p.parseLuckyCards("LuckyCards.xml");
@@ -409,23 +407,31 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
+	
 	public void sendGameState(String option) throws IOException {
 		int originalActualPlayersIndex = allPlayers.indexOf(actualPlayer);
 		String s = String.valueOf(originalActualPlayersIndex);
 		if(option.equals("HOUSE")) {
-			s=s.concat("#1#SETHOUSE#" + actualPlayer.getHouse().toString());	
+			if(allPlayers.get(originalActualPlayersIndex).getHouse() != null)
+				s += "#1#SETHOUSE#" + actualPlayer.getHouse().toString();	
+			else
+				s += "#1#SETHOUSE#FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:FALSE:0";
 		}
 		else if(option.equals("CAR")) {
-			s=s.concat("#1#SETCAR#" + actualPlayer.getCar().toString());
+			if(allPlayers.get(originalActualPlayersIndex).getCar()!= null)
+				s += "#1#SETCAR#" + actualPlayer.getCar().toString();
+			else
+				s += "#1#SETCAR#FALSE:FALSE:0";
 		}
 		else if(option.equals("NAME")) {
-			s=s.concat("#1#SETNAME#" + actualPlayer.getName().toString());
+
+				s += "#1#SETNAME#" + actualPlayer.getName().toString();
 		}
 		else if(option.equals("BALANCE")) {
-			s=s.concat("#1#SETBALANCE#" + actualPlayer.getBalance());
+			s+= "#1#SETBALANCE#" + actualPlayer.getBalance();
 		}		
 		else if(option.equals("LOCATION")) {
-			s=s.concat("#1#SETLOCATION#" + actualPlayer.getLocation().toString());
+			s += "#1#SETLOCATION#" + actualPlayer.getLocation().toString();
 		}		
 		else if(option.equals("NEWPLAYER")) {
 			s=s.concat("#5");
@@ -638,6 +644,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
+	
 	private void offerBuyFurniture(String option) throws IOException {
 	String incomingMessage = null;
 	if(actualPlayer.getHouse() == null )
@@ -831,6 +838,7 @@ public class GameEngine implements ICashier, IGamePlay {
 			}
 		}
 	}
+	
 	
 	private void offerMakeInsurances(String option) throws IOException {
 		String incomingMessage;
