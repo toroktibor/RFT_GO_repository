@@ -237,8 +237,8 @@ public class Controller implements IController{
 	public void getMessageForRead(){
 		try {
 			String message = readStringFromStream();
-			
-			out.writeUTF(myView.simpleMessage(message)+"");
+			myView.simpleMessage(message);
+			out.writeUTF("SYNC");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
