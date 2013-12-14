@@ -1,4 +1,4 @@
-package client;
+﻿package client;
 
 public interface IController {
 	public void login();

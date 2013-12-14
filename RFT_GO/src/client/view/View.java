@@ -1,4 +1,4 @@
-//15:42
+﻿//15:42
 package client.view;
 
 import java.awt.BorderLayout;
@@ -57,19 +57,19 @@ public class View extends JFrame implements IView {
 	public View() {
 		initialize();
 //		foo();
-		simpleMessage("Remove entry");
 	}
 
 	private void initialize() {
 		// simpleMessage("Welcome!");
-		// getFurnitureOptions("akarjadm�");
+		// getFurnitureOptions("akarjadmá");
 		initPnlGameTable();
 		initPnlHistory();
 		initPnlStatus();
 
 		initPnlContentpane();
 		initFrame();
- 
+		simpleMessage("A játék inicializálása véget ért.");
+		simpleMessage("A játék elkezdődött.\tLegyen Ön is milliomos!");
 	}
 
 	private void initPnlGameTable() {
@@ -77,30 +77,50 @@ public class View extends JFrame implements IView {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 14;
 		gbc.weighty = 9;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.anchor = GridBagConstraints.CENTER;
+
+		/**
+		 * Ez valójában felesleges, mert magától berendezi.
+		 */
+		Dimension buttonPrefSize = new Dimension(45,45);
 		
 		int noField = 0;
-		for (int i = 0; i < 14; i++) {
-			gbc.weightx = i;
-			pnlGameTable.add(new JButton(Integer.toString(noField++)), gbc);
+		for (int j = 0; j < 13; j++) {
+			gbc.gridx = j;
+			JButton button = new JButton(Integer.toString(noField++));
+			button.setPreferredSize(buttonPrefSize);
+			pnlGameTable.add(button, gbc);
 		}
+		
 		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 14; j++){
-				if(i == 0 || i == 8){
-					gbc.gridx = j;
-					gbc.gridy = i;
-					
-				}
-				else if(j > 0 && j < 8){
-					gbc.gridx = j;
-					gbc.gridy = i;
-				}
-				noField++;
-			}
+			int j = 13;
+			gbc.gridx = j;
+			gbc.gridy = i;
 			
+			JButton button = new JButton(Integer.toString(noField++));
+			button.setPreferredSize(buttonPrefSize);
+			pnlGameTable.add(button, gbc);	
+		}
+		
+		for (int j = 12; j > 0; j--) {
+			gbc.gridx = j;
+			JButton button = new JButton(Integer.toString(noField++));
+			button.setPreferredSize(buttonPrefSize);
+			pnlGameTable.add(button, gbc);
+		}
+		
+		for (int i = 8; i > 0; i--) {
+			int j = 0;
+			gbc.gridx = j;
+			gbc.gridy = i;
+			
+			JButton button = new JButton(Integer.toString(noField++));
+			button.setPreferredSize(buttonPrefSize);
+			pnlGameTable.add(button, gbc);	
 		}
 		
 
-		gbc.gridy = 0;
 		
 //		pnlGameTable.add(new JLabel("-Game table-"));
 		pnlGameTable.setPreferredSize(GazdOkGUIConf.GAMETABLE_PREF_DIM);
@@ -153,8 +173,6 @@ public class View extends JFrame implements IView {
 		gbc.gridy = 1;
 		pnlHistory.add(historyScrollPane, gbc);
 		
-		
-		simpleMessage("A j�t�k elkezd�d�tt.\tLegyen �n is milliomos!");
 	}
 
 	private void initPnlStatus() {
@@ -193,7 +211,7 @@ public class View extends JFrame implements IView {
 	}
 
 	private void initFrame() {
-		setTitle("Gazd�lkodj okosan!");
+		setTitle("Gazdálkodj okosan!");
 		setLocation(0, 0);
 		// setResizable(false);
 		setContentPane(pnlContentPane);
@@ -259,8 +277,8 @@ public class View extends JFrame implements IView {
 	}
 
 	public int getFurnitureOptions(String s) {
-		Object[] options = { "Megv�s�rol", "Nem k�rem!" };
-		int n = JOptionPane.showOptionDialog(this, s, "Berendez�s v�s�rl�s",
+		Object[] options = { "Megvásárol", "Nem kérem!" };
+		int n = JOptionPane.showOptionDialog(this, s, "Berendezés vásárlás",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 				options, options[0]);
 		return n;

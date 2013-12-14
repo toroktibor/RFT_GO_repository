@@ -219,6 +219,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		String executableMethodsName;
 		// A commandWords String tömb első eleme a végrehajtandó metódusok száma.
 		int numberOfExecutableMethods = Integer.parseInt(commandWords[commandWordIterator++]);
+		System.out.println("CommandWordIterator :" + commandWordIterator);
 		System.out.println("Végrehajtandó metódusok száma: " + numberOfExecutableMethods);
 		// Ennek megfelelő számú metódust kell meghívni. (ez egyéként max. 2 lesz.)
 		// Lekérjük az osztálytól a metódusok listáját, hogy majd ezek közül egyet meghívhassunk.
@@ -226,7 +227,6 @@ public class GameEngine implements ICashier, IGamePlay {
 		for(methodIterator = 0; methodIterator<numberOfExecutableMethods; ++methodIterator) {
 			// Az executableMethodsName változóban rögzítem a végrehajtandó metódus nevét.
 			executableMethodsName = commandWords[commandWordIterator++];
-			System.out.println("###végrehajtandó metódus: " + executableMethodsName + " ###");
 			// Az actMet metódusban rögzítem a végrehajtandó metódus objektumot.
 			Method actMet = methods[giveIndexOfSearchedMethod(methods, executableMethodsName)];
 			// Megvizsgálom a metódus neve alapján, hogy hány paramétere lesz, azokat rögzítem, és meghívom a met�dust.
@@ -236,19 +236,25 @@ public class GameEngine implements ICashier, IGamePlay {
 				executableMethodsName.equals("set_1_6Penalty") || executableMethodsName.equals("setGiftDices") ||
 				executableMethodsName.equals("setExclusion")) {
 				
-				int param1 = Integer.parseInt(commandWords[commandWordIterator]);
+				int param1 = Integer.parseInt(commandWords[commandWordIterator++]);
+				System.out.println("###végrehajtandó metódus: " + executableMethodsName + "(" + param1 + ")###");
+				System.out.println("###Ami tényleg végre lesz hajtva: " + actMet.getName() + "###");
 				actMet.invoke(this, param1);
 			}
 			else if(executableMethodsName.equals("offerBuyFurniture") || executableMethodsName.equals("sendMessageForRead") ||
 					executableMethodsName.equals("offerMakeInsurances")) {
-				String param1 = commandWords[commandWordIterator];
+				String param1 = commandWords[commandWordIterator++];
+				System.out.println("###végrehajtandó metódus: " + executableMethodsName + "(" + param1 + ")###");
+				System.out.println("###Ami tényleg végre lesz hajtva: " + actMet.getName());
 				actMet.invoke(this, param1);
 			}
 			else if(executableMethodsName.equals("offerBuyHouse") || executableMethodsName.equals("offerBuyCar") 
 					 || executableMethodsName.equals("drawNextLuckyCard")) {
+				System.out.println("###végrehajtandó metódus: " + executableMethodsName + "###");
+				System.out.println("###Ami tényleg végre lesz hajtva: " + actMet.getName() + "###");
 				actMet.invoke(this);
 			}
-			commandWordIterator++;
+			System.out.println("CommandWordIterator :" + commandWordIterator);
 		}
 		
 	return;	
@@ -333,18 +339,17 @@ public class GameEngine implements ICashier, IGamePlay {
 				executableMethodsName.equals("setGiftDices")  ||executableMethodsName.equals("setExclusion") ||
 				executableMethodsName.equals("moveToField") ||	executableMethodsName.equals("moveWithQuantity")) {
 				
-				int param1 = Integer.parseInt(commandWords[commandWordIterator]);
+				int param1 = Integer.parseInt(commandWords[commandWordIterator++]);
 				actMet.invoke(this, param1);
 			}
 			else if(executableMethodsName.equals("wonFurniture")) {
-				String param1 = commandWords[commandWordIterator];
+				String param1 = commandWords[commandWordIterator++];
 				actMet.invoke(this, param1);
 			}
 			else if(	(executableMethodsName.equals("loseFurnitures")) ||
 					(executableMethodsName.equals("loseCar"))) {
 				actMet.invoke(this);
 			}
-			commandWordIterator++;
 		}
 		
 		return;
@@ -479,8 +484,7 @@ public class GameEngine implements ICashier, IGamePlay {
 				}
 			}
 			++iterator;
-			if (iterator==allPlayers.size())
-				iterator = 0;
+			iterator %= allPlayers.size();
 		} while (actualPlayer.isWinner() == false);
 		
 		String winnersName = actualPlayer.getName();
@@ -499,6 +503,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	}
 
 	//CALLABLE METHODS OF FIELD AND LUCKYCARD COMMANDS
+
 	private void drawNextLuckyCard() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		luckyCardIndex++;
 		luckyCardIndex %= 36;
@@ -506,8 +511,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		executeLuckyCardCommand();
 	}
 	
-	/* DONE
-	 * NEED REVIEW */
+
 	private void loseCar() throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if(actualPlayer.getCar() != null) {
 			
@@ -528,8 +532,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
-	/* DONE
-	 * NEED REVIEW */
+	
 	private void loseFurnitures() throws IOException {
 		if(actualPlayer.getHouse().getIsInsured() == true) {
 			int moneyToGiveBack = 0;
@@ -556,12 +559,13 @@ public class GameEngine implements ICashier, IGamePlay {
 		sendGameState("HOUSE");
 	}
 
-	/* MAYBE DONE
-	 * NEED REVIEW  */
-	private void moveWithQuantity(int amount) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+	
+	private void moveWithQuantity(int amount) throws IllegalAccessException, IllegalArgumentException, 
+								InvocationTargetException, IOException {
+		
 		int newPositionNumber = actualPlayer.getLocationNumber() + amount;
 		actualPlayer.setLocation(board.get(newPositionNumber % 42));
-		System.out.println(actualPlayer.getLocationNumber());
+		System.out.println("Ezen a mezőn áll " + actualPlayer.getName() + " : " + actualPlayer.getLocationNumber() + ". mező!");
 		sendGameState("LOCATION");
 		if(newPositionNumber > 42) { //it means that round finished, and we step over start field
 			handleDebits();	//if we can handle debits, so actual player is not in a looser state

@@ -107,12 +107,12 @@
 	<LuckyCard>
 		<id>22</id>
 		<descrpition>Ellopták az autódat. Ha van autóbiztosításod, a biztosító kifizeti a károdat. Ha még nincs, lépj a 29-es mezőre, a biztosítónál megkötheted!</descrpition>
-		<command>2#loseCar#null#moveToField#29</command>
+		<command>2#loseCar#moveToField#29</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>23</id>
 		<descrpition>Kiégett a lakásod, így elvesztetted az összes berendezési tárgyadat! Ha van lakásbiztosításod, a biztosító megtéríti a károdat. Ha még nincs, lépj a 9-es mezőre, a biztosítónál megkötheted!</descrpition>
-		<command>2#loseFurnitures#null#moveToField#9</command>
+		<command>2#loseFurnitures#moveToField#9</command>
 	</LuckyCard>
 	<LuckyCard>
 		<id>24</id>

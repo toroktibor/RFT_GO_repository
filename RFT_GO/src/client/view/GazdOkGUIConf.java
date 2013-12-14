@@ -1,4 +1,4 @@
-package client.view;
+﻿package client.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
