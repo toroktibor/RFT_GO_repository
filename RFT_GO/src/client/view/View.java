@@ -202,7 +202,7 @@ public class View extends JFrame implements IView {
 		
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-//		gbc.weightx = 0.4;
+//		gbc.weightx = 0.4; 
 //		gbc.weighty = 1;
 		gbc.gridheight = 2;
 		pnlContentPane.add(pnlHistory, gbc);
