@@ -534,6 +534,7 @@ public class GameEngine implements ICashier, IGamePlay {
 	
 	
 	private void loseFurnitures() throws IOException {
+		if(actualPlayer.getHouse() != null) {
 		if(actualPlayer.getHouse().getIsInsured() == true) {
 			int moneyToGiveBack = 0;
 			if(actualPlayer.getHouse().getHasCooker() == true)
@@ -557,6 +558,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		actualPlayer.getHouse().setHasRoomFurniture(false);
 		actualPlayer.getHouse().setHasWashMachine(false);
 		sendGameState("HOUSE");
+		}
 	}
 
 	
