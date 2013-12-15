@@ -13,6 +13,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import server.xml.XMLParser;
+
 
 public class GameEngine implements ICashier, IGamePlay {
 	private Player actualPlayer;

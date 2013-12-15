@@ -1,4 +1,4 @@
-﻿package server;
+package server.xml;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +12,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import server.Field;
+import server.LuckyCard;
+
 
 
 public class XMLParser {
