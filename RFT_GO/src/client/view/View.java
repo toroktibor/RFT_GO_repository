@@ -195,15 +195,15 @@ public class View extends JFrame implements IView {
 //		gbc.anchor = GridBagConstraints.SOUTH;
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		gbc.weightx = 1;
-		gbc.weighty = GazdOkGUIConf.STATUSBAR_PREF_DIM.height / GazdOkGUIConf.GAMETABLE_PREF_DIM.height;
+//		gbc.weightx = 1;
+//		gbc.weighty = GazdOkGUIConf.STATUSBAR_PREF_DIM.height / GazdOkGUIConf.GAMETABLE_PREF_DIM.height;
 		gbc.gridheight = 1;
 		pnlContentPane.add(pnlStatus, gbc);
 		
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		gbc.weightx = 0.4;
-		gbc.weighty = 1;
+//		gbc.weightx = 0.4;
+//		gbc.weighty = 1;
 		gbc.gridheight = 2;
 		pnlContentPane.add(pnlHistory, gbc);
 		
