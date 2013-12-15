@@ -476,9 +476,15 @@ public class GameEngine implements ICashier, IGamePlay {
 			if(actualPlayer.getIsActive() == true) {
 				if( actualPlayer.getExclusions() == 0) {
 					dice();
-					while( actualPlayer.getGiftDices() != 0 ) {
+					while( actualPlayer.getGiftDices() > 0 ) {
 						dice();
 						actualPlayer.setGiftDices(actualPlayer.getGiftDices()-1);
+						if(actualPlayer.isWinner() == true)
+							break;
+						if((actualPlayer.getExclusions() > 0) && (actualPlayer.getGiftDices() > 0)) {
+							actualPlayer.setGiftDices(actualPlayer.getGiftDices()-1);
+							break;
+						}
 					}
 				}
 				else if(actualPlayer.getExclusions() > 0) {
