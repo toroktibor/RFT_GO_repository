@@ -572,10 +572,13 @@ public class GameEngine implements ICashier, IGamePlay {
 		System.out.println("Ezen a mezőn áll " + actualPlayer.getName() + " : " + actualPlayer.getLocationNumber() + ". mező!");
 		sendGameState("LOCATION");
 		if(newPositionNumber > 42) { //it means that round finished, and we step over start field
+			addPercentage(5);
+			addMoney(2000);
 			handleDebits();	//if we can handle debits, so actual player is not in a looser state
 			executeFieldCommand();	//then execute the field command
 		}
 		else if(newPositionNumber == 42) {	//it means that round finished, and we are on start field
+			addPercentage(5);
 			executeFieldCommand();			//execute field command ( so add 4000 euros )
 			handleDebits();					//and then we handle the debits.
 		}
@@ -592,10 +595,13 @@ public class GameEngine implements ICashier, IGamePlay {
 		actualPlayer.setLocation(board.get(goalFieldsNumber));
 		sendGameState("LOCATION");
 		if( ( goalFieldsNumber < originalPositionNumber ) && ( goalFieldsNumber == 0 ) ) {
+			addPercentage(5);
 			executeFieldCommand();
 			handleDebits();
 		}
 		else if(( goalFieldsNumber < originalPositionNumber ) && ( goalFieldsNumber > 0 ) ) {
+			addPercentage(5);
+			addMoney(2000);
 			handleDebits();
 			executeFieldCommand();
 		}
