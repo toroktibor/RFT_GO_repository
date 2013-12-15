@@ -7,9 +7,6 @@ public class StateOfPlayer {
 	private String car="NIL";
 	private String location="NIL";
 	private int balance=0;
-	private int _1_6Penalty=0;
-	private int giftDices=0;
-	private int exclusions=0;
 	
 	public int getIdNumber() {
 		return idNumber;
@@ -47,29 +44,11 @@ public class StateOfPlayer {
 	public void setBalance(String balance) {
 		this.balance = Integer.parseInt(balance);
 	}
-	public int get_1_6Penalty() {
-		return _1_6Penalty;
-	}
-	public void set_1_6Penalty(String _1_6Penalty) {
-		this._1_6Penalty = Integer.parseInt(_1_6Penalty);
-	}
-	public int getGiftDices() {
-		return giftDices;
-	}
-	public void setGiftDices(String giftDices) {
-		this.giftDices = Integer.parseInt(giftDices);
-	}
-	public int getExclusions() {
-		return exclusions;
-	}
-	public void setExclusions(String exclusions) {
-		this.exclusions = Integer.parseInt(exclusions);
-	}
+
 	
 	public StateOfPlayer(int idNumber, String name,
 			String houseStateBinaryFlags, String carStateBinaryFlags,
-			String location, String balance, String _1_6Penalty, String giftDices,
-			String exclusions) {
+			String location, String balance) {
 		super();
 		this.idNumber = idNumber;
 		this.name = name;
@@ -77,9 +56,6 @@ public class StateOfPlayer {
 		this.car = carStateBinaryFlags;
 		this.location = location;
 		this.balance = Integer.parseInt(balance);
-		this._1_6Penalty = Integer.parseInt(_1_6Penalty);
-		this.giftDices = Integer.parseInt(giftDices);
-		this.exclusions = Integer.parseInt(exclusions);
 	}
 	
 	public StateOfPlayer(int idNumber) {
