@@ -66,7 +66,7 @@ public class View extends JFrame implements IView {
 		initPnlHistory();
 		initPnlStatus();
 
-		initPnlContentpane();
+		initPnlContentpane(); 
 		initFrame();
 		simpleMessage("A játék inicializálása véget ért.");
 		simpleMessage("A játék elkezdődött.\tLegyen Ön is milliomos!");
