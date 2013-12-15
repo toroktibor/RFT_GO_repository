@@ -446,7 +446,7 @@ public class GameEngine implements ICashier, IGamePlay {
 			s=s.concat("#SETBALANCE#" + actualPlayer.getBalance());
 			s=s.concat("#SETLOCATION#" + actualPlayer.getLocation().toString());
 		}
-		for(int i = 0; i<allPlayers.size()-1; ++i) {
+		for(int i = 0; i<allPlayers.size(); ++i) {
 			changeActualPlayerByIndex(i);
 			out.writeUTF("GETGAMESTATE");
 			out.writeUTF(s);

@@ -221,6 +221,7 @@ public class Controller implements IController{
 		try {
 			String message = readStringFromStream();
 			myView.simpleMessage(message);
+			System.out.println(message);
 			out.writeUTF("SYNC");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -264,6 +265,11 @@ public class Controller implements IController{
 				gameState.add(gs);
 			}
 			myView.refreshView();
+			for (StateOfPlayer gs : gameState) {
+				if(gs.getIdNumber()==myID){
+					System.out.println(gs.getLocation());
+				}
+			}	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
