@@ -12,6 +12,7 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.io.BufferedReader;
@@ -33,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -44,36 +46,40 @@ public class View extends JFrame implements IView {
 
 	private static final long serialVersionUID = 1L;
 	private static final String ENDL = "\n";
-	private static int noHistoryEntries = 10;
-	private JPanel pnlContentPane;
-	private JPanel pnlGameTable;
+//	private static int noHistoryEntries = 10;
+	private JComponent pnlContentPane;
+	private JComponent pnlGameTable;
 
-	private JPanel pnlHistory;
+	private JComponent pnlHistory;
 	private JTextArea historyText;
-	private List<String> historyEntries = new ArrayList<String>(
-			View.noHistoryEntries);
-	private JPanel pnlStatus;
+	private JTabbedPane pnlStatus;
 
 	public View() {
 		initialize();
 //		foo();
+		simpleMessage("A játék inicializálása véget ért.");
+		simpleMessage("Welcome!");
+		simpleMessage("A játék elkezdődött.\tLegyen Ön is milliomos!");
+
+		System.out.println(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
 	}
 
 	private void initialize() {
-		// simpleMessage("Welcome!");
-		// getFurnitureOptions("akarjadmá");
 		initPnlGameTable();
 		initPnlHistory();
 		initPnlStatus();
 
-		initPnlContentpane(); 
+		initPnlContentpane();
 		initFrame();
-		simpleMessage("A játék inicializálása véget ért.");
-		simpleMessage("A játék elkezdődött.\tLegyen Ön is milliomos!");
+		pack();
 	}
 
 	private void initPnlGameTable() {
-		pnlGameTable = new JPanel(new GridBagLayout());
+		pnlGameTable = new JPanel(new GridBagLayout());		
+		pnlGameTable.setPreferredSize(GazdOkGUIConf.GAMETABLE_PREF_DIM);
+		pnlGameTable.setBackground(GazdOkGUIConf.GAMETABLE_BGCOLOR);
+		pnlGameTable.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 14;
 		gbc.weighty = 9;
@@ -121,93 +127,87 @@ public class View extends JFrame implements IView {
 		}
 		
 
-		
-//		pnlGameTable.add(new JLabel("-Game table-"));
-		pnlGameTable.setPreferredSize(GazdOkGUIConf.GAMETABLE_PREF_DIM);
-		pnlGameTable.setBorder(BorderFactory
-				.createBevelBorder(BevelBorder.RAISED));
-		pnlGameTable.setBackground(GazdOkGUIConf.GAMETABLE_BGCOLOR);
-
 	}
+
 
 	private void initPnlHistory() {
 
-		pnlHistory = new JPanel(new GridBagLayout());
-
-		pnlHistory.setPreferredSize(GazdOkGUIConf.HISTORY_PREF_DIM);
+		pnlHistory = new JPanel(new BorderLayout());
+		pnlHistory.setMinimumSize(GazdOkGUIConf.HISTORY_PREF_DIM);
 		pnlHistory.setBackground(GazdOkGUIConf.HISTORY_BGCOLOR);
 		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.weightx = 1;
-		gbc.weighty = 2;
-		gbc.fill = GridBagConstraints.BOTH;
-		
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-
-		Dimension labelHistoryDim = new Dimension();
-		labelHistoryDim.width = GazdOkGUIConf.HISTORY_PREF_DIM.width;
-		labelHistoryDim.height = 20;
-		
 		JLabel labelHistory = new JLabel("-history-");
-		labelHistory.setPreferredSize(labelHistoryDim);
-		pnlHistory.add(labelHistory, gbc);
-		
+		labelHistory.setPreferredSize(GazdOkGUIConf.HISTORY_LABEL_DIM);
+		pnlHistory.add(labelHistory, BorderLayout.PAGE_START);
 		
 		historyText = new JTextArea(20, 30);
-		JScrollPane historyScrollPane = new JScrollPane(historyText);
-		historyScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		historyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		historyText.setEditable(false);
 		historyText.setLineWrap(true);
 		historyText.setWrapStyleWord(true);
 		historyText.setAutoscrolls(true);
-
-		Dimension historyScrollPaneDim = new Dimension();
-		historyScrollPaneDim.width = GazdOkGUIConf.HISTORY_PREF_DIM.width;
-		historyScrollPaneDim.height = GazdOkGUIConf.HISTORY_PREF_DIM.height-20;
-		historyScrollPane.setPreferredSize(historyScrollPaneDim);
-
-		gbc.anchor = GridBagConstraints.PAGE_END;
-		gbc.gridy = 1;
-		pnlHistory.add(historyScrollPane, gbc);
+		historyText.setBackground(GazdOkGUIConf.HISTORY_TEXT_COLOR);
 		
+		JScrollPane historyScrollPane = new JScrollPane(historyText);
+		historyScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		historyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+		historyScrollPane.setPreferredSize(GazdOkGUIConf.HISTORY_TEXT_DIM);
+		pnlHistory.add(historyScrollPane, BorderLayout.CENTER);
 	}
 
 	private void initPnlStatus() {
-		pnlStatus = new JPanel();
-		pnlStatus.add(new JLabel("-statusbar-"));
+		pnlStatus = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 		pnlStatus.setPreferredSize(GazdOkGUIConf.STATUSBAR_PREF_DIM);
 		pnlStatus.setBackground(GazdOkGUIConf.STATUSBAR_BGCOLOR);
-//		pnlStatus.add(new JButton("Statusbar"));
+		pnlStatus.setPreferredSize(GazdOkGUIConf.STATUSBAR_PREF_DIM);
+		
+		JPanel panel = new PnlGazdOkStatus("Maki", 18000);
+		panel.setPreferredSize(new Dimension(400, 300));
+//		panel.add(new JButton("Panel 1"));
+		pnlStatus.add(panel, 0);
+		
+		JPanel panel2 = new JPanel();
+		panel2.setPreferredSize(new Dimension(200, 200));
+		panel2.add(new JButton("Panel 2"));
+		pnlStatus.add(panel2, 1);
+
+//		pnlStatus.add(tabbedpane, BorderLayout.CENTER);
+//		GridBagConstraints gbc = new GridBagConstraints();
+
+
 	}
 
 	private void initPnlContentpane() {
 		pnlContentPane = new JPanel(new GridBagLayout());
 		pnlContentPane.setBackground(GazdOkGUIConf.CONTENTPANE_BGCOLOR);
-		pnlContentPane.setVisible(true);
-		pnlContentPane.setPreferredSize(GazdOkGUIConf.WINDOW_PREF_DIM);
+		pnlContentPane.setMinimumSize(GazdOkGUIConf.CONTENTPANE_PREF_DIM);
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.weightx = 2;
-		gbc.weighty = 2;
 		gbc.fill = GridBagConstraints.BOTH;
-
-		gbc.anchor = GridBagConstraints.NORTHEAST;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+//		gbc.fill = GridBagConstraints.VERTICAL;
+//		gbc.anchor = GridBagConstraints.CENTER;
 		pnlContentPane.add(pnlGameTable, gbc);
 
-		gbc.gridx = 1;
-		pnlContentPane.add(pnlHistory, gbc);
-
-		gbc.anchor = GridBagConstraints.PAGE_END;
-
+//		gbc.anchor = GridBagConstraints.SOUTH;
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		gbc.gridwidth = 2;
+		gbc.weightx = 1;
+		gbc.weighty = GazdOkGUIConf.STATUSBAR_PREF_DIM.height / GazdOkGUIConf.GAMETABLE_PREF_DIM.height;
+		gbc.gridheight = 1;
 		pnlContentPane.add(pnlStatus, gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.weightx = 0.4;
+		gbc.weighty = 1;
+		gbc.gridheight = 2;
+		pnlContentPane.add(pnlHistory, gbc);
+		
+		pnlContentPane.setVisible(true);
 	}
 
 	private void initFrame() {
@@ -291,8 +291,10 @@ public class View extends JFrame implements IView {
 	}
 
 	public void refreshView() {
-
-		List<StateOfPlayer> sp = Controller.getGameState();
+		List<StateOfPlayer> gameState = Controller.getGameState();
+		int noPlayers = gameState.size();
+		
+		System.out.println(noPlayers);
 
 	}
 
