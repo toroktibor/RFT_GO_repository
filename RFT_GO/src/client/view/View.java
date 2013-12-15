@@ -61,7 +61,7 @@ public class View extends JFrame implements IView {
 		simpleMessage("Welcome!");
 		simpleMessage("A játék elkezdődött.\tLegyen Ön is milliomos!");
 
-		System.out.println(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+//		System.out.println(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
 	}
 
 	private void initialize() {
@@ -233,6 +233,7 @@ public class View extends JFrame implements IView {
 	}
 
 	public List<String> getLoginInfos() {
+		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter Your Name:");
 		String name = sc.nextLine();
