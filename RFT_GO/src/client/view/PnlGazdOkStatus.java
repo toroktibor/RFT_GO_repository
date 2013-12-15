@@ -242,7 +242,7 @@ public class PnlGazdOkStatus extends JPanel{
 		this.cooker.setPreferredSize(FIELD_DIM);
 		this.dishwasher.setPreferredSize(FIELD_DIM);
 		this.washingMachine.setPreferredSize(FIELD_DIM);
-		this.car.setPreferredSize(FIELD_DIM);
+		this.car.setPreferredSize(FIELD_DIM); 
 
 	}
 	
