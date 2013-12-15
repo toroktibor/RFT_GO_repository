@@ -27,6 +27,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -36,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
@@ -58,10 +60,10 @@ public class View extends JFrame implements IView {
 		initialize();
 //		foo();
 		simpleMessage("A játék inicializálása véget ért.");
-		simpleMessage("Welcome!");
+		
 		simpleMessage("A játék elkezdődött.\tLegyen Ön is milliomos!");
 
-//		System.out.println(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+		simpleMessage(java.awt.Toolkit.getDefaultToolkit().getScreenSize().toString());
 	}
 
 	private void initialize() {
@@ -72,6 +74,7 @@ public class View extends JFrame implements IView {
 		initPnlContentpane();
 		initFrame();
 		pack();
+//		getLoginInfos();
 	}
 
 	private void initPnlGameTable() {
@@ -233,7 +236,29 @@ public class View extends JFrame implements IView {
 	}
 
 	public List<String> getLoginInfos() {
+		JPanel dialog = new JPanel();
+		dialog.setLayout(new BoxLayout(dialog, BoxLayout.Y_AXIS));
 		
+		JTextField username = new JTextField("ParadiCsoma");
+		dialog.add(username);
+		JTextField host = new JTextField("192.168.0.5");
+		dialog.add(host);
+		JTextField port = new JTextField("6000");
+		dialog.add(port);
+
+
+		JOptionPane.showMessageDialog(null, dialog, "Message", JOptionPane.PLAIN_MESSAGE);
+
+		List<String> loginfos = new ArrayList<String>();
+		loginfos.add(username.getText());
+		loginfos.add(host.getText());
+		loginfos.add(port.getText());
+		return loginfos;
+		
+//		return getLoginInfosOld();
+	}
+
+	public List<String> getLoginInfosOld() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter Your Name:");
 		String name = sc.nextLine();

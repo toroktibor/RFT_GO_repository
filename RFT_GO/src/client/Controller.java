@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+
 //import oracle.jrockit.jfr.Options;
 import client.view.View;
 
@@ -63,12 +64,12 @@ public class Controller implements IController{
 		String host=logInf.get(1);
 		int port=Integer.parseInt(logInf.get(2));
         try {
-            System.out.println("Kapcsolódás a szerverhez: " + host + " és port: " + port);
+        	System.out.println("Kapcsolódás a szerverhez: " + host + " és port: " + port);
             s = new Socket(host, port);
             if(s.isConnected())
             {
             	openStreams();
-                System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
+            	System.out.println("Kapcsolódva a szerverhez: " + host + " és port: " + port);
                 sendMessage(myName);
                 String[] id=readStringFromStream().split("#");
                 if (id[0].equals("SETID")){
@@ -79,6 +80,7 @@ public class Controller implements IController{
             }
         } catch (IOException e) {
             System.out.println("Nem sikerült csatlakozni a szerverhez. " + e.getMessage());
+//            System.exit(-1);
         }       
 	}
 	
