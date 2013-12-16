@@ -42,7 +42,7 @@ public class PnlGazdOkStatus extends JPanel{
 	}
 	
 	public void setBalance(int balance) {
-		this.balance.setText("egyenleg: " + Integer.toString(balance) + " eurĂł");
+		this.balance.setText("egyenleg: " + Integer.toString(balance) + " euró");
 	}
 
 	public void setHouseInsurance(boolean houseInsurance) {
@@ -133,7 +133,7 @@ public class PnlGazdOkStatus extends JPanel{
 //		this.setPreferredSize(new Dimension(300, 230));
 		
 		/**
-		 *  mezĹ‘k inicializĂˇlĂˇsa
+		 *  mezők inicializálása
 		 */
 		instantiations(name, balance);
 		setPreferredSizes();
@@ -201,7 +201,7 @@ public class PnlGazdOkStatus extends JPanel{
 		add(car, gbc);
 
 		/**
-		 * Alaphelyzetbe ĂˇllĂ­tĂˇsok
+		 * Alaphelyzetbe állítások
 		 */
 		setHouseInsurance(false);
 		setCarInsurance(false);

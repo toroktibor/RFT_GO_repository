@@ -33,4 +33,3 @@ public class GazdOkGUIConf {
 	public static final String DEFAULT_PORT = "6000";
 
 }
-

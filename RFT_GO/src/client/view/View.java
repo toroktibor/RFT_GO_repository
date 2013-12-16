@@ -1,4 +1,5 @@
-﻿package client.view;
+﻿//01:48
+package client.view;
 
 import java.awt.BorderLayout;
 
