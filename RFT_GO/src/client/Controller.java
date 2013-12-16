@@ -8,9 +8,6 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
-
-//import oracle.jrockit.jfr.Options;
 import client.view.View;
 
 /**
@@ -300,7 +297,7 @@ public class Controller implements IController{
 				if (statement==0){
 					sendMessage("MAKEINSURANCE");
 				}
-				else if (statement == 1){
+				else {
 					sendMessage("DONTMAKEINSURANCE");
 				}			
 			}
