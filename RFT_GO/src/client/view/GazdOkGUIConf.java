@@ -28,6 +28,9 @@ public class GazdOkGUIConf {
 	public static final Color STATUSBAR_BGCOLOR = new Color(0, 255, 255);
 	public static final int STATUSBAR_BORDER_WEIGHT = 2;
 
-	
+	public static final String DEFAULT_NAME = "Paradi Csoma";
+	public static final String DEFAULT_HOST = "127.0.0.1";
+	public static final String DEFAULT_PORT = "6000";
 
 }
+

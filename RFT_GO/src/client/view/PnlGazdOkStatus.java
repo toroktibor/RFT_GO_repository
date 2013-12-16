@@ -37,8 +37,12 @@ public class PnlGazdOkStatus extends JPanel{
 		this.name.setText(name);
 	}
 
+	public String getName() {
+		return name.getText();
+	}
+	
 	public void setBalance(int balance) {
-		this.balance.setText("egyenleg: " + Integer.toString(balance) + " euró");
+		this.balance.setText("egyenleg: " + Integer.toString(balance) + " eurĂł");
 	}
 
 	public void setHouseInsurance(boolean houseInsurance) {
@@ -129,7 +133,7 @@ public class PnlGazdOkStatus extends JPanel{
 //		this.setPreferredSize(new Dimension(300, 230));
 		
 		/**
-		 *  mezők inicializálása
+		 *  mezĹ‘k inicializĂˇlĂˇsa
 		 */
 		instantiations(name, balance);
 		setPreferredSizes();
@@ -197,7 +201,7 @@ public class PnlGazdOkStatus extends JPanel{
 		add(car, gbc);
 
 		/**
-		 * Alaphelyzetbe állítások
+		 * Alaphelyzetbe ĂˇllĂ­tĂˇsok
 		 */
 		setHouseInsurance(false);
 		setCarInsurance(false);
@@ -242,7 +246,7 @@ public class PnlGazdOkStatus extends JPanel{
 		this.cooker.setPreferredSize(FIELD_DIM);
 		this.dishwasher.setPreferredSize(FIELD_DIM);
 		this.washingMachine.setPreferredSize(FIELD_DIM);
-		this.car.setPreferredSize(FIELD_DIM); 
+		this.car.setPreferredSize(FIELD_DIM);
 
 	}
 	
