@@ -119,6 +119,7 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 	}
 	
+	
 	/** DONE - This method deduct 500 euros for each debts in the end of every round. 
 	 * If it is not possible, the player lose the game. 
 	 * */
