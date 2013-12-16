@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author Joc
+ * @author Ölveti József
  *
  */
 package server.xml;

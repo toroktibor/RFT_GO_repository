@@ -1,11 +1,35 @@
 ﻿package client;
 
+/**
+ * Játékos állapotát reprezentáló osztály, kliens oldalon.
+ * 
+ * @author Ölveti József
+ *
+ */
 public class StateOfPlayer {
+	/**
+	 * A játékos sorszáma.
+	 */
 	private int idNumber=0;
+	/**
+	 * A játékos neve.
+	 */
 	private String name="NIL";
+	/**
+	 * A játékos ház információit jelölő String.
+	 */
 	private String house="NIL";
+	/**
+	 * A játékos autó információit jelölő String.
+	 */
 	private String car="NIL";
+	/**
+	 * A játékos pozíció információit jelölő String.
+	 */
 	private String location="NIL";
+	/**
+	 * A játékos egyenlege.
+	 */
 	private int balance=0;
 	
 	public int getIdNumber() {

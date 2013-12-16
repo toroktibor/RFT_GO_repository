@@ -17,10 +17,19 @@ import server.Field;
 import server.LuckyCard;
 
 
-
+/**
+ * Osztály az XML feldolgozáshoz.
+ * 
+ * @author Ölveti József
+ *
+ */
 public class XMLParser {
-	
-	
+	/**
+	 * Metódus XML dokumentumok feldolgozására.
+	 * 
+	 * @param fileName a dokumentum neve
+	 * @return objektum lista, mely tartalmazhat tetszőleges objektumokat is
+	 */
 	private List<?> parse(String fileName){		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder parser;
@@ -51,12 +60,23 @@ public class XMLParser {
 		
 	}
 
+	/**
+	 * Metódus LuckyCard objektumokat leíró XML dokumentumok feldolgozásához.
+	 * 
+	 * @param fileName a dokumentum neve
+	 * @return LuckyCard objektumok listája
+	 */
 	@SuppressWarnings("unchecked")
 	public List<LuckyCard> parseLuckyCards(String fileName){
 		return (List<LuckyCard>) parse(fileName);	
 	}
 	
-	
+	/**
+	 * Metódus Field objektumokat leíró XML dokumentumok feldolgozásához.
+	 * 
+	 * @param fileName a dokumentum neve
+	 * @return Field objektumok listája
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Field> parseFields(String fileName){
 		return (List<Field>) parse(fileName);	
