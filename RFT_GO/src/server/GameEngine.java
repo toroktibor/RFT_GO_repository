@@ -200,8 +200,10 @@ public class GameEngine implements ICashier, IGamePlay {
 			return;
 			}
 			else {
-				sendMessageForRead("Büntetésben vagy, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább. " +
-									"Most itt maradsz, mert dobásod értéke " + result + ".");
+				set_1_6Penalty(get_1_6Penalty()-1);
+				sendMessageForRead("Büntetésben vagy, mely szerint csak 1-es vagy 6-os dobással léphetsz tovább.\n" +
+									"Most itt maradsz, mert dobásod értéke " + result + ".\n" +
+									get_1_6Penalty() + " kör múlva bármilyen dobással tovább léphetsz.");
 				return;
 			}
 		}
