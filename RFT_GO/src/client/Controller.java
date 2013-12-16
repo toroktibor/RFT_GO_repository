@@ -202,7 +202,7 @@ public class Controller implements IController{
 				case "KITCHENFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
 				case "ROOMFURNITURE":statement=myView.getFurnitureOptions(locDesc());break;
 				case "WASHMACHINE":statement=myView.getFurnitureOptions(locDesc());break;
-			default:break;
+			    default:break;
 			}*/
 			
 			if (statement==0){
