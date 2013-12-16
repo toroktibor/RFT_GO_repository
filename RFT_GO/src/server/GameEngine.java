@@ -452,17 +452,27 @@ public class GameEngine implements ICashier, IGamePlay {
 		}
 		for(int i = 0; i<allPlayers.size(); ++i) {
 			changeActualPlayerByIndex(i);
+			out.flush();
 			out.writeUTF("GETGAMESTATE");
+			out.flush();
 			out.writeUTF(s);
 		}
 		changeActualPlayerByIndex(originalActualPlayersIndex);		
 	}
 	
 	/* DONE - This method change the value of the actualPlayer to a player of allPlayers list given by the index */
-	public void changeActualPlayerByIndex(int index) throws IOException {
+	public void changeActualPlayerByIndex(int index) {
+		
 		actualPlayer = allPlayers.get(index);
-		in = new DataInputStream( actualPlayer.getSocket().getInputStream());
-		out =new DataOutputStream( actualPlayer.getSocket().getOutputStream());
+		if(actualPlayer.getIsActive() == true) {
+			try {
+				in = new DataInputStream( actualPlayer.getSocket().getInputStream());
+				out =new DataOutputStream( actualPlayer.getSocket().getOutputStream());
+			} catch (IOException e) {
+				actualPlayer.setIsActive(false);
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/** DONE - In this method we call initialization method, and then the waitForPlayers() method, in which we wait for maximum 6 players.
