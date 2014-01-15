@@ -83,6 +83,7 @@ public class Club {
 		this.name = name;
 		this.latlng = latlng;
 		this.approved = approved;
+		this.address = latlng.toString(); //ORBITÁLIS NAGY MARHASÁG!!!!!!
 	}
 	
 }
