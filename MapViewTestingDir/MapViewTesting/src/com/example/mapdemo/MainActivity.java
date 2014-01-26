@@ -2,32 +2,52 @@ package com.example.mapdemo;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends FragmentActivity {
  
     private GoogleMap googleMap;
-    
+    private Session Session;
+    private LatLng myPosition = new LatLng(47.52888,21.625468);
  
     @Override
     protected void onCreate(Bundle savedInstance) {
     	super.onCreate(savedInstance);
     	setContentView(R.layout.activity_main);
-    	
+    	Log.d("MAPVIEWDEMO", "BEFORE INITIALIZATION");
     	initilizeMap();
-    	//showEveryPlacesOnTheMap();
-    	//Log.d("MAP", "Every places has benn shown on the map.");
-    	showOnlyApprovedPlacesOnTheMap();
-    	Log.d("MAP", "Only approved places has benn shown on the map.");
+    	Log.d("MAPVIEWDEMO", "AFTER INITIALIZATION");
+    	
+    	if(googleMap != null) {
+    		Log.d("MAPVIEWDEMO", "MAP CATCHED");
+    		googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    		Log.d("MAPVIEWDEMO", "MAP TYPE SETTED");
+    		googleMap.setMyLocationEnabled(true);
+    		Log.d("MAPVIEWDEMO", "MY LOCATION SETTED");
+    		CameraPosition cameraPosition = new CameraPosition.Builder()
+			.target(myPosition).zoom(15).build();
+    		Log.d("MAPVIEWDEMO", "CAMERA MOVED");
+    		googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    		if(Session.getInstance().getActualUser().type == 0) {
+    			showOnlyApprovedPlacesOnTheMap();
+    			Log.e("MAP", "ONLY APPROVED PLACES HAS BEEN SHOWN ON THE MAP.");
+    		}
+    		else if(Session.getInstance().getActualUser().type == 1) {
+    			showEveryPlacesOnTheMap();
+    			Log.e("MAP", "EVERY PLACES HAS BEEN SHOWN ON THE MAP");
+    		}	
+    	}
     }
     
     /**
@@ -35,11 +55,10 @@ public class MainActivity extends FragmentActivity {
      * */
     private void initilizeMap() {
         if (googleMap == null) {
-        	FragmentManager fragmentManager = getSupportFragmentManager();
-            SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager
-                    .findFragmentById(R.id.map);
-            googleMap = mapFragment.getMap();
-            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        	Log.d("MAPVIEWDEMO", "INITIALIZATION IN PROGRESS");
+            googleMap = ((SupportMapFragment) getSupportFragmentManager()
+            		.findFragmentById(R.id.map)).getMap() ;
+            Log.d("MAPVIEWDEMO", "INITIALIZATION DONE");
             // check if map is created successfully or not
             if (googleMap == null) {
                 Toast.makeText(getApplicationContext(), "Sorry! Unable to create maps", Toast.LENGTH_SHORT).show();
@@ -60,7 +79,7 @@ public class MainActivity extends FragmentActivity {
         }
     	return;
     }
-    
+   
     private void showEveryPlacesOnTheMap() {
     	BitmapDescriptor bmd;
     	for (Club actualClub : ClubsList.searchViewClubs) {
@@ -82,5 +101,16 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         initilizeMap();
+    	if(googleMap != null) {
+    		googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    		if(Session.getInstance().getActualUser().type == 0) {
+    			showOnlyApprovedPlacesOnTheMap();
+    			Log.e("MAP", "ONLY APPROVED PLACES HAS BEEN SHOWN ON THE MAP.");
+    		}
+    		else if(Session.getInstance().getActualUser().type == 1) {
+    			showEveryPlacesOnTheMap();
+    			Log.e("MAP", "EVERY PLACES HAS BEEN SHOWN ON THE MAP");
+    		}
+    	}
     }
 }
